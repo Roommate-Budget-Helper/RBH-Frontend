@@ -1,3 +1,44 @@
-/* You can add global styles to this file, and also import other style files */
+/*rbh front-end global styles */
 
-$size__title--large: 36px;
+$size__font--large: 36px;
+$size__font--regular: 18px;
+$size__font--text: 16px;
+
+$color--theme: #8c94e2;
+$color--red: #fd3b3b;
+$color--grey--light: #8d8989;
+$color--grey--dark: #9e9e9e;
+$color--black: #000000;
+$color--white: #ffffff;
+
+p {
+    font-size: $size__font--regular;
+}
+
+h1 {
+    font-size: $size__font--large;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    font-family: 'roboto';
+}
+
+div,
+section {
+    &.flex {
+        display: flex;
+    }
+
+    &.flex-align-center {
+        display: flex;
+        align-items: center;
+    }
+
+    &.red {
+        color: $color--red;
+    }
+}

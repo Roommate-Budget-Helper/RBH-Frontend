@@ -1,0 +1,22 @@
+@import '../../styles.scss';
+
+.login-page-container {
+    .login-page-buttons {
+        padding-bottom: 50px;
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translate(-50%, 0);
+        button {
+            background-color: $color--theme;
+            border: none;
+            border-radius: 4px;
+            color: $color--white;
+            font-size: $size__font--regular;
+            width: 250px;
+            height: 45px;
+            margin-bottom: 30px;
+            display: block;
+        }
+    }
+}
