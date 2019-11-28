@@ -6,10 +6,17 @@ $size__font--text: 16px;
 
 $color--theme: #8c94e2;
 $color--red: #fd3b3b;
-$color--grey--light: #8d8989;
-$color--grey--dark: #9e9e9e;
+$color--grey--dark: #8d8989;
+$color--grey--light: #9e9e9e;
+$color--grey--border: #e5e5e5;
 $color--black: #000000;
 $color--white: #ffffff;
+
+*,
+*:before,
+*::after {
+    box-sizing: border-box;
+}
 
 p {
     font-size: $size__font--regular;
@@ -24,7 +31,7 @@ body {
     margin: 0;
     width: 100%;
     height: 100%;
-    font-family: 'roboto';
+    font-family: 'Arial';
 }
 
 div,
@@ -38,6 +45,21 @@ section {
         align-items: center;
     }
 
+    &.red {
+        color: $color--red;
+    }
+
+    &.white {
+        color: $color--white;
+    }
+}
+
+h1,
+p {
+    margin: 0;
+    &.white {
+        color: $color--white;
+    }
     &.red {
         color: $color--red;
     }

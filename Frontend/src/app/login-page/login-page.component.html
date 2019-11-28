@@ -1,10 +1,27 @@
 <div class="login-page-container">
-    <section class="login-page-buttons">
-        <button>
-            Log In
-        </button>
-        <button>
-            Sign Up
-        </button>
-    </section>
+    <img class="login-page-background" src="../../assets/background.svg" />
+    <img class="login-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
+    <h1 class="login-page-title white">
+        Log In
+    </h1>
+
+    <form class="login-page-form">
+        <div class="login-page-form__content">
+            <div class="login-page-form__username">
+                <p>
+                    Username
+                </p>
+                <input type="text" />
+            </div>
+            <div class="login-page-form__password">
+                <p>
+                    Password
+                </p>
+                <input type="text" />
+            </div>
+            <button>
+                Log in
+            </button>
+        </div>
+    </form>
 </div>
