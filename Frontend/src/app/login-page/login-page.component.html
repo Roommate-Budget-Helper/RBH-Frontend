@@ -5,21 +5,21 @@
         Log In
     </h1>
 
-    <form class="login-page-form">
+    <form #form="ngForm" class="login-page-form">
         <div class="login-page-form__content">
             <div class="login-page-form__username">
                 <p>
                     Username
                 </p>
-                <input type="text" />
+                <input [(ngModel)]="options.username" name="username" type="text" class="form-input" />
             </div>
             <div class="login-page-form__password">
                 <p>
                     Password
                 </p>
-                <input type="text" />
+                <input [(ngModel)]="options.password" name="password" type="text" class="form-input" />
             </div>
-            <button>
+            <button (click)="handleSubmit()">
                 Log in
             </button>
         </div>
