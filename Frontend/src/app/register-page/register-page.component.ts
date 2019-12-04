@@ -20,6 +20,11 @@ export class RegisterPageComponent implements OnInit {
   };
 
   handleSubmit = async () => {
+    let mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if(!this.options.email.match(mailformat)){
+            alert("Please enter a correct email address");
+            return;
+        }
     const result = await ApiClient.auth.register(this.options.username, sha256(this.options.password),this.options.email);
     result.isRegistered == false ? alert('user exists') : alert('register succeed');
   };

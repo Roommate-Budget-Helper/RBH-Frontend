@@ -23,8 +23,14 @@ export class LoginPageComponent implements OnInit {
     };
 
     handleSubmit = async () => {
-        const result = await ApiClient.auth.login(this.options.username, sha256(this.options.password));
-        _.isEmpty(result) ? alert('wrong credential combination') : alert('login succeed');
+
+        if(this.options.username.replace(/\s/g, "").length == 0 || this.options.password.replace(/\s/g, "").length == 0){
+            alert('please enter username or password!');
+        }else{
+            const result = await ApiClient.auth.login(this.options.username, sha256(this.options.password));
+            _.isEmpty(result) ? alert('wrong credential combination') : alert('login succeed');
+        }
+
     };
 
     ngOnDestroy() {}
