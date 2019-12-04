@@ -1,0 +1,40 @@
+<div class="register-page-container">
+  <img class="register-page-background" src="../../assets/background.svg" />
+  <img class="register-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
+  <h1 class="register-page-title white">
+      Sign up
+  </h1>
+
+  <form #form="ngForm" class="register-page-form">
+      <div class="register-page-form__content">
+          <div class="register-page-form__username">
+              <p>
+                  Username
+              </p>
+              <input [(ngModel)]="options.username" name="username" type="text" class="form-input" />
+          </div>
+          <div class="register-page-form__username">
+              <p>
+                  Email
+              </p>
+              <input [(ngModel)]="options.email" name="email" type="text" class="form-input" />
+          </div>
+          <div class="register-page-form__password">
+              <p>
+                  Password
+              </p>
+              <input [(ngModel)]="options.password" name="password" type="text" class="form-input" />
+          </div>
+          <div class="register-page-form__password">
+            <p>
+                Re-Enter Password
+            </p>
+            <input [(ngModel)]="options.repassword" name="repassword" type="text" class="form-input" />
+        </div>
+
+          <button (click)="handleSubmit()">
+              Register
+          </button>
+      </div>
+  </form>
+</div>

@@ -17,7 +17,11 @@ export class StartingPageComponent implements OnInit {
         //window.alert(`${result}`);
     };
 
-    handleRedirect = () => {
+    handleRedirectLogin = () => {
         this.router.navigateByUrl('/login');
     };
+
+    handleRedirectRegister = () => {
+        this.router.navigateByUrl('/register');
+    }
 }
