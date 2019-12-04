@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import ApiClient from '../api-client';
+import { Router } from '@angular/router';
+import * as sha256 from 'sha256';
+import * as _ from "lodash";
 
 @Component({
     selector: 'app-login-page',
@@ -9,19 +12,19 @@ import ApiClient from '../api-client';
 })
 export class LoginPageComponent implements OnInit {
     options: any;
-    constructor(private location: Location) {
+    constructor(private location: Location, private router: Router) {
         this.options = { username: '', password: '' };
     }
 
     ngOnInit = () => {};
 
     handleBack = () => {
-        this.location.back();
+        this.router.navigateByUrl('/');
     };
 
     handleSubmit = async () => {
-        const result = await ApiClient.auth.login(this.options.username, this.options.password);
-        alert(`${result}`);
+        const result = await ApiClient.auth.login(this.options.username, sha256(this.options.password));
+        _.isEmpty(result) ? alert('wrong credential combination') : alert('login succeed');
     };
 
     ngOnDestroy() {}
