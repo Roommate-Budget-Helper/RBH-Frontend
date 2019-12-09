@@ -5,61 +5,57 @@
         Sign up
     </h1>
 
-
-
     <form novalidate [formGroup]="registerForm" class="register-page-form" (ngSubmit)="handleSubmit()">
         <div class="register-page-form__content">
             <!-- <div class="register-page-form__username"> -->
-                <p>
-                    Username *
-                </p>
-                <mat-form-field color="{{ formErrors.username ? 'warn': 'primary' }}">
-                    <input formControlName="username" class="form-input" matInput 
-                        type="text" required>
-                        <mat-error >
-                                Invalid username: Username must contain at least 5 characters.
-                            </mat-error>  
-                </mat-form-field>
+            <p>
+                Username *
+            </p>
+            <mat-form-field color="{{ formErrors.username ? 'warn' : 'primary' }}">
+                <input formControlName="username" class="form-input" matInput type="text" required />
+                <mat-error>
+                    Username must contain at least 5 characters.
+                </mat-error>
+            </mat-form-field>
             <!-- </div>
             <div class="register-page-form__email"> -->
-                <p>
-                    Email *
-                </p>
-                <mat-form-field color="{{ formErrors.email ? 'warn': 'primary' }}">
-                    <input  formControlName="email" class="form-input" matInput
-                         type="email"  required>
-                         <mat-error >
-                                Please input valid email address
-                            </mat-error>  
-                </mat-form-field>
+            <p>
+                Email *
+            </p>
+            <mat-form-field color="{{ formErrors.email ? 'warn' : 'primary' }}">
+                <input formControlName="email" class="form-input" matInput type="email" required />
+                <mat-error>
+                    Please input valid email address
+                </mat-error>
+            </mat-form-field>
             <!-- </div>
             <div class="register-page-form__password"> -->
-                <p>
-                    Password *
-                </p>
-                <mat-form-field color="{{ formErrors.password ? 'warn': 'primary' }}">
-                    <input  formControlName="password" class="form-input" matInput type="password"  required>
-                    <mat-error >
-                            Invalid password: Password must be at least 5 characters.
-                        </mat-error>  
-                </mat-form-field>
+            <p>
+                Password *
+            </p>
+            <mat-form-field color="{{ formErrors.password ? 'warn' : 'primary' }}">
+                <input formControlName="password" class="form-input" matInput type="password" required />
+                <mat-error>
+                    Invalid password: Password must be at least 5 characters.
+                </mat-error>
+            </mat-form-field>
             <!-- </div> -->
             <!-- <div class="register-page-form__repassword"> -->
-                <p>
-                    Re-Enter Password *
-                </p>
-                <mat-form-field color="{{ formErrors.repassword ? 'warn': 'primary' }}">
-                    <input  formControlName="repassword" class="form-input" matInput
-                         type="password" required>
-                         <mat-error >
-                                Please re-enter your password same as above.
-                            </mat-error>  
-                </mat-form-field>
+            <p>
+                Re-Enter Password *
+            </p>
+            <mat-form-field color="{{ formErrors.repassword ? 'warn' : 'primary' }}">
+                <input formControlName="repassword" class="form-input" matInput type="password" required />
+                <mat-error>
+                    Please re-enter your password same as above.
+                </mat-error>
+            </mat-form-field>
             <!-- </div> -->
 
             <mat-dialog-actions>
-                <button type="submit" mat-button class="background-primary text-floral-white"
-                    [disabled]="registerForm.invalid">Register</button>
+                <button type="submit" mat-button class="background-primary text-floral-white" [disabled]="registerForm.invalid">
+                    Register
+                </button>
             </mat-dialog-actions>
         </div>
     </form>
