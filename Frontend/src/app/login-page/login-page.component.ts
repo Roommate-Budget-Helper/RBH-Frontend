@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import ApiClient from '../api-client';
 import { Router } from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import * as sha256 from 'sha256';
 import * as _ from "lodash";
 

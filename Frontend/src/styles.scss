@@ -1,5 +1,5 @@
 /*rbh front-end global styles */
-
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 $size__font--large: 36px;
 $size__font--regular: 18px;
 $size__font--text: 16px;
@@ -35,13 +35,16 @@ body {
 }
 
 div,
-section {
+section,
+mat-form-field, {
     &.flex {
         display: flex;
+        flex-direction: column;
     }
 
     &.flex-align-center {
         display: flex;
+        flex-direction: column;
         align-items: center;
     }
 
