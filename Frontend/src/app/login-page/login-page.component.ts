@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import * as sha256 from 'sha256';
 import * as _ from "lodash";
+import { StorageServiceService } from '../storage-service.service';
 
 @Component({
     selector: 'app-login-page',
@@ -13,8 +14,8 @@ import * as _ from "lodash";
 })
 export class LoginPageComponent implements OnInit {
     options: any;
-    constructor(private location: Location, private router: Router) {
-        this.options = { username: '', password: '' };
+    constructor(private location: Location, private router: Router, private StorageService: StorageServiceService) {
+        this.options = { userName: '', password: '' };
     }
 
     ngOnInit = () => {};
@@ -25,11 +26,14 @@ export class LoginPageComponent implements OnInit {
 
     handleSubmit = async () => {
 
-        if(this.options.username.replace(/\s/g, "").length == 0 || this.options.password.replace(/\s/g, "").length == 0){
+        if(this.options.userName.replace(/\s/g, "").length == 0 || this.options.password.replace(/\s/g, "").length == 0){
             alert('please enter username or password!');
         }else{
-            const result = await ApiClient.auth.login(this.options.username, sha256(this.options.password));
-            _.isEmpty(result) ? alert('wrong credential combination') : alert('login succeed');
+            const result = this.options;
+            // await ApiClient.auth.login(this.options.username, sha256(this.options.password));
+            // _.isEmpty(result) ? alert('wrong credential combination') : alert('login succeed');
+            this.StorageService.storeOnLocalStorage(result);
+            this.router.navigateByUrl('/home');
         }
 
     };
