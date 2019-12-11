@@ -11,7 +11,7 @@ const STORAGE_KEY = "local_userInfo"
 export class StorageServiceService {
 
   constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) { }
-  public storeOnLocalStorage(userinfo: IUserInfo): void {
+  storeOnLocalStorage = (userinfo: IUserInfo): void  => {
        
        // get array of tasks from local storage
        const userInfo = userinfo ;
@@ -21,7 +21,7 @@ export class StorageServiceService {
        console.log(this.storage.get(STORAGE_KEY) || 'LocaL storage is empty');
   }
 
-  public getLocalStorage(key: String){
+  getLocalStorage = (key: String) => {
     return this.storage.get(STORAGE_KEY)|| 'LocaL storage is empty';
   }
 }
