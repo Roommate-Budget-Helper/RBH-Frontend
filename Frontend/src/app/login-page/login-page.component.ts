@@ -15,7 +15,7 @@ import { StorageServiceService } from '../storage-service.service';
 export class LoginPageComponent implements OnInit {
     options: any;
     constructor(private location: Location, private router: Router, private StorageService: StorageServiceService) {
-        this.options = { userName: '', password: '' };
+        this.options = { username: '', password: '' };
     }
 
     ngOnInit = () => {};
@@ -26,12 +26,13 @@ export class LoginPageComponent implements OnInit {
 
     handleSubmit = async () => {
 
-        if(this.options.userName.replace(/\s/g, "").length == 0 || this.options.password.replace(/\s/g, "").length == 0){
+        if(this.options.username.replace(/\s/g, "").length == 0 || this.options.password.replace(/\s/g, "").length == 0){
             alert('please enter username or password!');
         }else{
             const result = await ApiClient.auth.login(this.options.username, sha256(this.options.password));
-            _.isEmpty(result) ? alert('wrong credential combination') : alert('login succeed');
+            _.isEmpty(result.userInfo) ? alert('wrong credential combination') : alert('login succeed');
             this.StorageService.storeOnLocalStorage(result);
+            console.info(result);
             this.router.navigateByUrl('/home');
         }
 

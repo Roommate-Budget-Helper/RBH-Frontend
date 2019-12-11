@@ -11,6 +11,7 @@
     "style:prettier": "prettier --write \"src/**/*.ts\"",
     "style:lint": "tslint -p tsconfig.json -c tslint.json"
   },
+
   "private": true,
   "dependencies": {
     "@angular/animations": "~7.2.0",
@@ -25,12 +26,12 @@
     "@types/sha256": "^0.2.0",
     "angular-local-storage": "^0.7.1",
     "angular-material-source": "github:angular/material",
-    "core-js": "^2.5.4",
+    "core-js": "^2.6.11",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^2.2.0",
     "ngx-webstorage-service": "^4.1.0",
     "node-sass": "^4.13.0",
-    "rbh-api-service": "^1.1.4",
+    "rbh-api-service": "^1.1.9",
     "rxjs": "~6.3.3",
     "sha256": "^0.2.0",
     "tslib": "^1.9.0",
@@ -62,5 +63,7 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.11.0",
     "typescript": "~3.2.2"
+    
   }
+  
 }

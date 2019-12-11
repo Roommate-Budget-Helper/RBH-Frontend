@@ -12,7 +12,7 @@ const STORAGE_KEY = "local_userInfo"
 })
 export class HomePageComponent implements OnInit {
   constructor(private router: Router, private StorageService: StorageServiceService) { }
-  user = this.StorageService.getLocalStorage(STORAGE_KEY).userName;
+  user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo.full_name;
 
   ngOnInit() {
   }

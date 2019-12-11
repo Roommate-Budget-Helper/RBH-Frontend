@@ -11,7 +11,7 @@ const STORAGE_KEY = "local_userInfo"
 export class StorageServiceService {
 
   constructor(@Inject(LOCAL_STORAGE) private storage: StorageService) { }
-  storeOnLocalStorage = (userinfo: IUserInfo): void  => {
+  storeOnLocalStorage = (userinfo: ILoginResponse): void  => {
        
        // get array of tasks from local storage
        const userInfo = userinfo ;
