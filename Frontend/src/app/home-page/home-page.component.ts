@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageServiceService } from '../storage-service.service'
 import　* as jwt from 'jsonwebtoken'
+import { MatDialogRef } from '@angular/material';
 
 const STORAGE_KEY = "local_userInfo"
 
@@ -11,7 +12,7 @@ const STORAGE_KEY = "local_userInfo"
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
-  constructor(private router: Router, private StorageService: StorageServiceService) { }
+  constructor(private router: Router, private StorageService: StorageServiceService, private dialogRef: MatDialogRef<HomePageComponent>) { }
   user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo.full_name;
 
   ngOnInit() {
@@ -23,7 +24,10 @@ export class HomePageComponent implements OnInit {
       if(err){
         console.log(err)
       }else{
-        this.router.navigateByUrl('/createhome');
+        let dialogRef = dialog.open(UserProfileComponent, {
+          height: '400px',
+          width: '600px',
+        });
       }
     })
   }
