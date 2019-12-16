@@ -2,16 +2,16 @@
   <!-- <img class="home-page-background" src="../../assets/background.svg" /> -->
   <div class="home-page-user-info">
     <img class="home-page-user-icon" src="../../assets/user-icon.svg" />
-    <p>Hi {{user}}</p>
+    <p>Hi {{username}}</p>
   </div>
   <h1 class="home-page-title white">
       Home
   </h1>
 
-  <div class="home-page-content">
+  <ul *ngFor="let home of homes">
+    <li>{{home.full_name}}</li>
 
-
-  </div>
+    </ul>
   <img class="home-page-add-arrow" src="../../assets/add-arrow.svg" (click)="handleAddhome()" />
 </div>
 

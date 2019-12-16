@@ -39,8 +39,8 @@ export class CreateHomePageComponent implements OnInit {
     };
 
     onSubmit = async () => {
-        const result = await ApiClient.home.createHome(this.CreateHomeForm[0], this.user.userName, this.user.id);
-        result ? alert('Add home failed!') : this.router.navigateByUrl('/home');
+        const result = await ApiClient.home.createHome(this.CreateHomeForm.getRawValue().HomeName, this.user.userName, this.user.id);
+        result ? this.router.navigateByUrl('/home') : alert('Add home failed!');
         alert(JSON.stringify(this.CreateHomeForm.value));
     };
 
