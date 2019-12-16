@@ -11,7 +11,7 @@
             <p>
                 Username *
             </p>
-            <mat-form-field color="{{ formErrors.username ? 'warn' : 'primary' }}">
+            <mat-form-field>
                 <input formControlName="username" class="form-input" matInput type="text" required />
                 <mat-error>
                     Username must contain at least 5 characters.
@@ -22,7 +22,7 @@
             <p>
                 Email *
             </p>
-            <mat-form-field color="{{ formErrors.email ? 'warn' : 'primary' }}">
+            <mat-form-field>
                 <input formControlName="email" class="form-input" matInput type="email" required />
                 <mat-error>
                     Please input valid email address
@@ -33,7 +33,7 @@
             <p>
                 Password *
             </p>
-            <mat-form-field color="{{ formErrors.password ? 'warn' : 'primary' }}">
+            <mat-form-field>
                 <input formControlName="password" class="form-input" matInput type="password" required />
                 <mat-error>
                     Invalid password: Password must be at least 5 characters.
@@ -44,7 +44,7 @@
             <p>
                 Re-Enter Password *
             </p>
-            <mat-form-field color="{{ formErrors.repassword ? 'warn' : 'primary' }}">
+            <mat-form-field>
                 <input formControlName="repassword" class="form-input" matInput type="password" required />
                 <mat-error>
                     Please re-enter your password same as above.

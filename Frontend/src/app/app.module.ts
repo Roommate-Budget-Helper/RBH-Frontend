@@ -9,7 +9,8 @@ import { RegisterPageComponent } from './register-page/register-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StorageServiceModule } from 'ngx-webstorage-service';
 import { StorageServiceService } from './storage-service.service';
-
+import { RouterTestingModule } from '@angular/router/testing';
+import {CommonModule } from '@angular/common';
 import {
     MatButtonModule,
     MatCheckboxModule,
@@ -32,7 +33,13 @@ import {
 } from '@angular/material';
 import { CreateHomePageComponent } from './create-home-page/create-home-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
-
+export let routes:Routes = [
+    { path: '', component: StartingPageComponent },
+    { path: 'login', component: LoginPageComponent },
+    { path: 'register', component: RegisterPageComponent },
+    { path: 'home', component: HomePageComponent },
+    { path: 'createhome', component: CreateHomePageComponent }
+];
 @NgModule({
     imports: [
         BrowserModule,
@@ -57,13 +64,9 @@ import { HomePageComponent } from './home-page/home-page.component';
         MatDialogModule,
         MatMenuModule,
         BrowserAnimationsModule,
-        RouterModule.forRoot([
-            { path: '', component: StartingPageComponent },
-            { path: 'login', component: LoginPageComponent },
-            { path: 'register', component: RegisterPageComponent },
-            { path: 'home', component: HomePageComponent },
-            { path: 'createhome', component: CreateHomePageComponent }
-        ])
+        RouterModule.forRoot(routes),
+        RouterTestingModule,
+        CommonModule
     ],
     declarations: [
         AppComponent,

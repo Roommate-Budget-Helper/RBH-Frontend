@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LoginPageComponent } from './login-page.component';
+import { StorageServiceService } from '../storage-service.service';
 
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
@@ -10,7 +11,8 @@ describe('LoginPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, FormsModule],
-      declarations: [ LoginPageComponent ]
+      declarations: [ LoginPageComponent ],
+      providers: [StorageServiceService]
     })
     .compileComponents();
   }));
