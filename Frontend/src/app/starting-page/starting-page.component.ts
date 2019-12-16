@@ -22,5 +22,5 @@ export class StartingPageComponent implements OnInit {
 
     handleRedirectRegister = () => {
         this.router.navigateByUrl('/register');
-    }
+    };
 }

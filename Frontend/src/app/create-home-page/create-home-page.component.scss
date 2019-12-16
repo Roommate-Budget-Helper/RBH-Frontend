@@ -10,15 +10,21 @@
         top: 0;
         width: 100%;
     }
-    .create-home-page-user-info{
+
+    .create-home-page-arrow {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+    }
+    .create-home-page-user-info {
         text-align: right;
         padding: 30px 30px 0px 0px;
-        .create-home-page-user-icon{
+        .create-home-page-user-icon {
             right: 20px;
             top: 20px;
         }
     }
-    .create-home-page-add-arrow{
+    .create-home-page-add-arrow {
         position: absolute;
         bottom: 40px;
         transform: translateX(-50%);
@@ -44,6 +50,7 @@
         padding: 0px 30px 0px 30px;
         display: flex;
         align-items: center;
+        overflow: auto;
         .create-home-page-form__content {
             width: 100%;
             p {
@@ -69,19 +76,22 @@
                 height: 45px;
                 display: block;
             }
-            .mb-3 .buttons  {
-                display: inline;
-                padding-left:5%;
-                #minus{
-                    margin-left:80%;
+            .mb-3 .buttons {
+                padding-left: 10%;
+                margin-top: 10px;
+                #minus {
+                    margin-left: 80%;
                     transform: translateX(-80px);
-                    position:absolute;
-                    margin-top:20px
+                    position: absolute;
                 }
                 // transform: translateY(-50%);
                 // margin-bottom: 50%;
                 // bottom: 50%;
                 // padding-bottom: 50%;
+            }
+            .subjectList {
+                list-style: none;
+                padding: 0;
             }
         }
     }
