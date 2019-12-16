@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageServiceService } from '../storage-service.service'
 import　* as jwt from 'jsonwebtoken'
-import { MatDialogRef } from '@angular/material';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 const STORAGE_KEY = "local_userInfo"
+
+
 
 @Component({
   selector: 'app-home-page',
@@ -12,7 +14,12 @@ const STORAGE_KEY = "local_userInfo"
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
-  constructor(private router: Router, private StorageService: StorageServiceService, private dialogRef: MatDialogRef<HomePageComponent>) { }
+  
+  name: string
+  numberOfRoommate:number
+  roommates: []
+
+  constructor(private router: Router, private StorageService: StorageServiceService) { }
   user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo.full_name;
 
   ngOnInit() {
@@ -24,13 +31,11 @@ export class HomePageComponent implements OnInit {
       if(err){
         console.log(err)
       }else{
-        let dialogRef = dialog.open(UserProfileComponent, {
-          height: '400px',
-          width: '600px',
-        });
+        this.router.navigateByUrl("/createhome")
       }
     })
   }
 }
+
 
 

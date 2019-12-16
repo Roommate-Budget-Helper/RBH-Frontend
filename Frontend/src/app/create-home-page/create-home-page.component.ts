@@ -1,4 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { StorageServiceService } from '../storage-service.service'
+import * as jwt from 'jsonwebtoken'
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, Validators, FormArray } from "@angular/forms";
+import ApiClient from '../api-client';
+import * as _ from "lodash";
+
+
+
+
+const STORAGE_KEY = "local_userInfo"
+
+export interface DialogData {
+  name: string;
+  numberOfRoommate: number;
+  roommates: [];
+}
 
 @Component({
   selector: 'app-create-home-page',
@@ -7,9 +25,49 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateHomePageComponent implements OnInit {
 
-  constructor() { }
+  HomeName: string
+  NumberOfRoommates: number
+
+  constructor(private router: Router, public fb: FormBuilder, private StorageService: StorageServiceService, public dialog: MatDialog) {
+
+    this.NumberOfRoommates = this.addDynamicElement.length + 1;
+
+
+  }
+  user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
+
+  CreateHomeForm = this.fb.group({
+
+    HomeName: '',
+    addDynamicElement: this.fb.array([])
+  })
+
+  updateNumber = () => {
+    this.NumberOfRoommates = this.addDynamicElement.length + 1;
+  }
+
+  onSubmit = async () => {
+    const result = await ApiClient.home.createHome(this.CreateHomeForm[0], this.user.userName, this.user.id );
+    result ? alert('wrong credential combination') : this.router.navigateByUrl('/home');
+    alert(JSON.stringify(this.CreateHomeForm.value))
+  }
+
+  get addDynamicElement() {
+    return this.CreateHomeForm.get('addDynamicElement') as FormArray
+  }
+
+  addItems = () => {
+    this.updateNumber()
+    this.addDynamicElement.push(this.fb.control(""))
+  }
+
+  deleteItems = () => {
+    this.updateNumber()
+    this.addDynamicElement.removeAt(this.addDynamicElement.length - 1)
+  }
 
   ngOnInit() {
   }
 
 }
+

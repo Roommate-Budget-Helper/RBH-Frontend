@@ -1,3 +1,35 @@
-<p>
-  create-home-page works!
-</p>
+<div class="create-home-page-container">
+  <img class="create-home-page-background" src="../../assets/background.svg" />
+  <img class="create-home-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
+  <h1 class="create-home-page-title white">
+    Create Home
+  </h1>
+  <form [formGroup]="CreateHomeForm" (ngSubmit)="onSubmit()" novalidate class="create-home-page-form">
+    <div class="create-home-page-form__content">
+
+      <div>
+        <p>Your Home Name</p>
+        <input type="text" class="form-control" formControlName="HomeName" placeholder="E.g. HomeSweetHome">
+      </div>
+
+      <div class="group-gap" formArrayName="addDynamicElement">
+        <p class="mb-3" >Invite your roommates now!</p>
+        <span >hint: You can still add or remove roommates after the home is created.</span>
+
+
+        <div class="mb-3">
+          <div class = "buttons">
+          <img src = "../../assets/add-arrow.svg" class="btn btn-sm btn-success mb-3 btn-block" (click)="addItems()">
+          <img src = "../../assets/minus-arrow.svg" class="btn btn-sm btn-success mb-3 btn-block" id = "minus"(click)="deleteItems()">
+          </div>
+          <ul class="subjectList">
+            <li *ngFor="let item of addDynamicElement.controls; let i = index">
+              <input type="text" class="form-control" [formControlName]="i" placeholder="Roommate{{i+1}} Username">
+            </li>
+          </ul>
+        </div>
+        <button type="submit">Create Home</button>
+      </div>
+    </div>
+  </form>
+</div>

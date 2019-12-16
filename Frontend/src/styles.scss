@@ -3,6 +3,7 @@
 $size__font--large: 36px;
 $size__font--regular: 18px;
 $size__font--text: 16px;
+$size__font--hint: 10px;
 
 $color--theme: #8c94e2;
 $color--red: #fd3b3b;
@@ -26,6 +27,10 @@ h1 {
     font-size: $size__font--large;
 }
 
+span{
+    font-size: $size__font--hint;
+}
+
 html,
 body {
     margin: 0;
@@ -36,7 +41,7 @@ body {
 
 div,
 section,
-mat-form-field, {
+mat-form-field {
     &.flex {
         display: flex;
         flex-direction: column;
@@ -55,6 +60,8 @@ mat-form-field, {
     &.white {
         color: $color--white;
     }
+
+
 }
 
 h1,
