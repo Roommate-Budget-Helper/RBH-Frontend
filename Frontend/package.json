@@ -28,6 +28,8 @@
     "angular-material-source": "github:angular/material",
     "core-js": "^2.6.11",
     "jsonwebtoken": "^8.5.1",
+    "jwa": "^1.4.1",
+    "jws": "^3.2.2",
     "jwt-decode": "^2.2.0",
     "ngx-webstorage-service": "^4.1.0",
     "node-sass": "^4.13.0",
