@@ -14,23 +14,16 @@ const STORAGE_KEY = 'local_userInfo';
 })
 export class HomePageComponent implements OnInit {
     name: string;
-    homes ;
+    homes;
 
+    constructor(private router: Router, private StorageService: StorageServiceService) {}
 
-
-    constructor(private router: Router, private StorageService: StorageServiceService) {
-    }
-
-    
-
-    user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
-    username = this.user.full_name;
+    // user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
+    // username = this.user.full_name;
 
     async ngOnInit() {
-        console.info(this.user.id);
-        this.homes = await ApiClient.home.getHome(this.user.id);
-
-
+        // console.info(this.user.id);
+        // this.homes = await ApiClient.home.getHome(this.user.id);
     }
 
     handleAddhome = () => {
@@ -38,16 +31,11 @@ export class HomePageComponent implements OnInit {
         jwt.verify(token, 'abcde', async (err, decode) => {
             if (err) {
                 console.log(err);
-                alert("your session has expired. Please log in again.");
+                alert('your session has expired. Please log in again.');
                 this.router.navigateByUrl('/login');
-
             } else {
                 this.router.navigateByUrl('/createhome');
             }
         });
     };
-
-
-
-
 }

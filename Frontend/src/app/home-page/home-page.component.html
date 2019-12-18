@@ -1,17 +1,30 @@
 <div class="home-page-container">
-  <!-- <img class="home-page-background" src="../../assets/background.svg" /> -->
-  <div class="home-page-user-info">
-    <img class="home-page-user-icon" src="../../assets/user-icon.svg" />
-    <p>Hi {{username}}</p>
-  </div>
-  <h1 class="home-page-title white">
-      Home
-  </h1>
+    <div class="home-page-user-info">
+        <img class="home-page-user-icon" src="../../assets/user-icon.svg" />
+        <p>Hi Jihou</p>
+    </div>
+    <!-- <h1 class="home-page-title white">
+        Home
+    </h1> -->
 
-  <ul *ngFor="let home of homes">
-    <li>{{home.full_name}}</li>
+    <!-- <ul *ngFor="let home of homes">
+        <li>yo</li>
+    </ul> -->
+    <div class="home-page-item flex-align-center">
+        <img class="home-page-user-icon" src="../../assets/home-cover.svg" />
+        <div class="home-page-item__content">
+            <p>Home1</p>
+            <div class="home-page-item__people flex-align-center">
+                <p class="grey">
+                    Daxi
+                </p>
+                <p class="grey">
+                    Jizhou
+                </p>
+            </div>
+        </div>
+        <img class="home-page-user-icon" src="../../assets/bell.svg" />
+    </div>
 
-    </ul>
-  <img class="home-page-add-arrow" src="../../assets/add-arrow.svg" (click)="handleAddhome()" />
+    <img class="home-page-add-arrow" src="../../assets/add-arrow.svg" (click)="handleAddhome()" />
 </div>
-
