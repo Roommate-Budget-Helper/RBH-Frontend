@@ -13,17 +13,22 @@ const STORAGE_KEY = 'local_userInfo';
     styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
-    name: string;
     homes;
+    constructor(private router: Router, private StorageService: StorageServiceService) {
 
-    constructor(private router: Router, private StorageService: StorageServiceService) {}
 
-    // user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
-    // username = this.user.full_name;
+    }
+
+    user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
+    username = this.user.full_name;
 
     async ngOnInit() {
         // console.info(this.user.id);
-        // this.homes = await ApiClient.home.getHome(this.user.id);
+        this.homes = await ApiClient.home.getHome(this.user.id);
+    }
+
+    getHomeByHomeId = async (homeId) => {
+        // return await ApiClient.home.getHomeDetail(homeId);
     }
 
     handleAddhome = () => {
@@ -38,4 +43,8 @@ export class HomePageComponent implements OnInit {
             }
         });
     };
+    handleDirectToHome = (homeId) => {
+        this.StorageService.storeHomeOnLocalStorage(homeId);
+        this.router.navigateByUrl('/homedetail');
+    }
 }
