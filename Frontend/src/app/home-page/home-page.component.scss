@@ -24,6 +24,7 @@
         padding: 10px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         .home-page-item__content {
+            display:inline-block;
             margin-left: 10px;
             .home-page-item__people {
                 p {
@@ -34,8 +35,12 @@
                 }
             }
         }
-        .home-page-user-icon:last-child {
+        .home-page-house-icon {
             margin-left: auto;
+        }
+        .home-page-bell-icon{
+            position: absolute;
+            right:5%;
         }
     }
 }

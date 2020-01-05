@@ -5,20 +5,18 @@
     </div>
     <!-- <h1 class="home-page-title white">
         Home
-    </h1> -->
+    </h1> -->   
 
     <ul *ngFor="let home of homes">
         <li class="home-page-item flex-align-center" (click) = handleDirectToHome(home.id)>
-            <img class="home-page-user-icon" src="../../assets/home-cover.svg" />
+            <img class="home-page-house-icon" src="../../assets/home-cover.svg" />
             <div class="home-page-item__content">
                 <p>{{home.housename}}</p>
-                <div class="home-page-item__people flex-align-center">
-                    <p *ngFor = "let roommate of getHomeByHomeId(home.id).roommates" class="grey">
-                        {{roommate}}
-                    </p>
+                <div class="home-page-item__people flex-align-center grey">
+                    <p>{{await this.getHomeByHomeId(16)}}</p>
                 </div>
             </div>
-            <img class="home-page-user-icon" src="../../assets/bell.svg" />
+            <img class="home-page-bell-icon" src="../../assets/bell.svg" />
         </li>
     </ul>
 

@@ -14,6 +14,8 @@ const STORAGE_KEY = 'local_userInfo';
 })
 export class HomePageComponent implements OnInit {
     homes;
+    invitations;
+    roommates;
     constructor(private router: Router, private StorageService: StorageServiceService) {
 
 
@@ -25,11 +27,19 @@ export class HomePageComponent implements OnInit {
     async ngOnInit() {
         // console.info(this.user.id);
         this.homes = await ApiClient.home.getHome(this.user.id);
+        console.info(this.homes);  
+        console.info(JSON.stringify(await this.getHomeByHomeId(16))); 
     }
 
     getHomeByHomeId = async (homeId) => {
-        // return await ApiClient.home.getHomeDetail(homeId);
+        let roommate_names = "";
+        this.roommates = await ApiClient.home.getHomeDetail(homeId);
+        for(let roommate of this.roommates){
+            roommate_names = roommate_names.concat(roommate.userName+", ");
+        }
+        return roommate_names.substring(0, roommate_names.length-2);
     }
+
 
     handleAddhome = () => {
         const token = this.StorageService.getLocalStorage(STORAGE_KEY).token;
@@ -47,4 +57,9 @@ export class HomePageComponent implements OnInit {
         this.StorageService.storeHomeOnLocalStorage(homeId);
         this.router.navigateByUrl('/homedetail');
     }
+
+    handleInvitation = async () =>{
+        this.invitations = await ApiClient.invitation.getInvitation(this.user.userId)
+    }
 }
+    
