@@ -34,6 +34,7 @@ import {
 import { CreateHomePageComponent } from './create-home-page/create-home-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
 import { HomeDetailPageComponent } from './home-detail-page/home-detail-page.component';
+import { InvitationDialogComponent } from './invitation-dialog/invitation-dialog.component';
 export let routes:Routes = [
     { path: '', component: StartingPageComponent },
     { path: 'login', component: LoginPageComponent },
@@ -77,10 +78,11 @@ export let routes:Routes = [
         RegisterPageComponent,
         CreateHomePageComponent,
         HomePageComponent,
-        HomeDetailPageComponent
+        HomeDetailPageComponent,
+        InvitationDialogComponent
     ],
     providers: [{ provide: MatDialogRef, useValue: {} }, StorageServiceService],
-    entryComponents: [RegisterPageComponent, LoginPageComponent],
+    entryComponents: [RegisterPageComponent, LoginPageComponent, InvitationDialogComponent],
     bootstrap: [AppComponent]
-})
+}) 
 export class AppModule {}

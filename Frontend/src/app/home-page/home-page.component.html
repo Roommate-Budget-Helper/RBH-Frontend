@@ -13,7 +13,7 @@
             <div class="home-page-item__content">
                 <p>{{home.housename}}</p>
                 <div class="home-page-item__people flex-align-center grey">
-                    <p>{{await this.getHomeByHomeId(16)}}</p>
+                    <p>{{getHomeByHomeId(home.id)|async}}</p>
                 </div>
             </div>
             <img class="home-page-bell-icon" src="../../assets/bell.svg" />

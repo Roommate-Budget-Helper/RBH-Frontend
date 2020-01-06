@@ -4,6 +4,7 @@ import { StorageServiceService } from '../storage-service.service';
 import * as jwt from 'jsonwebtoken';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import ApiClient from '../api-client';
+import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
 
 const STORAGE_KEY = 'local_userInfo';
 
@@ -16,7 +17,7 @@ export class HomePageComponent implements OnInit {
     homes;
     invitations;
     roommates;
-    constructor(private router: Router, private StorageService: StorageServiceService) {
+    constructor(private router: Router, private StorageService: StorageServiceService, public dialog: MatDialog,public dialogRef: MatDialogRef<any>[]) {
 
 
     }
@@ -28,7 +29,12 @@ export class HomePageComponent implements OnInit {
         // console.info(this.user.id);
         this.homes = await ApiClient.home.getHome(this.user.id);
         console.info(this.homes);  
-        console.info(JSON.stringify(await this.getHomeByHomeId(16))); 
+        this.invitations = this.handleInvitation();
+        for(let invitation of this.invitations){
+            this.dialogRef.push(this.dialog.open(InvitationDialogComponent ,{data:{name: invitation.houseName}}));
+            this.dialogRef[this.dialogRef.length-1].updatePosition({ top: '1%', right: '1%' });
+        }
+        
     }
 
     getHomeByHomeId = async (homeId) => {
@@ -60,6 +66,9 @@ export class HomePageComponent implements OnInit {
 
     handleInvitation = async () =>{
         this.invitations = await ApiClient.invitation.getInvitation(this.user.userId)
+
     }
+
+
 }
     
