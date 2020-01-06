@@ -31,8 +31,16 @@ export class HomePageComponent implements OnInit {
         console.info(this.homes);  
         this.invitations = this.handleInvitation();
         for(let invitation of this.invitations){
-            this.dialogRef.push(this.dialog.open(InvitationDialogComponent ,{data:{name: invitation.houseName}}));
-            this.dialogRef[this.dialogRef.length-1].updatePosition({ top: '1%', right: '1%' });
+            let thisDialogRef = this.dialog.open(InvitationDialogComponent ,{data:{name: invitation.houseName}})
+            this.dialogRef.push(thisDialogRef);
+            thisDialogRef.updatePosition({ top: '1%', right: '1%' });
+            thisDialogRef.afterClosed().subscribe(result=>{
+                if(result=="accpet"){
+                    this.handleAccpetInvitation(invitation.id);
+                }else{
+                    this.handleDeclineInvitation(invitation.id);
+                }
+            });
         }
         
     }
@@ -66,6 +74,14 @@ export class HomePageComponent implements OnInit {
 
     handleInvitation = async () =>{
         this.invitations = await ApiClient.invitation.getInvitation(this.user.userId)
+
+    }
+    handleAccpetInvitation = async (invitationId) =>{
+        this.invitations = await ApiClient.invitation.acceptInvitation(invitationId)
+
+    }
+    handleDeclineInvitation = async (invitationId) =>{
+        this.invitations = await ApiClient.invitation.declineInvitation(invitationId)
 
     }
 
