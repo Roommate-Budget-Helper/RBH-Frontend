@@ -1,7 +1,22 @@
-.decline{
-    position:absolute;
-    right:3%;
+.decline {
+    position: absolute;
+    right: 3%;
 }
+
+.cdk-overlay-container {
+    // .cdk-overlay-backdrop {
+    //     z-index: 0;
+    //     left: 0;
+    //     right: 0;
+    //     top: 0;
+    //     bottom: 0;
+    // }
+    .cdk-overlay-backdrop {
+        height: 0 !important;
+        width: 0 !important;
+    }
+}
+
 // .accept{
 //     position:absolute;
 //     left:3%;
