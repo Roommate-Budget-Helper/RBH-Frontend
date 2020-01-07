@@ -1,41 +1,39 @@
 <div class="home-detail-page-container">
-  <img class="home-detail-page-background" src="../../assets/background.svg" />
-  <img class="home-detail-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
-  <div class="home-detail-page-user-info">
-      <img class="home-detail-page-user-icon" src="../../assets/user-icon-white.svg" />
-      <p class = "white">Hi User</p>
-  </div>
-  <h1 class="home-detail-page-title white">
-    Home Name
-  </h1>
-  <div class = "home-detail-page-item">
-    <div class = "home-detail-page-current-roommate">
-      Current Roommates
+    <img class="home-detail-page-background" src="../../assets/background.svg" />
+    <img class="home-detail-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
+    <div class="home-detail-page-user-info">
+        <img class="home-detail-page-user-icon" src="../../assets/user-icon-white.svg" />
+        <p class="white">Hi User</p>
     </div>
-
-    <button class = "home-detail-page-balance-button">
-      Net Balance
-    </button>
-    <div class="home-detail-page-nameAndButtons flex-align-center">
-      <span>u1(Owner) u2 u3</span>
-      <img src="../../assets/add-arrow.svg" class="home-detail-page-add"  (click)="addItems()" />
-      <img src="../../assets/minus-arrow.svg" class="home-detail-page-minus" (click)="deleteItems()"/>
-  </div>
-
-    <div class= "home-detail-page-bill-list">
-      <div class="home-detail-page-bill-list-head">
-        <div class = "home-detail-page-bill-list-title">
-          Bills
+    <h1 class="home-detail-page-title white">
+        Home Name
+    </h1>
+    <div class="home-detail-page-item">
+        <div class="home-detail-page-current-roommate">
+            Current Roommates
         </div>
-          <button class = "home-detail-page-bill-list-view-button">
-            View All
-          </button>
-          <button class = "home-detail-page-bill-list-create-button">
-            Create New
-          </button>
+
+        <button class="home-detail-page-balance-button">
+            Net Balance
+        </button>
+        <div class="home-detail-page-nameAndButtons flex-align-center">
+            <p>u1(Owner) u2 u3</p>
+            <img src="../../assets/add-arrow.svg" class="home-detail-page-add" (click)="addItems()" />
+            <img src="../../assets/minus-arrow.svg" class="home-detail-page-minus" (click)="deleteItems()" />
+        </div>
+
+        <div class="home-detail-page-bill-list">
+            <div class="home-detail-page-bill-list-head flex-align-center">
+                <div class="home-detail-page-bill-list-title">
+                    Bills
+                </div>
+                <button class="home-detail-page-bill-list-view-button">
+                    View All
+                </button>
+                <button class="home-detail-page-bill-list-create-button">
+                    Create New
+                </button>
+            </div>
         </div>
     </div>
-
-
-  </div>
 </div>

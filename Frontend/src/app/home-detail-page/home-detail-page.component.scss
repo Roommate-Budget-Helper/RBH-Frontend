@@ -23,128 +23,98 @@
     .home-detail-page-user-info {
         text-align: right;
         padding: 0px 0px 0px 0px;
-        position:absolute;
+        position: absolute;
         right: 5%;
         top: 20px;
-        
     }
-    
+
     .home-detail-page-item {
-            /* Rectangle */
+        /* Rectangle */
 
         position: absolute;
-        width :86%;
-        left:7%;
+        width: 86%;
+        left: 7%;
         top: 150px;
-        bottom:5%;
-        background: #FFFFFF;
+        bottom: 5%;
+        background: #ffffff;
         box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.06);
         border-radius: 8px;
         padding-top: 3%;
         padding-bottom: 5%;
-        .home-detail-page-current-roommate{
+        .home-detail-page-current-roommate {
             /* Current Roommates */
-            font-size: large;
+            font-size: $size__font--regular;
             font-weight: bold;
-            margin: 5%;
-            display:inline
-
+            margin: 20px;
+            display: inline;
         }
-        .home-detail-page-balance-button{
+        .home-detail-page-balance-button {
             /* Net Balance */
 
             /* Rectangle 2.5 */
 
             position: absolute;
-            display: inline;
+
             right: 5%;
-            padding:0.5%;
-            width:30%;
-            background: #8C94E2;
-            border: 1px solid #E5E5E5;
+            padding: 5px;
+            background: #8c94e2;
+            border: 1px solid #e5e5e5;
             border-radius: 8px;
             color: $color--white;
-
-            
         }
-        .home-detail-page-nameAndButtons{
-            margin-left:5%;
-            margin-top:2%;
-            width:90%;
-            .home-detail-page-add{
-                margin-left: 4%;
-                margin-right: 4%;
-                padding-left: 4%;
-                padding-right: 4%;
-                position: absolute;
-                display: inline;
-                right:10%;
+        .home-detail-page-nameAndButtons {
+            margin-top: 20px;
+            p {
+                margin-left: 20px;
             }
-            .home-detail-page-minus{
-                position: absolute;
-                margin-right: 4%;
-                padding-right: 4%;
-                width: 8%;
-                right: 0%;
+            .home-detail-page-add {
+                margin-left: auto;
             }
-
+            .home-detail-page-minus {
+                margin-left: 20px;
+                margin-right: 10px;
+            }
         }
 
-       
-        .home-detail-page-bill-list{
-            position:absolute;
+        .home-detail-page-bill-list {
+            position: absolute;
             transform: translateX(-50%);
             left: 50%;
-            width :86%;
-            display:block;
+            width: 86%;
+            display: block;
             margin-top: 5%;
-            background: #FFFFFF;
+            background: #ffffff;
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.06);
             border-radius: 8px;
             padding-top: 3%;
             padding-bottom: 5%;
 
-            .home-detail-page-bill-list-head{
-                position: absolute;
-                width:90%;
-                bottom:5%;
-                .home-detail-page-bill-list-title{
-                    font-size: large;
+            .home-detail-page-bill-list-head {
+                button {
+                    padding: 10px;
+                }
+                .home-detail-page-bill-list-title {
+                    margin: auto;
+                    font-size: $size__font--regular;
                     font-weight: bold;
-                    margin-left: 5%;
-                    display:inline;
                 }
 
-                
-
-                    .home-detail-page-bill-list-view-button{
-                        position: relative;
-                        display: inline;
-                        padding:0.5%;
-                        margin-left: 4%;
-                        margin-right: 4%;
-                        padding-left: 4%;
-                        padding-right: 4%;
-                        right:10%;
-                        background: #8C94E2;
-                        border: 1px solid #E5E5E5;
-                        border-radius: 8px;
-                        color: $color--white;
-                    }
-                    .home-detail-page-bill-list-create-button{
-                        position: absolute;
-                        padding:0.5%;
-                        right:0%;
-                        width:20%;
-                        margin-left: 4%;
-                        padding-left: 4%;
-                        padding-right: 4%;
-                        background: #8C94E2;
-                        border: 1px solid #E5E5E5;
-                        border-radius: 8px;
-                        color: $color--white;
-                    }
-                
+                .home-detail-page-bill-list-view-button {
+                    margin-left: auto;
+                    margin-right: 0px;
+                    background: #8c94e2;
+                    border: 1px solid #e5e5e5;
+                    border-radius: 8px;
+                    color: $color--white;
+                }
+                .home-detail-page-bill-list-create-button {
+                    margin-left: 20px;
+                    margin-right: 10px;
+                    background: #8c94e2;
+                    border: 1px solid #e5e5e5;
+                    border-radius: 8px;
+                    color: $color--white;
+                }
             }
         }
     }
