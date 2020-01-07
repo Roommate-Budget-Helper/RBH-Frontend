@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Location } from '@angular/common';
 import ApiClient from '../api-client';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,7 +13,7 @@ import { StorageServiceService } from '../storage-service.service';
 })
 export class LoginPageComponent implements OnInit {
     options: any;
-    constructor(private location: Location, private router: Router, private StorageService: StorageServiceService) {
+    constructor(private router: Router, private StorageService: StorageServiceService) {
         this.options = { username: '', password: '' };
     }
 
