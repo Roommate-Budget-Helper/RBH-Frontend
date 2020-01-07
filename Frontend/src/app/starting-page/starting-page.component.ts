@@ -11,11 +11,11 @@ import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialo
     styleUrls: ['./starting-page.component.scss']
 })
 export class StartingPageComponent implements OnInit {
-    constructor(private router: Router,public dialog: MatDialog,public dialogRef: MatDialogRef<any>) {}
+    constructor(private router: Router) {}
 
     ngOnInit() {
-        this.dialogRef =   this.dialog.open(InvitationDialogComponent ,{data:{name: 'test1' }});
-        this.dialogRef.updatePosition({ top: '1%', right: '1%' });
+        // this.dialogRef =   this.dialog.open(InvitationDialogComponent ,{data:{name: 'test1' }});
+        // this.dialogRef.updatePosition({ top: '1%', right: '1%' });
     }
 
     share = async () => {

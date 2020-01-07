@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageServiceService } from '../storage-service.service';
 import * as jwt from 'jsonwebtoken';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import ApiClient from '../api-client';
 import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
 
@@ -14,28 +14,27 @@ const STORAGE_KEY = 'local_userInfo';
     styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
+    
+    constructor(private router: Router, private StorageService: StorageServiceService, public dialog: MatDialog,public dialogRef: MatDialogRef<any>) {
+    }
     homes;
     invitations;
     roommates;
-    constructor(private router: Router, private StorageService: StorageServiceService, public dialog: MatDialog,public dialogRef: MatDialogRef<any>[]) {
-
-
-    }
-
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     username = this.user.full_name;
 
     async ngOnInit() {
-        // console.info(this.user.id);
+        console.info(this.user.id);
         this.homes = await ApiClient.home.getHome(this.user.id);
         console.info(this.homes);  
-        this.invitations = this.handleInvitation();
+        await this.handleInvitation();
+        // console.info(await this.invitations[0])
         for(let invitation of this.invitations){
             let thisDialogRef = this.dialog.open(InvitationDialogComponent ,{data:{name: invitation.houseName}})
-            this.dialogRef.push(thisDialogRef);
+            // this.dialogRef.push(thisDialogRef);
             thisDialogRef.updatePosition({ top: '1%', right: '1%' });
             thisDialogRef.afterClosed().subscribe(result=>{
-                if(result=="accpet"){
+                if(result=="accept"){
                     this.handleAccpetInvitation(invitation.id);
                 }else{
                     this.handleDeclineInvitation(invitation.id);
@@ -45,14 +44,14 @@ export class HomePageComponent implements OnInit {
         
     }
 
-    getHomeByHomeId = async (homeId) => {
-        let roommate_names = "";
-        this.roommates = await ApiClient.home.getHomeDetail(homeId);
-        for(let roommate of this.roommates){
-            roommate_names = roommate_names.concat(roommate.userName+", ");
-        }
-        return roommate_names.substring(0, roommate_names.length-2);
-    }
+    // getHomeByHomeId = async (homeId) => {
+    //     let roommate_names = "";
+    //     this.roommates = await ApiClient.home.getHomeDetail(homeId);
+    //     for(let roommate of this.roommates){
+    //         roommate_names = roommate_names.concat(roommate.userName+", ");
+    //     }
+    //     return roommate_names.substring(0, roommate_names.length-2);
+    // }
 
 
     handleAddhome = () => {
@@ -73,15 +72,16 @@ export class HomePageComponent implements OnInit {
     }
 
     handleInvitation = async () =>{
-        this.invitations = await ApiClient.invitation.getInvitation(this.user.userId)
-
+        this.invitations = await ApiClient.invitation.getInvitation(this.user.id)
     }
+
+
     handleAccpetInvitation = async (invitationId) =>{
-        this.invitations = await ApiClient.invitation.acceptInvitation(invitationId)
+        await ApiClient.invitation.acceptInvitation(invitationId)
 
     }
     handleDeclineInvitation = async (invitationId) =>{
-        this.invitations = await ApiClient.invitation.declineInvitation(invitationId)
+        await ApiClient.invitation.declineInvitation(invitationId)
 
     }
 

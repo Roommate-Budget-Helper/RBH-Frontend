@@ -11,9 +11,9 @@
         <li class="home-page-item flex-align-center" (click) = handleDirectToHome(home.id)>
             <img class="home-page-house-icon" src="../../assets/home-cover.svg" />
             <div class="home-page-item__content">
-                <p>{{home.housename}}</p>
+                <p>{{home.full_name}}</p>
                 <div class="home-page-item__people flex-align-center grey">
-                    <p>{{getHomeByHomeId(home.id)|async}}</p>
+                    <!-- <p>{{getHomeByHomeId(home.id)|async}}</p> -->
                 </div>
             </div>
             <img class="home-page-bell-icon" src="../../assets/bell.svg" />
