@@ -21,17 +21,17 @@ export class HomePageComponent implements OnInit {
     invitations;
     roommates;
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
-    username = this.user.full_name;
+    
+    username = this.user.userName;
 
     async ngOnInit() {
         console.info(this.user.id);
         this.homes = await ApiClient.home.getHome(this.user.id);
         console.info(this.homes);  
         await this.handleInvitation();
-        // console.info(await this.invitations[0])
+        console.info(this.invitations[0])
         for(let invitation of this.invitations){
             let thisDialogRef = this.dialog.open(InvitationDialogComponent ,{data:{name: invitation.houseName}})
-            // this.dialogRef.push(thisDialogRef);
             thisDialogRef.updatePosition({ top: '1%', right: '1%' });
             thisDialogRef.afterClosed().subscribe(result=>{
                 if(result=="accept"){

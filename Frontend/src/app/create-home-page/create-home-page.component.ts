@@ -47,8 +47,10 @@ export class CreateHomePageComponent implements OnInit {
 
         const result = await ApiClient.home.createHome(this.CreateHomeForm.getRawValue().HomeName, this.user.userName, this.user.id);
         //create invitation
-        aFormArray.controls.forEach((user) => {
-            ApiClient.invitation.createInvitation(user.value, result);
+        
+        //create invitation error
+        aFormArray.controls.forEach(async (user) => {
+            await ApiClient.invitation.createInvitation(user.value, result);
         });
         // && await ApiClient.invitation.createInvitation(this.CreateHomeForm.getRawValue().HomeName, this.user.userName, this.user.id);
         result ? this.router.navigateByUrl('/home') : alert('Add home failed!');
