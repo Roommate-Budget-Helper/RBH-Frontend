@@ -78,16 +78,16 @@ describe('LoginPageComponent', () => {
         expect(window.alert).toHaveBeenCalledWith("please enter username or password!");
       });  
 
-      // it("should not show alert when handleSubmit() with empty username and password", () => {
-      //   // ApiClient.auth.login = jasmine.createSpy().and.returnValue(of({userInfo:"11111111"}));
-      //   ApiClient.auth.login = jasmine.createSpy().and.returnValue({userInfo:"11111111"});
-      //   spyOn(window, "alert");
-      //   component.options['username'] = username;
-      //   component.options['password'] = password;
-      //   component.handleSubmit();
-      //   // expect(storage)
-      //   expect(window.alert).not.toHaveBeenCalledWith("please enter username or password!");
-      // }); 
+      it("should not show alert when handleSubmit() with empty username and password", () => {
+        // ApiClient.auth.login = jasmine.createSpy().and.returnValue(of({userInfo:"11111111"}));
+        ApiClient.auth.login = jasmine.createSpy().and.returnValue({userInfo:"11111111"});
+        spyOn(window, "alert");
+        component.options['username'] = username;
+        component.options['password'] = password;
+        component.handleSubmit();
+        // expect(storage)
+        expect(window.alert).not.toHaveBeenCalledWith("please enter username or password!");
+      }); 
 
       //it("nav to /home")
 
