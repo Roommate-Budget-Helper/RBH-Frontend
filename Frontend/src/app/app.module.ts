@@ -33,12 +33,15 @@ import {
 } from '@angular/material';
 import { CreateHomePageComponent } from './create-home-page/create-home-page.component';
 import { HomePageComponent } from './home-page/home-page.component';
+import { HomeDetailPageComponent } from './home-detail-page/home-detail-page.component';
+import { InvitationDialogComponent } from './invitation-dialog/invitation-dialog.component';
 export let routes:Routes = [
     { path: '', component: StartingPageComponent },
     { path: 'login', component: LoginPageComponent },
     { path: 'register', component: RegisterPageComponent },
     { path: 'home', component: HomePageComponent },
-    { path: 'createhome', component: CreateHomePageComponent }
+    { path: 'createhome', component: CreateHomePageComponent },
+    { path: 'homedetail', component: HomeDetailPageComponent }
 ];
 @NgModule({
     imports: [
@@ -74,10 +77,12 @@ export let routes:Routes = [
         LoginPageComponent,
         RegisterPageComponent,
         CreateHomePageComponent,
-        HomePageComponent
+        HomePageComponent,
+        HomeDetailPageComponent,
+        InvitationDialogComponent
     ],
     providers: [{ provide: MatDialogRef, useValue: {} }, StorageServiceService],
-    entryComponents: [RegisterPageComponent, LoginPageComponent],
+    entryComponents: [RegisterPageComponent, LoginPageComponent, InvitationDialogComponent],
     bootstrap: [AppComponent]
-})
+}) 
 export class AppModule {}

@@ -1,17 +1,24 @@
 <div class="home-page-container">
-  <!-- <img class="home-page-background" src="../../assets/background.svg" /> -->
-  <div class="home-page-user-info">
-    <img class="home-page-user-icon" src="../../assets/user-icon.svg" />
-    <p>Hi {{username}}</p>
-  </div>
-  <h1 class="home-page-title white">
-      Home
-  </h1>
+    <div class="home-page-user-info">
+        <img class="home-page-user-icon" src="../../assets/user-icon.svg" />
+        <p>Hi {{username}}</p>
+    </div>
+    <!-- <h1 class="home-page-title white">
+        Home
+    </h1> -->   
 
-  <ul *ngFor="let home of homes">
-    <li>{{home.full_name}}</li>
-
+    <ul *ngFor="let home of homes">
+        <li class="home-page-item flex-align-center" (click) = handleDirectToHome(home.id)>
+            <img class="home-page-house-icon" src="../../assets/home-cover.svg" />
+            <div class="home-page-item__content">
+                <p>{{home.full_name}}</p>
+                <div class="home-page-item__people flex-align-center grey">
+                    <p>{{home.roommates}}</p>
+                </div>
+            </div>
+            <img class="home-page-bell-icon" src="../../assets/bell.svg" />
+        </li>
     </ul>
-  <img class="home-page-add-arrow" src="../../assets/add-arrow.svg" (click)="handleAddhome()" />
-</div>
 
+    <img class="home-page-add-arrow" src="../../assets/add-arrow.svg" (click)="handleAddhome()" />
+</div>

@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material';
 import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { StorageServiceService } from '../storage-service.service';
 
 @Component({
     selector: 'app-register-page',
@@ -20,7 +21,7 @@ export class RegisterPageComponent implements OnInit {
         password: '',
         repassword: ''
     };
-    constructor(private dialogRef: MatDialogRef<RegisterPageComponent>, private fb: FormBuilder, private router: Router) {
+    constructor(private dialogRef: MatDialogRef<RegisterPageComponent>, private fb: FormBuilder, private router: Router, private StorageService: StorageServiceService) {
         this.createForm();
         this.options = { email: '', username: '', password: '', repassword: '' };
     }
@@ -69,7 +70,15 @@ export class RegisterPageComponent implements OnInit {
         console.log(this.registerForm.value);
         this.options = this.registerForm.value;
         const result = await ApiClient.auth.register(this.options.username, sha256(this.options.password), this.options.email);
-        result.isRegistered == false ? alert('user exists') : alert('register succeed');
-        this.dialogRef.close();
+        
+        result.isRegistered == false ? alert('user exists') : this.handleRedirect();
+        
     };
+
+    handleRedirect = async () =>{
+        const result = await ApiClient.auth.login(this.options.username, sha256(this.options.password));
+            _.isEmpty(result.userInfo) ? alert('wrong credential combination') : this.router.navigateByUrl('/home');
+            this.StorageService.storeOnLocalStorage(result);
+        this.router.navigateByUrl("/home")
+    }
 }

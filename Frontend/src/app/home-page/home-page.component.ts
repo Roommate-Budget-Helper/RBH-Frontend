@@ -2,8 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { StorageServiceService } from '../storage-service.service';
 import * as jwt from 'jsonwebtoken';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import ApiClient from '../api-client';
+import { InvitationDialogComponent } from '../invitation-dialog/invitation-dialog.component';
 
 const STORAGE_KEY = 'local_userInfo';
 
@@ -13,41 +14,77 @@ const STORAGE_KEY = 'local_userInfo';
     styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
-    name: string;
-    homes ;
-
-
-
-    constructor(private router: Router, private StorageService: StorageServiceService) {
-    }
-
     
-
+    constructor(private router: Router, private StorageService: StorageServiceService, public dialog: MatDialog,public dialogRef: MatDialogRef<any>) {
+    }
+    homes;
+    invitations;
+    roommates;
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
-    username = this.user.full_name;
+    
+    username = this.user.userName;
 
     async ngOnInit() {
         console.info(this.user.id);
         this.homes = await ApiClient.home.getHome(this.user.id);
-
-
+        console.info(this.homes);  
+        await this.handleInvitation();
+        console.info(this.invitations[0])
+        for(let invitation of this.invitations){
+            let thisDialogRef = this.dialog.open(InvitationDialogComponent ,{data:{name: invitation.houseName}})
+            thisDialogRef.updatePosition({ top: '1%', right: '1%' });
+            thisDialogRef.afterClosed().subscribe(result=>{
+                if(result=="accept"){
+                    this.handleAccpetInvitation(invitation.id);
+                }else{
+                    this.handleDeclineInvitation(invitation.id);
+                }
+            });
+        }
+        
     }
+
+    // getHomeByHomeId = async (homeId) => {
+    //     let roommate_names = "";
+    //     this.roommates = await ApiClient.home.getHomeDetail(homeId);
+    //     for(let roommate of this.roommates){
+    //         roommate_names = roommate_names.concat(roommate.userName+", ");
+    //     }
+    //     return roommate_names.substring(0, roommate_names.length-2);
+    // }
+
 
     handleAddhome = () => {
         const token = this.StorageService.getLocalStorage(STORAGE_KEY).token;
         jwt.verify(token, 'abcde', async (err, decode) => {
             if (err) {
                 console.log(err);
-                alert("your session has expired. Please log in again.");
+                alert('your session has expired. Please log in again.');
                 this.router.navigateByUrl('/login');
-
             } else {
                 this.router.navigateByUrl('/createhome');
             }
         });
     };
+    handleDirectToHome = (homeId) => {
+        this.StorageService.storeHomeOnLocalStorage(homeId);
+        this.router.navigateByUrl('/homedetail');
+    }
+
+    handleInvitation = async () =>{
+        this.invitations = await ApiClient.invitation.getInvitation(this.user.id)
+    }
 
 
+    handleAccpetInvitation = async (invitationId) =>{
+        await ApiClient.invitation.acceptInvitation(invitationId)
+
+    }
+    handleDeclineInvitation = async (invitationId) =>{
+        await ApiClient.invitation.declineInvitation(invitationId)
+
+    }
 
 
 }
+    
