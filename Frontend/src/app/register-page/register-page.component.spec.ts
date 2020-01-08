@@ -94,6 +94,14 @@ describe('RegisterPageComponent', () => {
         component.options['repassword'] = repassword;
         fixture.detectChanges();
       }));
+      it('should ', () => {
+        expect(component.registerForm.invalid).toBeFalsy();
+      });
+
+      it('should username < 5', () => {
+        component.options['username'] = "user"
+        expect(component.registerForm.invalid).toBeTruthy();
+      });
 
       it('should call checkPasswords()', () => {
         spyOn(component, 'checkPasswords');

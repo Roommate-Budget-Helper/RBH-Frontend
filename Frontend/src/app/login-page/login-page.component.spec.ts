@@ -4,14 +4,13 @@ import { LoginPageComponent } from './login-page.component';
 import { StorageServiceService } from '../storage-service.service';
 import { async, ComponentFixture, TestBed} from '@angular/core/testing';
 import { Router } from '@angular/router';
-import HttpClient from '../api-client';
 import ApiClient from '../api-client';
 import { By } from "@angular/platform-browser";
 
 const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
-// ApiClient.auth.login = jasmine.createSpy()
-// const ApiClientSpy: { get: jasmine.Spy } = jasmine.createSpy('ApiClient', ['auth.login']);
-
+// // ApiClient.auth.login = jasmine.createSpy()
+// const httpClient = ApiClient.auth
+// const ApiClientSpy: { get: jasmine.Spy } = jasmine.createSpy('HttpClient', ['login']);
 
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
@@ -79,12 +78,23 @@ describe('LoginPageComponent', () => {
       });  
 
       it("should not show alert when handleSubmit() with empty username and password", () => {
+        // // ApiClient.auth.login = jasmine.createSpy().and.returnValue(of({userInfo:"11111111"}));
+        // ApiClient.auth.login = jasmine.createSpy().and.returnValue({userInfo:"11111111"});
+        // spyOn(ApiClient.auth, "login");
+        // component.options['username'] = username;
+        // component.options['password'] = password;
+        // component.handleSubmit();
+        // // expect(storage)
+        // expect(window.alert).not.toHaveBeenCalledWith("please enter username or password!");
+
         // ApiClient.auth.login = jasmine.createSpy().and.returnValue(of({userInfo:"11111111"}));
-        ApiClient.auth.login = jasmine.createSpy().and.returnValue({userInfo:"11111111"});
+        ApiClient.auth.login = jasmine.createSpy().and.callFake(function(){
+          return {userInfo:"11111111"};
+        });
         spyOn(window, "alert");
         component.options['username'] = username;
         component.options['password'] = password;
-        component.handleSubmit();
+        component.handleSubmit().catch();
         // expect(storage)
         expect(window.alert).not.toHaveBeenCalledWith("please enter username or password!");
       }); 
