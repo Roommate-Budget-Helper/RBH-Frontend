@@ -1,19 +1,19 @@
 <div class="home-page-container">
     <div class="home-page-user-info">
         <img class="home-page-user-icon" src="../../assets/user-icon.svg" />
-        <p>Hi {{username}}</p>
+        <p>Hi {{ username }}</p>
     </div>
     <!-- <h1 class="home-page-title white">
         Home
-    </h1> -->   
+    </h1> -->
 
     <ul *ngFor="let home of homes">
-        <li class="home-page-item flex-align-center" (click) = handleDirectToHome(home.id)>
+        <li class="home-page-item flex-align-center" (click)="handleDirectToHome(home.id)">
             <img class="home-page-house-icon" src="../../assets/home-cover.svg" />
-            <div class="home-page-item__content">
-                <p>{{home.full_name}}</p>
+            <div class="home-page-item__content align-center">
+                <p>{{ home.full_name }}</p>
                 <div class="home-page-item__people flex-align-center grey">
-                    <p>{{home.roommates}}</p>
+                    <p>{{ home.roommates }}</p>
                 </div>
             </div>
             <img class="home-page-bell-icon" src="../../assets/bell.svg" />
