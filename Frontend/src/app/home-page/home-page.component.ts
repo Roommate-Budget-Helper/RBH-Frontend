@@ -36,6 +36,7 @@ export class HomePageComponent implements OnInit {
             thisDialogRef.afterClosed().subscribe(result=>{
                 if(result=="accept"){
                     this.handleAccpetInvitation(invitation.id);
+                    location.reload()
                 }else{
                     this.handleDeclineInvitation(invitation.id);
                 }
