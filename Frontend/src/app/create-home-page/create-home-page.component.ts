@@ -40,9 +40,9 @@ export class CreateHomePageComponent implements OnInit {
 
     async asyncForEach(array, callback) {
         for (let index = 0; index < array.length; index++) {
-          await callback(array[index], index, array);
+            await callback(array[index], index, array);
         }
-      }
+    }
 
     onSubmit = async () => {
         let aFormArray = this.CreateHomeForm.get('addDynamicElement') as FormArray;
@@ -51,13 +51,17 @@ export class CreateHomePageComponent implements OnInit {
         //     console.info(user.value);
         // }
 
-        var result = await ApiClient.home.createHome(this.CreateHomeForm.getRawValue().HomeName, this.user.userName, this.user.id) as number;
+        var result = (await ApiClient.home.createHome(
+            this.CreateHomeForm.getRawValue().HomeName,
+            this.user.userName,
+            this.user.id
+        )) as number;
         //create invitation
-        var num = JSON.stringify(result[0]).substring(4,JSON.stringify(result[0]).length-1)
-        
+        var num = JSON.stringify(result[0]).substring(4, JSON.stringify(result[0]).length - 1);
+
         //create invitation error
         this.asyncForEach(aFormArray.controls, async (user) => {
-            // console.info(user.value, num);
+            console.info(user.value, num);
             await ApiClient.invitation.createInvitation(user.value, parseInt(num));
         });
         // && await ApiClient.invitation.createInvitation(this.CreateHomeForm.getRawValue().HomeName, this.user.userName, this.user.id);
