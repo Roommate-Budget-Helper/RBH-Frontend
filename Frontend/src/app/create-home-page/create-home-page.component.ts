@@ -47,25 +47,17 @@ export class CreateHomePageComponent implements OnInit {
     onSubmit = async () => {
         let aFormArray = this.CreateHomeForm.get('addDynamicElement') as FormArray;
 
-        // for (let user of aFormArray.controls) {
-        //     console.info(user.value);
-        // }
-
         var result = (await ApiClient.home.createHome(
             this.CreateHomeForm.getRawValue().HomeName,
             this.user.userName,
             this.user.id
-        )) as number;
-        //create invitation
-        var num = JSON.stringify(result[0]).substring(4, JSON.stringify(result[0]).length - 1);
+        )) as stringId;
 
-        //create invitation error
         this.asyncForEach(aFormArray.controls, async (user) => {
-            console.info(user.value, num);
-            await ApiClient.invitation.createInvitation(user.value, parseInt(num));
+            await ApiClient.invitation.createInvitation(user.value, parseInt(result));
         });
         // && await ApiClient.invitation.createInvitation(this.CreateHomeForm.getRawValue().HomeName, this.user.userName, this.user.id);
-        // result ? console.info("yes") : alert('Add home failed!');
+
         result ? this.router.navigateByUrl('/home') : alert('Add home failed!');
 
         // alert(JSON.stringify(this.CreateHomeForm.value));
