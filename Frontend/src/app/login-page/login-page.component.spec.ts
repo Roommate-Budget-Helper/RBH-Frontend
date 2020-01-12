@@ -8,9 +8,10 @@ import ApiClient from '../api-client';
 import { By } from "@angular/platform-browser";
 
 const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
+const storageSpy = jasmine.createSpyObj('StorageServiceService', ['storeOnLocalStorage', 'getLocalStorage'])
 // // ApiClient.auth.login = jasmine.createSpy()
 // const httpClient = ApiClient.auth
-// const ApiClientSpy: { get: jasmine.Spy } = jasmine.createSpy('HttpClient', ['login']);
+// const ApiClientSpy: { get: jasmine.Spy } = jasmine.createSpyObj('ApiClient', ['login']);
 
 describe('LoginPageComponent', () => {
   let component: LoginPageComponent;
@@ -78,7 +79,6 @@ describe('LoginPageComponent', () => {
       });  
 
       it("should not show alert when handleSubmit() with empty username and password", () => {
-        // // ApiClient.auth.login = jasmine.createSpy().and.returnValue(of({userInfo:"11111111"}));
         // ApiClient.auth.login = jasmine.createSpy().and.returnValue({userInfo:"11111111"});
         // spyOn(ApiClient.auth, "login");
         // component.options['username'] = username;
@@ -88,20 +88,45 @@ describe('LoginPageComponent', () => {
         // expect(window.alert).not.toHaveBeenCalledWith("please enter username or password!");
 
         // ApiClient.auth.login = jasmine.createSpy().and.returnValue(of({userInfo:"11111111"}));
-        ApiClient.auth.login = jasmine.createSpy().and.callFake(function(){
+        ApiClient.auth.login = jasmine.createSpy().and.callFake(function async (){
           return {userInfo:"11111111"};
         });
         spyOn(window, "alert");
         component.options['username'] = username;
         component.options['password'] = password;
-        component.handleSubmit().catch();
+        component.handleSubmit();
         // expect(storage)
-        expect(window.alert).not.toHaveBeenCalledWith("please enter username or password!");
+        expect(window.alert).not.toHaveBeenCalledWith("wrong credential combination");
       }); 
 
-      //it("nav to /home")
+      it("should nav to /home", ()=>{
+        ApiClient.auth.login = jasmine.createSpy().and.callFake(function async (){
+          return {userInfo:"11111111"};
+        });
+        router = fixture.debugElement.injector.get(Router);
+        const spy = router.navigateByUrl as jasmine.Spy;
+        component.options['username'] = username;
+        component.options['password'] = password;
+        component.handleSubmit();
+        fixture.whenStable().then(() => {
+          const navArgs = spy.calls.mostRecent().args[0];
+          expect(navArgs).toBe('/home', 'should nav to home page');
+        });
+      });
 
-      //it("invalid credential")
+      it("should store to local storage if result is not empty", ()=>{
+        ApiClient.auth.login = jasmine.createSpy().and.callFake(function async (){
+          return {userInfo:"11111111"};
+        });
+        let storage = fixture.debugElement.injector.get(StorageServiceService);
+        // const spy = router.navigateByUrl as jasmine.Spy;
+        component.options['username'] = username;
+        component.options['password'] = password;
+        component.handleSubmit();
+        const STORAGE_KEY = "local_userInfo"
+        console.log(storage.getLocalStorage(STORAGE_KEY));
+        expect(storage.getLocalStorage(STORAGE_KEY)).not.toBeNull;
+      });
 
 
       it('should call handleBack()', () => {
