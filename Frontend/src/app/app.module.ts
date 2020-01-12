@@ -10,7 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StorageServiceModule } from 'ngx-webstorage-service';
 import { StorageServiceService } from './storage-service.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import {CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
     MatButtonModule,
     MatCheckboxModule,
@@ -37,13 +37,15 @@ import { HomeDetailPageComponent } from './home-detail-page/home-detail-page.com
 import { InvitationDialogComponent } from './invitation-dialog/invitation-dialog.component';
 import { AddRoommateDialogComponent } from './add-roommate-dialog/add-roommate-dialog.component';
 import { RemoveRoommateDialogComponent } from './remove-roommate-dialog/remove-roommate-dialog.component';
-export let routes:Routes = [
+import { CreateOptionPageComponent } from './create-option-page/create-option-page.component';
+export let routes: Routes = [
     { path: '', component: StartingPageComponent },
     { path: 'login', component: LoginPageComponent },
     { path: 'register', component: RegisterPageComponent },
     { path: 'home', component: HomePageComponent },
     { path: 'createhome', component: CreateHomePageComponent },
-    { path: 'homedetail', component: HomeDetailPageComponent }
+    { path: 'homedetail', component: HomeDetailPageComponent },
+    { path: 'billoption', component: CreateOptionPageComponent }
 ];
 @NgModule({
     imports: [
@@ -83,10 +85,17 @@ export let routes:Routes = [
         HomeDetailPageComponent,
         InvitationDialogComponent,
         AddRoommateDialogComponent,
-        RemoveRoommateDialogComponent
+        RemoveRoommateDialogComponent,
+        CreateOptionPageComponent
     ],
     providers: [{ provide: MatDialogRef, useValue: {} }, StorageServiceService],
-    entryComponents: [RegisterPageComponent, LoginPageComponent, InvitationDialogComponent, AddRoommateDialogComponent, RemoveRoommateDialogComponent],
+    entryComponents: [
+        RegisterPageComponent,
+        LoginPageComponent,
+        InvitationDialogComponent,
+        AddRoommateDialogComponent,
+        RemoveRoommateDialogComponent
+    ],
     bootstrap: [AppComponent]
-}) 
+})
 export class AppModule {}
