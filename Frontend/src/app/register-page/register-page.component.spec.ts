@@ -2,8 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegisterPageComponent } from './register-page.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import { FormsModule, ReactiveFormsModule }         from '@angular/forms';
+import { FormsModule, ReactiveFormsModule,FormBuilder}         from '@angular/forms';
 import {MatDialogRef} from '@angular/material/dialog';
+import { StorageServiceService } from '../storage-service.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   MatButtonModule,
@@ -53,7 +54,11 @@ describe('RegisterPageComponent', () => {
         MatMenuModule,
         MatDialogModule,
         BrowserAnimationsModule],
-      providers: [{provide : MatDialogRef, useValue : {}},{ provide: Router,   useValue: routerSpy }]
+      providers: [{provide : MatDialogRef, useValue : {}},
+        FormBuilder,
+        { provide: Router,   useValue: routerSpy },
+        StorageServiceService
+      ]
     })
     .compileComponents();
     fixture = TestBed.createComponent(RegisterPageComponent);
@@ -94,8 +99,8 @@ describe('RegisterPageComponent', () => {
         component.options['repassword'] = repassword;
         fixture.detectChanges();
       }));
-      it('should ', () => {
-        expect(component.registerForm.invalid).toBeFalsy();
+      it('should be invalid when first load', () => {
+        expect(component.registerForm.invalid).toBeTruthy;
       });
 
       it('should username < 5', () => {
