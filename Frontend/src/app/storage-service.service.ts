@@ -26,13 +26,12 @@ export class StorageServiceService {
     return this.storage.get(STORAGE_KEY)|| 'LocaL storage is empty';
   }
 
-  storeHomeOnLocalStorage = (homeId: Number): void  => {
+  storeHomeOnLocalStorage = (home: IUser2Home): void  => {
        
     // get array of tasks from local storage
-    const homeid = homeId;
     // push new task to array
     // insert updated array to local storage
-    this.storage.set(HOME_STORAGE_KEY, homeid);
+    this.storage.set(HOME_STORAGE_KEY, home);
 }
 
   getHomeLocalStorage = (key: String) => {

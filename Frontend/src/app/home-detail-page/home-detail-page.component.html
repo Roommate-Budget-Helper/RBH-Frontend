@@ -16,11 +16,21 @@
         <button class="home-detail-page-balance-button">
             Net Balance
         </button>
-        <div class="home-detail-page-nameAndButtons flex-align-center">
-            <p>u1(Owner) u2 u3</p>
-            <img src="../../assets/add-arrow.svg" class="home-detail-page-add" (click)="addItems()" />
-            <img src="../../assets/minus-arrow.svg" class="home-detail-page-minus" (click)="deleteItems()" />
-        </div>
+        <div *ngIf = "isowner"; then owner else roommate></div>
+        <ng-template class="home-detail-page-nameAndButtons flex-align-center" #owner>
+            <p>{{roommate_string}}</p>
+            
+            <img src="../../assets/add-arrow.svg" class="home-detail-page-add" (click)="addRoommate()" />
+            <img src="../../assets/minus-arrow.svg" class="home-detail-page-minus" (click)="removeRoommate()" />
+        </ng-template>
+
+        <ng-template class="home-detail-page-nameAndButtons flex-align-center" #roommate>
+            <p>{{roommate_string}}</p>
+            
+            <button (click) = "removeMyself">exit</button>
+        </ng-template>
+
+
 
         <div class="home-detail-page-bill-list">
             <div class="home-detail-page-bill-list-head flex-align-center">

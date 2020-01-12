@@ -1,0 +1,7 @@
+<mat-selection-list #roommatesToDelete>
+  <mat-list-option *ngFor="let roommate of data.roommates" > {{roommate}} </mat-list-item>
+ </mat-selection-list>
+
+<mat-dialog-actions>
+  <button class = "confirmDelete" (click)="confirmDelete(roommatesToDelete.selectedOptions.selected)">Remove</button>
+  </mat-dialog-actions>

@@ -35,6 +35,8 @@ import { CreateHomePageComponent } from './create-home-page/create-home-page.com
 import { HomePageComponent } from './home-page/home-page.component';
 import { HomeDetailPageComponent } from './home-detail-page/home-detail-page.component';
 import { InvitationDialogComponent } from './invitation-dialog/invitation-dialog.component';
+import { AddRoommateDialogComponent } from './add-roommate-dialog/add-roommate-dialog.component';
+import { RemoveRoommateDialogComponent } from './remove-roommate-dialog/remove-roommate-dialog.component';
 export let routes:Routes = [
     { path: '', component: StartingPageComponent },
     { path: 'login', component: LoginPageComponent },
@@ -79,10 +81,12 @@ export let routes:Routes = [
         CreateHomePageComponent,
         HomePageComponent,
         HomeDetailPageComponent,
-        InvitationDialogComponent
+        InvitationDialogComponent,
+        AddRoommateDialogComponent,
+        RemoveRoommateDialogComponent
     ],
     providers: [{ provide: MatDialogRef, useValue: {} }, StorageServiceService],
-    entryComponents: [RegisterPageComponent, LoginPageComponent, InvitationDialogComponent],
+    entryComponents: [RegisterPageComponent, LoginPageComponent, InvitationDialogComponent, AddRoommateDialogComponent, RemoveRoommateDialogComponent],
     bootstrap: [AppComponent]
 }) 
 export class AppModule {}
