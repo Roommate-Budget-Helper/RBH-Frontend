@@ -35,17 +35,10 @@ export class HomePageComponent implements OnInit {
         for (let invitation of this.invitations) {
             let thisDialogRef = this.dialog.open(InvitationDialogComponent, { data: { name: invitation.houseName } });
             thisDialogRef.updatePosition({ top: '1%', right: '1%' });
-<<<<<<< HEAD
             thisDialogRef.afterClosed().subscribe(async (result) => {
                 if (result == 'accept') {
                     this.handleAccpetInvitation(invitation.id);
-                    this.homes = await ApiClient.home.getHome(this.user.id)
-=======
-            thisDialogRef.afterClosed().subscribe((result) => {
-                if (result == 'accept') {
-                    this.handleAccpetInvitation(invitation.id);
-                    location.reload();
->>>>>>> Frontend-22_CreateBill
+                    this.homes = await ApiClient.home.getHome(this.user.id);
                 } else {
                     this.handleDeclineInvitation(invitation.id);
                 }

@@ -16,33 +16,40 @@
         <button class="home-detail-page-balance-button">
             Net Balance
         </button>
-        <div *ngIf = "isowner"; then owner else roommate></div>
+        <div class="home-detail-page-add-delete flex-align-center">
+            <p>
+                Darcy (owner), User1
+            </p>
+            <img class="home-detail-page-add-arrow" src="../../assets/add-arrow.svg" />
+            <img class="home-detail-page-minus-arrow" src="../../assets/minus-arrow.svg" />
+        </div>
+        <div *ngIf="isowner" ; then owner else roommate></div>
         <ng-template class="home-detail-page-nameAndButtons flex-align-center" #owner>
-            <p>{{roommate_string}}</p>
-            
+            <p>{{ roommate_string }}</p>
+
             <img src="../../assets/add-arrow.svg" class="home-detail-page-add" (click)="addRoommate()" />
             <img src="../../assets/minus-arrow.svg" class="home-detail-page-minus" (click)="removeRoommate()" />
         </ng-template>
 
         <ng-template class="home-detail-page-nameAndButtons flex-align-center" #roommate>
-            <p>{{roommate_string}}</p>
-            
-            <button (click) = "removeMyself">exit</button>
+            <p>{{ roommate_string }}</p>
+
+            <button (click)="(removeMyself)">exit</button>
         </ng-template>
 
-
-
         <div class="home-detail-page-bill-list">
-            <div class="home-detail-page-bill-list-head flex-align-center">
-                <div class="home-detail-page-bill-list-title">
-                    Bills
+            <div class="home-detail-page-bill-list-head ">
+                <div class="flex-align-center">
+                    <div class="home-detail-page-bill-list-title">
+                        Bills
+                    </div>
+                    <button class="home-detail-page-bill-list-view-button">
+                        View All
+                    </button>
+                    <button class="home-detail-page-bill-list-create-button">
+                        Create New
+                    </button>
                 </div>
-                <button class="home-detail-page-bill-list-view-button">
-                    View All
-                </button>
-                <button class="home-detail-page-bill-list-create-button">
-                    Create New
-                </button>
             </div>
         </div>
     </div>
