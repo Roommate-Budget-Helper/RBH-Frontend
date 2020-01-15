@@ -38,7 +38,6 @@ import { InvitationDialogComponent } from './invitation-dialog/invitation-dialog
 import { AddRoommateDialogComponent } from './add-roommate-dialog/add-roommate-dialog.component';
 import { RemoveRoommateDialogComponent } from './remove-roommate-dialog/remove-roommate-dialog.component';
 import { CreateOptionPageComponent } from './create-option-page/create-option-page.component';
-import { CreatBillOneTimePageComponent } from './creat-bill-one-time-page/creat-bill-one-time-page.component';
 import { CreateBillOneTimePageComponent } from './create-bill-one-time-page/create-bill-one-time-page.component';
 export let routes: Routes = [
     { path: '', component: StartingPageComponent },
@@ -47,7 +46,8 @@ export let routes: Routes = [
     { path: 'home', component: HomePageComponent },
     { path: 'createhome', component: CreateHomePageComponent },
     { path: 'homedetail', component: HomeDetailPageComponent },
-    { path: 'billoption', component: CreateOptionPageComponent }
+    { path: 'billoption', component: CreateOptionPageComponent },
+    { path: 'onetimebill', component: CreateBillOneTimePageComponent }
 ];
 @NgModule({
     imports: [
@@ -89,7 +89,6 @@ export let routes: Routes = [
         AddRoommateDialogComponent,
         RemoveRoommateDialogComponent,
         CreateOptionPageComponent,
-        CreatBillOneTimePageComponent,
         CreateBillOneTimePageComponent
     ],
     providers: [{ provide: MatDialogRef, useValue: {} }, StorageServiceService],

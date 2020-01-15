@@ -14,4 +14,8 @@ export class CreateOptionPageComponent implements OnInit {
     handleBack = () => {
         this.router.navigateByUrl('/homedetail');
     };
+
+    handleOneTimeCreate = () => {
+        this.router.navigateByUrl('/onetimebill');
+    };
 }
