@@ -1,9 +1,19 @@
 <div class="create-option-page-container">
-    <div class="create-option-page-container__header">
-        <img class="home-detail-page-back-arrow" src="../../assets/back-arrow-black.svg" />
+    <div class="create-option-page-container__header flex-align-center">
+        <img class="home-detail-page-back-arrow" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
         <div class="create-option-page-container__header-user">
             <img class="home-detail-page-user-icon" src="../../assets/user-icon.svg" />
             <p>Hello, Darcy!</p>
+        </div>
+    </div>
+
+    <div class="create-option-page-container__main">
+        <h2>To Create a</h2>
+        <div>
+            <button>One Time Bill</button>
+        </div>
+        <div>
+            <button>Recurring Bill</button>
         </div>
     </div>
 </div>
