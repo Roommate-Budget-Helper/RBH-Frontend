@@ -18,4 +18,7 @@ export class CreateOptionPageComponent implements OnInit {
     handleOneTimeCreate = () => {
         this.router.navigateByUrl('/onetimebill');
     };
+    handleRecurringTimeCreate = () => {
+        this.router.navigateByUrl('/recurringtimebill');
+    };
 }

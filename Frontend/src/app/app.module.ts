@@ -48,7 +48,8 @@ export let routes: Routes = [
     { path: 'createhome', component: CreateHomePageComponent },
     { path: 'homedetail', component: HomeDetailPageComponent },
     { path: 'billoption', component: CreateOptionPageComponent },
-    { path: 'onetimebill', component: CreateBillOneTimePageComponent }
+    { path: 'onetimebill', component: CreateBillOneTimePageComponent },
+    { path: 'recurringtimebill', component: CreateBillRecurringPageComponent }
 ];
 @NgModule({
     imports: [
