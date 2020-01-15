@@ -39,6 +39,7 @@ import { AddRoommateDialogComponent } from './add-roommate-dialog/add-roommate-d
 import { RemoveRoommateDialogComponent } from './remove-roommate-dialog/remove-roommate-dialog.component';
 import { CreateOptionPageComponent } from './create-option-page/create-option-page.component';
 import { CreatBillOneTimePageComponent } from './creat-bill-one-time-page/creat-bill-one-time-page.component';
+import { CreateBillOneTimePageComponent } from './create-bill-one-time-page/create-bill-one-time-page.component';
 export let routes: Routes = [
     { path: '', component: StartingPageComponent },
     { path: 'login', component: LoginPageComponent },
@@ -88,7 +89,8 @@ export let routes: Routes = [
         AddRoommateDialogComponent,
         RemoveRoommateDialogComponent,
         CreateOptionPageComponent,
-        CreatBillOneTimePageComponent
+        CreatBillOneTimePageComponent,
+        CreateBillOneTimePageComponent
     ],
     providers: [{ provide: MatDialogRef, useValue: {} }, StorageServiceService],
     entryComponents: [
