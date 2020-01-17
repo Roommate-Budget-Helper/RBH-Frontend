@@ -33,7 +33,13 @@ export class HomeDetailPageComponent implements OnInit {
     async ngOnInit() {
         this.home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
         this.owner = this.home.admin_name;
-        this.isowner = this.owner == this.StorageService.getLocalStorage(STORAGE_KEY);
+        this.isowner = this.owner == this.user.userName;
+        console.info(this.home.roommates)
+        this.convertRoommateString()
+        console.info(this.roommate_array);
+    }
+
+    convertRoommateString = () =>{
         this.roommate_array = this.home.roommates.trim().split('  ');
         this.roommate_string = this.owner + '(Owner) ';
         for (let roommate in this.roommate_array) {
@@ -41,7 +47,6 @@ export class HomeDetailPageComponent implements OnInit {
                 this.roommate_string = this.roommate_string + this.roommate_array[roommate];
             }
         }
-        console.info(this.roommate_array);
     }
 
     handleBack = () => {
@@ -49,13 +54,20 @@ export class HomeDetailPageComponent implements OnInit {
     };
 
     addRoommate = () => {
-        let thisDialogRef = this.dialog.open(AddRoommateDialogComponent, { data: {} });
+        let thisDialogRef = this.dialog.open(AddRoommateDialogComponent, { data: { houseId: this.home.HouseId},disableClose: true });
+        thisDialogRef.afterClosed().subscribe(async()=>{
+
+        })
     };
     removeRoommate = () => {
         if (this.isowner) {
             let thisDialogRef = this.dialog.open(RemoveRoommateDialogComponent, {
-                data: { roommates: this.roommate_array, isOwner: this.isowner, houseId: this.home.houseId }
+                data: { roommates: this.roommate_array, isOwner: this.isowner, HouseId: this.home.HouseId }, 
+                disableClose: true 
             });
+            thisDialogRef.afterClosed().subscribe(async () =>{
+                this.home = ApiClient.home.getHomeDetail(this.home.HouseId)
+            })
         } else {
             alert('you are not the owner');
         }

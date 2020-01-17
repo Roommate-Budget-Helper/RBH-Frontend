@@ -1,74 +1,72 @@
 <div class="home-detail-page-container">
-    <img class="home-detail-page-background" src="../../assets/background.svg" />
-    <img class="home-detail-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
-    <div class="home-detail-page-user-info">
-        <img class="home-detail-page-user-icon" src="../../assets/user-icon-white.svg" />
-        <p class="white">Hi User</p>
+  <img class="home-detail-page-background" src="../../assets/background.svg" />
+  <img class="home-detail-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
+  <div class="home-detail-page-user-info">
+    <img class="home-detail-page-user-icon" src="../../assets/user-icon-white.svg" />
+    <p class="white">Hi {{user.userName}}</p>
+  </div>
+  <h1 class="home-detail-page-title white">
+    {{home.full_name}}
+  </h1>
+  <div class="home-detail-page-item">
+    <div class="home-detail-page-current-roommate">
+      Current Roommates
     </div>
-    <h1 class="home-detail-page-title white">
-        Home Name
-    </h1>
-    <div class="home-detail-page-item">
-        <div class="home-detail-page-current-roommate">
-            Current Roommates
+
+    <button class="home-detail-page-balance-button">
+      Net Balance
+    </button>
+
+    <div *ngIf="isowner ; then owner else roommate"></div>
+    <ng-template class="home-detail-page-nameAndButtons flex-align-center" #owner>
+      <div class="home-detail-page-add-delete flex-align-center">
+        <p>{{ roommate_string }}</p>
+
+        <img src="../../assets/add-arrow.svg" class="home-detail-page-add-arrow" (click)="addRoommate()" />
+        <img src="../../assets/minus-arrow.svg" class="home-detail-page-minus-arrow" (click)="removeRoommate()" />
+      </div>
+    </ng-template>
+
+    <ng-template class="home-detail-page-nameAndButtons flex-align-center" #roommate>
+      <div class="home-detail-page-add-delete flex-align-center">
+        <p>{{ roommate_string }}</p>
+
+        <button class = "home-detail-page-exit"(click)="(removeMyself)">exit</button>
+      </div>
+    </ng-template>
+
+    <div class="home-detail-page-bill-list">
+      <div class="home-detail-page-bill-list-head ">
+        <div class="flex-align-center">
+          <div class="home-detail-page-bill-list-title">
+            Bills
+          </div>
+          <button class="home-detail-page-bill-list-view-button">
+            View All
+          </button>
+          <button class="home-detail-page-bill-list-create-button" (click)="redirectToBill()">
+            Create New
+          </button>
         </div>
 
-        <button class="home-detail-page-balance-button">
-            Net Balance
-        </button>
-        <div class="home-detail-page-add-delete flex-align-center">
-            <p>
-                Darcy (owner), User1
-            </p>
-            <img class="home-detail-page-add-arrow" src="../../assets/add-arrow.svg" />
-            <img class="home-detail-page-minus-arrow" src="../../assets/minus-arrow.svg" />
-        </div>
-        <div *ngIf="isowner" ; then owner else roommate></div>
-        <ng-template class="home-detail-page-nameAndButtons flex-align-center" #owner>
-            <p>{{ roommate_string }}</p>
-
-            <img src="../../assets/add-arrow.svg" class="home-detail-page-add" (click)="addRoommate()" />
-            <img src="../../assets/minus-arrow.svg" class="home-detail-page-minus" (click)="removeRoommate()" />
-        </ng-template>
-
-        <ng-template class="home-detail-page-nameAndButtons flex-align-center" #roommate>
-            <p>{{ roommate_string }}</p>
-
-            <button (click)="(removeMyself)">exit</button>
-        </ng-template>
-
-        <div class="home-detail-page-bill-list">
-            <div class="home-detail-page-bill-list-head ">
-                <div class="flex-align-center">
-                    <div class="home-detail-page-bill-list-title">
-                        Bills
-                    </div>
-                    <button class="home-detail-page-bill-list-view-button">
-                        View All
-                    </button>
-                    <button class="home-detail-page-bill-list-create-button" (click)="redirectToBill()">
-                        Create New
-                    </button>
-                </div>
-
-                <div class="home-detail-page-bill-list-detail flex-align-center">
-                    <div>
-                        <div class="home-detail-page-bill-list-title flex-align-center">
-                            <P>Rent for Oawefsct.</P>
-                            <button class="home-detail-page-bill-list-delete">
-                                Delete
-                            </button>
-                            <button class="home-detail-page-bill-list-edit">
-                                Edit
-                            </button>
-                        </div>
-                        <p>Created By: Darcy 14:00 10/1/2019</p>
-                    </div>
-                    <button class="home-detail-page-list-view">
-                        View
-                    </button>
-                </div>
+        <div class="home-detail-page-bill-list-detail flex-align-center">
+          <div>
+            <div class="home-detail-page-bill-list-title flex-align-center">
+              <P>Rent for Oawefsct.</P>
+              <button class="home-detail-page-bill-list-delete">
+                Delete
+              </button>
+              <button class="home-detail-page-bill-list-edit">
+                Edit
+              </button>
             </div>
+            <p>Created By: Darcy 14:00 10/1/2019</p>
+          </div>
+          <button class="home-detail-page-list-view">
+            View
+          </button>
         </div>
+      </div>
     </div>
+  </div>
 </div>

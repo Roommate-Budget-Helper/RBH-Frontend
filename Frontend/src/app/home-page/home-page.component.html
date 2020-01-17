@@ -8,7 +8,7 @@
     </h1> -->
 
     <ul *ngFor="let home of homes">
-        <li class="home-page-item flex-align-center" (click)="handleDirectToHome(home.id)">
+        <li class="home-page-item flex-align-center" (click)="handleDirectToHome(home)">
             <img class="home-page-house-icon" src="../../assets/home-cover.svg" />
             <div class="home-page-item__content align-center">
                 <p>{{ home.full_name }}</p>

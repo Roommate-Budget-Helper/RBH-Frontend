@@ -52,7 +52,18 @@
                 margin-left: auto;
                 margin-right: 20px;
             }
+            .home-detail-page-exit{
+                margin-left: auto;
+                margin-right:5%;
+                
+                background: $color--theme;
+                border: 1px solid #e5e5e5;
+                border-radius: 5px;
+                color: $color--white;
+
+            }
         }
+
         .home-detail-page-current-roommate {
             /* Current Roommates */
             font-size: $size__font--regular;
@@ -74,19 +85,7 @@
             border-radius: 8px;
             color: $color--white;
         }
-        .home-detail-page-nameAndButtons {
-            margin-top: 20px;
-            p {
-                margin-left: 20px;
-            }
-            .home-detail-page-add {
-                margin-left: auto;
-            }
-            .home-detail-page-minus {
-                margin-left: 20px;
-                margin-right: 10px;
-            }
-        }
+       
 
         .home-detail-page-bill-list {
             position: absolute;

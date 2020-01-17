@@ -16,9 +16,13 @@ export class RemoveRoommateDialogComponent implements OnInit {
             await callback(array[index], index, array);
         }
     }
-    confirmDelete = (roommates) => {
-        this.asyncForEach(roommates, async (user) => {
-            await ApiClient.home.removeRoommate(user, this.data.houseId);
+
+    selected: string[] = [];
+    confirmDelete = () => {
+        console.info(this.selected)
+        this.asyncForEach(this.selected, async (user) => {
+
+            await ApiClient.home.removeRoommate(user, this.data.HouseId);
         });
     };
 }

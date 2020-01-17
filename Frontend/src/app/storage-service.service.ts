@@ -24,9 +24,6 @@ export class StorageServiceService {
     };
 
     storeHomeOnLocalStorage = (home: IUser2Home): void => {
-        // get array of tasks from local storage
-        // push new task to array
-        // insert updated array to local storage
         this.storage.set(HOME_STORAGE_KEY, home);
     };
 
