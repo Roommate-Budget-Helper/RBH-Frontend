@@ -1,0 +1,47 @@
+<div class="create-recurring-container">
+    <div class="create-recurring-container__header flex-align-center">
+        <img class="home-detail-page-back-arrow" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
+        <div class="create-recurring-container__header-user">
+            <img class="home-detail-page-user-icon" src="../../assets/user-icon.svg" />
+            <p>Hello, Darcy!</p>
+        </div>
+    </div>
+    <div class="create-recurring__form">
+        <h3>Recurring Bill</h3>
+        <div class="create-recurring__billName">
+            <p>Bill Name</p>
+            <input type="text" />
+        </div>
+
+        <div class="create-recurring__date">
+            <p>Start Date</p>
+            <div class="amount-input flex-align-center">
+                <input type="datetime-local" name="bdaytime" />
+            </div>
+        </div>
+        <div class="create-recurring__splitwith flex-align-center">
+            <p>Split with</p>
+            <img src="../../assets/add-arrow.svg" alt="Jiashe" />
+        </div>
+        <div class="create-recurring__user flex-align-center">
+            <select name="user1" id="user1" *ngFor="">
+                <option value="1">User1</option>
+            </select>
+            <input type="number" />
+        </div>
+        <div class="create-recurring__user flex-align-center">
+            <select name="user2" id="user2">
+                <option value="2">User2</option>
+            </select>
+            <input type="number" />
+        </div>
+        <div class="create-recurring__method flex-align-center">
+            <p>Recurring</p>
+            <select name="recurring" id="recurring">
+                <option value="method1">Recurring Method</option>
+            </select>
+        </div>
+
+        <button class="createbutton">Create</button>
+    </div>
+</div>

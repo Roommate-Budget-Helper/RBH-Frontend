@@ -14,34 +14,36 @@ const STORAGE_KEY = 'local_userInfo';
     styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
-    
-    constructor(private router: Router, private StorageService: StorageServiceService, public dialog: MatDialog,public dialogRef: MatDialogRef<any>) {
-    }
+    constructor(
+        private router: Router,
+        private StorageService: StorageServiceService,
+        public dialog: MatDialog,
+        public dialogRef: MatDialogRef<any>
+    ) {}
     homes;
     invitations;
     roommates;
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
-    
+
     username = this.user.userName;
 
     async ngOnInit() {
-        console.info(this.user.id);
         this.homes = await ApiClient.home.getHome(this.user.id);
-        console.info(this.homes);  
+
         await this.handleInvitation();
-        console.info(this.invitations[0])
-        for(let invitation of this.invitations){
-            let thisDialogRef = this.dialog.open(InvitationDialogComponent ,{data:{name: invitation.houseName}})
+
+        for (let invitation of this.invitations) {
+            let thisDialogRef = this.dialog.open(InvitationDialogComponent, { data: { name: invitation.houseName }, disableClose: true  });
             thisDialogRef.updatePosition({ top: '1%', right: '1%' });
-            thisDialogRef.afterClosed().subscribe(result=>{
-                if(result=="accept"){
+            thisDialogRef.afterClosed().subscribe(async (result) => {
+                if (result == 'accept') {
                     this.handleAccpetInvitation(invitation.id);
-                }else{
+                    this.homes = await ApiClient.home.getHome(this.user.id);
+                } else {
                     this.handleDeclineInvitation(invitation.id);
                 }
             });
         }
-        
     }
 
     // getHomeByHomeId = async (homeId) => {
@@ -52,7 +54,6 @@ export class HomePageComponent implements OnInit {
     //     }
     //     return roommate_names.substring(0, roommate_names.length-2);
     // }
-
 
     handleAddhome = () => {
         const token = this.StorageService.getLocalStorage(STORAGE_KEY).token;
@@ -66,25 +67,19 @@ export class HomePageComponent implements OnInit {
             }
         });
     };
-    handleDirectToHome = (homeId) => {
-        this.StorageService.storeHomeOnLocalStorage(homeId);
+    handleDirectToHome = (home) => {
+        this.StorageService.storeHomeOnLocalStorage(home);
         this.router.navigateByUrl('/homedetail');
-    }
+    };
 
-    handleInvitation = async () =>{
-        this.invitations = await ApiClient.invitation.getInvitation(this.user.id)
-    }
+    handleInvitation = async () => {
+        this.invitations = await ApiClient.invitation.getInvitation(this.user.id);
+    };
 
-
-    handleAccpetInvitation = async (invitationId) =>{
-        await ApiClient.invitation.acceptInvitation(invitationId)
-
-    }
-    handleDeclineInvitation = async (invitationId) =>{
-        await ApiClient.invitation.declineInvitation(invitationId)
-
-    }
-
-
+    handleAccpetInvitation = async (invitationId) => {
+        await ApiClient.invitation.acceptInvitation(invitationId);
+    };
+    handleDeclineInvitation = async (invitationId) => {
+        await ApiClient.invitation.declineInvitation(invitationId);
+    };
 }
-    

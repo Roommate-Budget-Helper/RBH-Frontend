@@ -1,0 +1,23 @@
+<form class="example-form" #form>
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Invite New Roommate!</mat-label>
+
+    <input matInput #userToInvite matInput placeholder="Roommate Username" [formControl]="emailFormControl"
+           [errorStateMatcher]="matcher">
+    <mat-icon matSuffix></mat-icon>
+    <mat-hint>Please enter valid username</mat-hint>
+    <mat-error *ngIf="emailFormControl.hasError('required')">
+      Username is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+
+  <mat-dialog-actions>
+    <button type="submit" mat-button mat-dialog-close class="background-primary text-floral-white flex-align-center"
+     (click)="invite(userToInvite.value)" [disabled]="example-form.invalid">
+        Invite!
+    </button>
+    <button type="submit" mat-button mat-dialog-close class="nevermind background-primary text-floral-white flex-align-center">
+      Nevermind
+  </button>
+</mat-dialog-actions>
+</form>

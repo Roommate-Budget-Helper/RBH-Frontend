@@ -1,0 +1,47 @@
+<div class="create-bill-one-container">
+    <div class="create-bill-one-container__header flex-align-center">
+        <img class="home-detail-page-back-arrow" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
+        <div class="create-bill-one-container__header-user">
+            <img class="home-detail-page-user-icon" src="../../assets/user-icon.svg" />
+            <p>Hello, Darcy!</p>
+        </div>
+    </div>
+    <div class="create-bill-one__form">
+        <h3>One Time Bill</h3>
+        <div class="create-bill-one__billName">
+            <p>Bill Name</p>
+            <input type="text" />
+        </div>
+        <div class="create-bill-one__description">
+            <p>Description</p>
+            <input type="text" />
+        </div>
+        <div class="create-bill-one__amount">
+            <p>Amount Due</p>
+            <div class="amount-input flex-align-center">
+                <input type="text" />
+                <button>Upload Receipt</button>
+            </div>
+        </div>
+        <div class="create-bill-one__splitwith flex-align-center">
+            <p>Split with</p>
+            <select name="shareplan" id="shareplan">
+                <option value="Percentage">Percentage</option>
+            </select>
+            <img src="../../assets/add-arrow.svg" alt="Jiashe" />
+        </div>
+        <div class="create-bill-one__user flex-align-center">
+            <select name="user1" id="user1">
+                <option value="1">User1</option>
+            </select>
+            <input type="number" />
+        </div>
+        <div class="create-bill-one__user flex-align-center">
+            <select name="user2" id="user2">
+                <option value="2">User2</option>
+            </select>
+            <input type="number" />
+        </div>
+        <button class="createbutton">Create</button>
+    </div>
+</div>

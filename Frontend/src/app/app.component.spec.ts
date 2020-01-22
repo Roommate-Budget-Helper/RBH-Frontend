@@ -1,16 +1,17 @@
 import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import {RouterTestingModule} from '@angular/router/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Router } from '@angular/router';
-import{routes, AppModule} from './app.module';
+import { routes, AppModule } from './app.module';
 import { StartingPageComponent } from './starting-page/starting-page.component';
- 
+
 // import { tick } from '@angular/core/src/render3';
-import {Location} from '@angular/common';
+import { Location } from '@angular/common';
 describe('AppComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [AppComponent], imports:[RouterTestingModule]
+            declarations: [AppComponent],
+            imports: [RouterTestingModule]
         }).compileComponents();
     }));
 
@@ -43,7 +44,7 @@ describe('AppComponent', () => {
 //         TestBed.configureTestingModule({
 //             imports: [RouterTestingModule.withRoutes(routes)]
 //         })
-        
+
 //         router = TestBed.get(Router);
 //         location = TestBed.get(Location);
 //         fixture = TestBed.createComponent(AppComponent);
