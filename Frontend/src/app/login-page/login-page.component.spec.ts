@@ -49,13 +49,12 @@ describe('LoginPageComponent', () => {
 
   describe('Function Tests', () => {
     describe('Basic Tests for Functions', () => {
-      let username = "username";
-      let password = "password";
+      let username = "testusername";
+      let password = "testpassword";
       beforeEach(async(() => {
         fixture = TestBed.createComponent(LoginPageComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-        // storage = TestBed.get(StorageServiceService);
       }));
 
       it("should show alert with correct content when handleSubmit() called with empty username", () => {
@@ -79,30 +78,28 @@ describe('LoginPageComponent', () => {
       });  
 
       it("should not show alert when handleSubmit() with empty username and password", () => {
-        // ApiClient.auth.login = jasmine.createSpy().and.returnValue({userInfo:"11111111"});
-        // spyOn(ApiClient.auth, "login");
-        // component.options['username'] = username;
-        // component.options['password'] = password;
-        // component.handleSubmit();
-        // // expect(storage)
-        // expect(window.alert).not.toHaveBeenCalledWith("please enter username or password!");
-
-        // ApiClient.auth.login = jasmine.createSpy().and.returnValue(of({userInfo:"11111111"}));
-        ApiClient.auth.login = jasmine.createSpy().and.callFake(function async (){
-          return {userInfo:"11111111"};
-        });
+        spyOnProperty(ApiClient, 'auth').and.returnValue({ login: () => Promise.resolve({userInfo: {id: 111111,
+          full_name: "full_name",
+          balance: 0,
+          userName: "username",
+          hashedPassword: "hashedPass",
+          email: "some@gmail.com"},
+          token:"some-token"})})
         spyOn(window, "alert");
         component.options['username'] = username;
         component.options['password'] = password;
         component.handleSubmit();
-        // expect(storage)
         expect(window.alert).not.toHaveBeenCalledWith("wrong credential combination");
       }); 
 
       it("should nav to /home", ()=>{
-        ApiClient.auth.login = jasmine.createSpy().and.callFake(function async (){
-          return {userInfo:"11111111"};
-        });
+         spyOnProperty(ApiClient, 'auth').and.returnValue({ login: () => Promise.resolve({userInfo: {id: 111111,
+          full_name: "full_name",
+          balance: 0,
+          userName: "username",
+          hashedPassword: "hashedPass",
+          email: "some@gmail.com"},
+          token:"some-token"})})
         router = fixture.debugElement.injector.get(Router);
         const spy = router.navigateByUrl as jasmine.Spy;
         component.options['username'] = username;
@@ -115,17 +112,20 @@ describe('LoginPageComponent', () => {
       });
 
       it("should store to local storage if result is not empty", ()=>{
-        ApiClient.auth.login = jasmine.createSpy().and.callFake(function async (){
-          return {userInfo:"11111111"};
-        });
+        spyOnProperty(ApiClient, 'auth').and.returnValue({ login: () => Promise.resolve({userInfo: {id: 111111,
+          full_name: "full_name",
+          balance: 0,
+          userName: "exampleusername",
+          hashedPassword: "hashedPass",
+          email: "some@gmail.com"},
+          token:"some-token"})})
         let storage = fixture.debugElement.injector.get(StorageServiceService);
-        // const spy = router.navigateByUrl as jasmine.Spy;
         component.options['username'] = username;
         component.options['password'] = password;
         component.handleSubmit();
         const STORAGE_KEY = "local_userInfo"
-        console.log(storage.getLocalStorage(STORAGE_KEY));
-        expect(storage.getLocalStorage(STORAGE_KEY)).not.toBeNull;
+        console.log("!!!!!!!!!!!!!"+storage.getLocalStorage(STORAGE_KEY).userInfo.hashedPassword);
+        expect(storage.getLocalStorage(STORAGE_KEY).token).toBe("some-token")
       });
 
 
@@ -147,9 +147,9 @@ describe('LoginPageComponent', () => {
     });
   });
 
-  describe('Button Tests', () => {
-    beforeEach(() => {
-    });
+  // describe('Button Tests', () => {
+  //   beforeEach(() => {
+  //   });
     
     describe('Arrow Button Tests', () => {
       beforeEach(() => {
@@ -187,12 +187,11 @@ describe('LoginPageComponent', () => {
       });
 
       it('should have correct text content', () => {
-        expect(button.textContent).toContain('Log In');
+        expect(button.textContent).toContain('Log in');
       });
 
       // it('should nav to /home', () => {
       // });
     });
-  });
 });
   
