@@ -40,6 +40,9 @@ import { RemoveRoommateDialogComponent } from './remove-roommate-dialog/remove-r
 import { CreateOptionPageComponent } from './create-option-page/create-option-page.component';
 import { CreateBillOneTimePageComponent } from './create-bill-one-time-page/create-bill-one-time-page.component';
 import { CreateBillRecurringPageComponent } from './create-bill-recurring-page/create-bill-recurring-page.component';
+import { BillDetailPageComponent } from './bill-detail-page/bill-detail-page.component';
+import { PaymentHistoryPageComponent } from './payment-history-page/payment-history-page.component';
+import { SharePlanDialogComponent } from './share-plan-dialog/share-plan-dialog.component';
 export let routes: Routes = [
     { path: '', component: StartingPageComponent },
     { path: 'login', component: LoginPageComponent },
@@ -49,7 +52,10 @@ export let routes: Routes = [
     { path: 'homedetail', component: HomeDetailPageComponent },
     { path: 'billoption', component: CreateOptionPageComponent },
     { path: 'onetimebill', component: CreateBillOneTimePageComponent },
-    { path: 'recurringtimebill', component: CreateBillRecurringPageComponent }
+    { path: 'recurringtimebill', component: CreateBillRecurringPageComponent },
+    { path: 'paymenthistory', component: PaymentHistoryPageComponent },
+    { path: 'recurringtimebill', component: CreateBillRecurringPageComponent },
+    { path: 'billdetail', component: BillDetailPageComponent }
 ];
 @NgModule({
     imports: [
@@ -92,7 +98,10 @@ export let routes: Routes = [
         RemoveRoommateDialogComponent,
         CreateOptionPageComponent,
         CreateBillOneTimePageComponent,
-        CreateBillRecurringPageComponent
+        CreateBillRecurringPageComponent,
+        BillDetailPageComponent,
+        PaymentHistoryPageComponent,
+        SharePlanDialogComponent
     ],
     providers: [{ provide: MatDialogRef, useValue: {} }, StorageServiceService],
     entryComponents: [
@@ -100,7 +109,8 @@ export let routes: Routes = [
         LoginPageComponent,
         InvitationDialogComponent,
         AddRoommateDialogComponent,
-        RemoveRoommateDialogComponent
+        RemoveRoommateDialogComponent,
+        SharePlanDialogComponent
     ],
     bootstrap: [AppComponent]
 })

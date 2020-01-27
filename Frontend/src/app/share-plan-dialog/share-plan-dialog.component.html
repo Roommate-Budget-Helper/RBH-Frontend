@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Hold on a sec!</h2>
+<mat-dialog-content>Please make sure you want to pay {{data.pp}}% ({{data.amount}} dollar) on this bill
+</mat-dialog-content>
+<button type="submit" mat-button class="background-primary text-floral-white flex-align-center"
+  (click)="confirmed = true">
+  I Confirm
+</button>
+<button type="submit" mat-button mat-dialog-close mat-dialog-close=""
+  class="nevermind background-primary text-floral-white flex-align-center">
+  Go Back
+</button>
+<div *ngIf="confirmed; then plan"></div>
+
+<ng-template class="home-detail-page-nameAndButtons flex-align-center" #plan>
+
+  <mat-dialog-content>And do you want to save this bill's share plan?</mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button type="submit" mat-button class="background-primary text-floral-white flex-align-center"
+      (click)="haveName = true">
+      Yes!
+    </button>
+    <button type="submit" mat-button mat-dialog-close mat-dialog-close=""
+      class="nevermind background-primary text-floral-white flex-align-center">
+      Nevermind
+    </button>
+  </mat-dialog-actions>
+
+  <div *ngIf="haveName; then name"></div>
+  <ng-template class="home-detail-page-nameAndButtons flex-align-center" #name>
+    <form class="example-form" #form>
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Enter a name for the bill for future reference</mat-label>
+
+        <input matInput #planName matInput placeholder="sharePlan Name" [formControl]="emailFormControl"
+          [errorStateMatcher]="matcher" />
+        <mat-icon matSuffix></mat-icon>
+        <mat-hint>Please enter the name of the bill</mat-hint>
+        <mat-error *ngIf="emailFormControl.hasError('required')"> name is <strong>required</strong> </mat-error>
+      </mat-form-field>
+      <button type="submit" mat-button class="background-primary text-floral-white flex-align-center"
+        [disabled]="emailFormControl.invalid" mat-dialog-close mat-dialog-close={{planName.value}}>
+        OK!
+      </button>
+    </form>
+  </ng-template>
+
+</ng-template>

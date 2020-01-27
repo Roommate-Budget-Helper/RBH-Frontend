@@ -1,0 +1,94 @@
+<div class="bill-detail-page-container">
+    <header class="bill-detail-header flex-align-center">
+        <img class="bill-detail-page-arrow" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
+        <div class="bill-detail-page-user-info">
+            <img class="bill-detail-page-user-icon" src="../../assets/user-icon.svg" />
+            <p>Hi {{ user.userName }}</p>
+        </div>
+    </header>
+    <div class="bill-detail-page__detail">
+        <div class="bill-detail-page__name flex-align-center">
+            <p class="bold">
+                Bill Name:
+            </p>
+            <p>
+                huangk3
+            </p>
+            <button class="edit-button">
+                Edit
+            </button>
+        </div>
+        <div class="bill-detail-page__creator flex-align-center">
+            <p class="bold">
+                Creator:
+            </p>
+            <p>
+                User1
+            </p>
+        </div>
+        <div class="bill-detail-page__time flex-align-center">
+            <p class="bold">
+                Create Time:
+            </p>
+            <p>
+                01/01/2020
+            </p>
+        </div>
+        <div class="bill-detail-page__amount flex-align-center">
+            <p class="bold">
+                Total Amount:
+            </p>
+            <p>
+                $60
+            </p>
+            <button class="edit-button">
+                Edit
+            </button>
+        </div>
+        <div class="bill-detail-page__split flex-align-center">
+            <p class="bold">
+                Split by:
+            </p>
+            <p>
+                Percentage
+            </p>
+            <button class="edit-button">
+                Edit
+            </button>
+        </div>
+        <div class="bill-detail-page__users flex-align-center">
+            <p class="bold">
+                creater:
+            </p>
+            <p>
+                33%
+            </p>
+            <button class="user-button">
+                Receipt
+            </button>
+        </div>
+        <div class="bill-detail-page__users flex-align-center">
+            <p class="bold">
+                Darcy:
+            </p>
+            <p>
+                33%
+            </p>
+            <button class="user-button">Upload Proof</button>
+        </div>
+        <div class="bill-detail-page__users flex-align-center">
+            <p class="bold">
+                creater2:
+            </p>
+            <p>
+                33%
+            </p>
+            <button class="user-button">To Be Audited</button>
+        </div>
+        <div class="delete-button">
+            <button>
+                Delete
+            </button>
+        </div>
+    </div>
+</div>

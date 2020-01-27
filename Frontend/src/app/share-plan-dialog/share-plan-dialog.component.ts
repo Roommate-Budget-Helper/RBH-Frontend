@@ -14,16 +14,14 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: 'app-add-roommate-dialog',
-  templateUrl: './add-roommate-dialog.component.html',
-  styleUrls: ['./add-roommate-dialog.component.scss']
+  selector: 'app-share-plan-dialog',
+  templateUrl: './share-plan-dialog.component.html',
+  styleUrls: ['./share-plan-dialog.component.scss']
 })
-
-
-
-export class AddRoommateDialogComponent implements OnInit {
-
+export class SharePlanDialogComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+  confirmed=false;
+  haveName = false;
   emailFormControl = new FormControl('', [
     Validators.required
   ]);
@@ -31,12 +29,4 @@ export class AddRoommateDialogComponent implements OnInit {
   ngOnInit() {
   }
 
-  invite = async (username) =>{
-    console.info(username)
-    await ApiClient.invitation.createInvitation(username, this.data.houseId)
-  }
-
 }
-
-
-

@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { AddRoommateDialogComponent } from '../add-roommate-dialog/add-roommate-dialog.component';
 import { RemoveRoommateDialogComponent } from '../remove-roommate-dialog/remove-roommate-dialog.component';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'app-home-detail-page',
@@ -15,11 +16,13 @@ import { RemoveRoommateDialogComponent } from '../remove-roommate-dialog/remove-
     styleUrls: ['./home-detail-page.component.scss']
 })
 export class HomeDetailPageComponent implements OnInit {
+    homeId;
     home;
     roommate_array;
     roommate_string = '';
     owner;
     isowner;
+    billArray;
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     constructor(
         private router: Router,
@@ -27,47 +30,51 @@ export class HomeDetailPageComponent implements OnInit {
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<any>
     ) {}
-    // user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
-    // username = this.user.full_name;
 
     async ngOnInit() {
         this.home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
         this.owner = this.home.admin_name;
         this.isowner = this.owner == this.user.userName;
-        console.info(this.home.roommates)
-        this.convertRoommateString()
-        console.info(this.roommate_array);
+        this.homeId = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY).HouseId;
+
+        this.convertRoommateString();
+        this.billArray = await ApiClient.bill.getBillByHome(this.homeId);
+        console.log(this.billArray);
     }
 
-    convertRoommateString = () =>{
+    convertRoommateString = () => {
         this.roommate_array = this.home.roommates.trim().split('  ');
         this.roommate_string = this.owner + '(Owner) ';
         for (let roommate in this.roommate_array) {
             if (this.roommate_array[roommate] != this.owner) {
-                this.roommate_string = this.roommate_string + this.roommate_array[roommate];
+                this.roommate_string = this.roommate_string + ' ' + this.roommate_array[roommate];
             }
         }
-    }
+    };
 
     handleBack = () => {
         this.router.navigateByUrl('/home');
     };
 
     addRoommate = () => {
-        let thisDialogRef = this.dialog.open(AddRoommateDialogComponent, { data: { houseId: this.home.HouseId},disableClose: true });
-        thisDialogRef.afterClosed().subscribe(async()=>{
-
-        })
+        let thisDialogRef = this.dialog.open(AddRoommateDialogComponent, { data: { houseId: this.home.HouseId }, disableClose: true });
     };
     removeRoommate = () => {
         if (this.isowner) {
             let thisDialogRef = this.dialog.open(RemoveRoommateDialogComponent, {
-                data: { roommates: this.roommate_array, isOwner: this.isowner, HouseId: this.home.HouseId }, 
-                disableClose: true 
+                data: { roommates: this.roommate_array, isOwner: this.isowner, HouseId: this.home.HouseId },
+                disableClose: true
             });
-            thisDialogRef.afterClosed().subscribe(async () =>{
-                this.home = ApiClient.home.getHomeDetail(this.home.HouseId)
-            })
+            thisDialogRef.afterClosed().subscribe(async () => {
+                let homes = await ApiClient.home.getHome(this.user.id);
+                homes.forEach((element) => {
+                    if (element.id == this.home.id) {
+                        this.home = element;
+                    }
+                });
+                this.StorageService.storeHomeOnLocalStorage(this.home);
+                this.convertRoommateString();
+            });
         } else {
             alert('you are not the owner');
         }
@@ -78,5 +85,13 @@ export class HomeDetailPageComponent implements OnInit {
 
     redirectToBill = () => {
         this.router.navigateByUrl('/billoption');
+    };
+
+    redirectToDetail = () => {
+        this.router.navigateByUrl('/billdetail');
+    };
+
+    redirectToPaymentHistory = () => {
+        this.router.navigateByUrl('/paymenthistory');
     };
 }

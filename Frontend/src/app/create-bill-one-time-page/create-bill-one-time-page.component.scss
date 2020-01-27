@@ -36,16 +36,14 @@
         }
         .create-bill-one__amount {
             margin-bottom: 10px;
-            input {
-                margin-bottom: 10px;
-                height: 30px;
-                width: 50%;
-                border: 1px solid $color--grey--border;
-                box-shadow: none;
-                border-radius: 4px;
-                margin-right: 10px;
+            .create-bill-one__file {
+                border: 0;
+                width: fit-content;
+                background-color: $color--theme;
+                cursor: pointer;
+                display: none;
             }
-            button {
+            .custom-label {
                 margin-bottom: 10px;
                 background-color: $color--theme;
                 border: none;
@@ -55,7 +53,30 @@
                 width: 170px;
                 height: 30px;
                 display: block;
+                text-align: center;
+                line-height: 200%;
+                font-size: 0.85em;
             }
+            input {
+                margin-bottom: 10px;
+                height: 30px;
+                width: 50%;
+                border: 1px solid $color--grey--border;
+                box-shadow: none;
+                border-radius: 4px;
+                margin-right: 10px;
+            }
+            // button {
+            //     margin-bottom: 10px;
+            //     background-color: $color--theme;
+            //     border: none;
+            //     border-radius: 4px;
+            //     color: $color--white;
+            //     font-size: $size__font--text;
+            //     width: 170px;
+            //     height: 30px;
+            //     display: block;
+            // }
         }
         .create-bill-one__splitwith {
             margin-bottom: 10px;
@@ -71,6 +92,9 @@
                 border-radius: 4px;
                 margin-right: 10px;
             }
+            .button {
+                margin-left: 20px;
+            }
         }
 
         .create-bill-one__user {
@@ -78,7 +102,7 @@
             select {
                 //margin-bottom: 10px;
                 height: 50px;
-                width: 60%;
+                width: 40%;
                 border: 1px solid $color--grey--border;
                 box-shadow: none;
                 border-radius: 4px;
@@ -93,7 +117,15 @@
                 border-radius: 4px;
                 margin-right: 10px;
             }
+            .create-bill-one__subjectList {
+                width: 100%;
+
+                .create-bill-one__list_elements {
+                    margin-bottom: 7px;
+                }
+            }
         }
+
         .createbutton {
             margin: 0 auto;
             margin-top: 30px;

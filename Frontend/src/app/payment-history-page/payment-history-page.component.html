@@ -1,0 +1,28 @@
+<div class="payment-history-container">
+    <img class="login-page-background" src="../../assets/background.svg" />
+    <div class="payment-history__header flex-align-center">
+        <img class="home-detail-page-back-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
+        <div class="payment-history__header-user">
+            <img class="home-detail-page-user-icon" src="../../assets/user-icon-white.svg" />
+            <p>Hello, {{ user.userName }}</p>
+        </div>
+    </div>
+    <h2>Payment History in {{ home.full_name }}</h2>
+    <div class="payment-history__form">
+        <h3 class="bold">Current Roommates</h3>
+        <h4>{{ home.admin_name }}(owner), {{ roommate_string }}</h4>
+
+        <div class="payment-history__detail flex-align-center">
+            <div class="payment-history__info">
+                <div class="payment-history__name flex-align-center">
+                    <h5>Rent for Oct.</h5>
+                    <h5>(resolved)</h5>
+                </div>
+                <h6>
+                    Created By: Darcy 14:00 10/1/2019
+                </h6>
+            </div>
+            <button class="viewbutton">View</button>
+        </div>
+    </div>
+</div>

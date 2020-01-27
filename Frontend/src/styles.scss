@@ -21,6 +21,9 @@ $color--white: #ffffff;
 
 p {
     font-size: $size__font--regular;
+    &.bold {
+        font-weight: bold;
+    }
 }
 
 h1 {
@@ -41,6 +44,7 @@ body {
 
 div,
 section,
+header,
 mat-form-field {
     &.flex {
         display: flex;

@@ -1,0 +1,75 @@
+@import '../../styles.scss';
+.payment-history-container {
+    position: relative;
+    h3,
+    h4,
+    h6,
+    h5 {
+        margin: 0px;
+        font-weight: normal;
+    }
+    h3 {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .login-page-background {
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+    .payment-history__header {
+        color: white;
+        left: 20px;
+        top: 20px;
+        right: 20px;
+        position: absolute;
+        .payment-history__header-user {
+            text-align: right;
+            margin-left: auto;
+            margin-right: 2%;
+        }
+    }
+    h2 {
+        position: absolute;
+        top: 90px;
+        left: 20px;
+        color: white;
+    }
+    .payment-history__form {
+        position: absolute;
+        top: 150px;
+        left: 20px;
+        right: 20px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        padding: 20px;
+        border-radius: 10px;
+        background-color: white;
+        .payment-history__detail {
+            margin-top: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            padding: 10px;
+            border-radius: 10px;
+            .payment-history__info {
+                .payment-history__name {
+                    margin-bottom: 5px;
+                    h5:nth-child(1) {
+                        font-weight: bold;
+                    }
+                }
+            }
+            .viewbutton {
+                margin-left: auto;
+                margin-right: 10px;
+                background-color: $color--theme;
+                border: none;
+                border-radius: 4px;
+                color: $color--white;
+                font-size: $size__font--hint;
+                width: 35px;
+                height: 35px;
+                display: block;
+            }
+        }
+    }
+}
