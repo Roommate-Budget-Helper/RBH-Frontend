@@ -29,8 +29,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
         private StorageService: StorageServiceService,
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<any>
-    ) {
-    }
+    ) {}
     oneTimeBillForm = this.fb.group({
         billname: [''],
         description: [''],
@@ -39,36 +38,36 @@ export class CreateBillOneTimePageComponent implements OnInit {
         splitMethod: ['Percentage'],
         addDynamicElement: this.fb.array([this.shareDetail])
     });
-    owneram=0;
-    ownerpp=100;
-    
+    owneram = 0;
+    ownerpp = 100;
+
     async ngOnInit() {
         this.deleteRoommate(this.user.userName);
 
-        await this.getPlan()
-        console.log(this.shareplan_array)
+        await this.getPlan();
+        // console.log(this.shareplan_array);
 
-        console.info(this.roommate_array);
+        // console.info(this.roommate_array);
     }
 
     updateOwner = () => {
         let result = this.oneTimeBillForm.value;
-        this.owneram=result.amount
-        this.ownerpp=100
+        this.owneram = result.amount;
+        this.ownerpp = 100;
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
                 console.info('element amount: ' + element.amount);
                 // console.info("hhhhhhhhhhh",element.rm_name.rm_name );
-                this.owneram-=element.amount
-                this.ownerpp-=(element.amount/result.amount*100)
+                this.owneram -= element.amount;
+                this.ownerpp -= (element.amount / result.amount) * 100;
             });
         } else {
             this.addDynamicElement.value.forEach((element) => {
-                this.ownerpp-=element.amount
-                this.owneram-=(element.amount/100*result.amount)
+                this.ownerpp -= element.amount;
+                this.owneram -= (element.amount / 100) * result.amount;
             });
         }
-    }
+    };
 
     get shareDetail(): FormGroup {
         return this.fb.group({
@@ -78,8 +77,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
     }
 
     getPlan = async () => {
-        this.shareplan_array = await ApiClient.bill.getSharePlans(this.home.HouseId)
-    }
+        this.shareplan_array = await ApiClient.bill.getSharePlans(this.home.HouseId);
+    };
     handleBack = () => {
         this.router.navigateByUrl('/billoption');
     };
@@ -114,8 +113,9 @@ export class CreateBillOneTimePageComponent implements OnInit {
         let result = this.oneTimeBillForm.value;
         let result_rm = [];
         let owner_amount, owner_pp;
-        let total_am=0, total_pp=0;
-        
+        let total_am = 0,
+            total_pp = 0;
+
         console.info('result amount: ' + result.amount);
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
@@ -124,27 +124,30 @@ export class CreateBillOneTimePageComponent implements OnInit {
                 result_rm.push(element.rm_name.rm_name);
                 result_rm.push(this.user.userName);
                 result_am.push(element.amount);
-                total_am+=element.amount
+                total_am += element.amount;
                 result_pp.push(parseInt(element.amount) / parseInt(result.amount));
-                total_pp+=parseInt(element.amount) / parseInt(result.amount)
+                total_pp += parseInt(element.amount) / parseInt(result.amount);
             });
         } else {
             this.addDynamicElement.value.forEach((element) => {
                 console.info('element amount: ' + parseInt(element.amount) * parseInt(result.amount));
                 result_rm.push(element.rm_name.rm_name);
-                result_rm.push(this.user.userName)
+                result_rm.push(this.user.userName);
                 result_am.push(parseInt(element.amount) * parseInt(result.amount));
-                total_am+=parseInt(element.amount) * parseInt(result.amount)
+                total_am += parseInt(element.amount) * parseInt(result.amount);
                 result_pp.push(element.amount);
-                total_pp+=element.amount
+                total_pp += element.amount;
             });
         }
-        let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {data: { amount:this.owneram, pp:this.ownerpp }, disableClose: true });
+        let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {
+            data: { amount: this.owneram, pp: this.ownerpp },
+            disableClose: true
+        });
         let date: Date = new Date();
         thisDialogRef.afterClosed().subscribe(async (res) => {
-            console.info(result)
-            console.info(result_rm)
-            if (res == "") {
+            console.info(result);
+            console.info(result_rm);
+            if (res == '') {
                 ApiClient.bill.createBill({
                     ownerId: this.user.id,
                     homeId: this.home.HouseId,
@@ -160,7 +163,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     created_at: date,
                     created_by: this.user.userName
                 });
-            }else{
+            } else {
                 ApiClient.bill.createBill({
                     ownerId: this.user.id,
                     homeId: this.home.HouseId,
@@ -177,9 +180,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     created_by: this.user.userName
                 });
             }
-            this.router.navigateByUrl('/homedetail')
+            this.router.navigateByUrl('/homedetail');
         });
-        
     }
 
     get addDynamicElement() {
@@ -192,7 +194,6 @@ export class CreateBillOneTimePageComponent implements OnInit {
         } else {
             this.addDynamicElement.push(this.shareDetail);
             this.current_array.push('');
-
         }
     };
 
@@ -202,20 +203,21 @@ export class CreateBillOneTimePageComponent implements OnInit {
     };
 
     changeName(i, e) {
-        let total=this.oneTimeBillForm.value.amount
+        let total = this.oneTimeBillForm.value.amount;
         let evalue = e.target.value;
-        if(JSON.stringify(evalue).split(' ').length==1){
-            this.updateOwner()
-            return
+        if (JSON.stringify(evalue).split(' ').length == 1) {
+            this.updateOwner();
+            return;
         }
 
-        let svalue = JSON.stringify(evalue).split(' ')[1]
-        console.log("svalue : "+ svalue)
+        let svalue = JSON.stringify(evalue).split(' ')[1];
+        console.log('svalue : ' + svalue);
         let value = svalue.substring(0, svalue.length - 1);
-        console.info(this.addDynamicElement.at(i))
-        this.addDynamicElement.at(i)
+        console.info(this.addDynamicElement.at(i));
+        this.addDynamicElement
+            .at(i)
             .setValue(
-                { rm_name: value, amount:0},
+                { rm_name: value, amount: 0 },
                 { onlySelf: true, emitEvent: true, emitModelToViewChange: true, emitViewToModelChange: true }
             );
         // this.addDynamicElement.get(`${i}`)   .['rm_name'].setValue(value)
@@ -228,7 +230,6 @@ export class CreateBillOneTimePageComponent implements OnInit {
         if (this.current_array[i] == '') {
             this.deleteRoommate(value);
             this.current_array[i] = value;
-            
         } else {
             this.deleteRoommate(value);
             this.roommate_array.push(this.current_array[i]);

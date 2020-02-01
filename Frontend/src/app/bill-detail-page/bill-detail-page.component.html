@@ -9,10 +9,10 @@
     <div class="bill-detail-page__detail">
         <div class="bill-detail-page__name flex-align-center">
             <p class="bold">
-                Bill Name:
+                Bill Name:&nbsp;
             </p>
             <p>
-                huangk3
+                {{ billDetail.billName }}
             </p>
             <button class="edit-button">
                 Edit
@@ -20,26 +20,26 @@
         </div>
         <div class="bill-detail-page__creator flex-align-center">
             <p class="bold">
-                Creator:
+                Creator:&nbsp;
             </p>
             <p>
-                User1
+                {{ billDetail.created_by }}
             </p>
         </div>
         <div class="bill-detail-page__time flex-align-center">
             <p class="bold">
-                Create Time:
+                Create Time:&nbsp;
             </p>
             <p>
-                01/01/2020
+                {{ billDetail.created_at.substr(0, 10) }}
             </p>
         </div>
         <div class="bill-detail-page__amount flex-align-center">
             <p class="bold">
-                Total Amount:
+                Total Amount:&nbsp;
             </p>
             <p>
-                $60
+                {{ billDetail.totalAmount }}
             </p>
             <button class="edit-button">
                 Edit
@@ -47,7 +47,7 @@
         </div>
         <div class="bill-detail-page__split flex-align-center">
             <p class="bold">
-                Split by:
+                Split by:&nbsp;
             </p>
             <p>
                 Percentage
@@ -58,7 +58,7 @@
         </div>
         <div class="bill-detail-page__users flex-align-center">
             <p class="bold">
-                creater:
+                creater:&nbsp;
             </p>
             <p>
                 33%
@@ -69,7 +69,7 @@
         </div>
         <div class="bill-detail-page__users flex-align-center">
             <p class="bold">
-                Darcy:
+                Darcy:&nbsp;
             </p>
             <p>
                 33%
@@ -78,7 +78,7 @@
         </div>
         <div class="bill-detail-page__users flex-align-center">
             <p class="bold">
-                creater2:
+                creater2:&nbsp;
             </p>
             <p>
                 33%

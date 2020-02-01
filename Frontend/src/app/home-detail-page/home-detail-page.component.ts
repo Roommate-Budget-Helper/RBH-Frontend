@@ -8,7 +8,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { AddRoommateDialogComponent } from '../add-roommate-dialog/add-roommate-dialog.component';
 import { RemoveRoommateDialogComponent } from '../remove-roommate-dialog/remove-roommate-dialog.component';
-import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
     selector: 'app-home-detail-page',
@@ -87,8 +86,9 @@ export class HomeDetailPageComponent implements OnInit {
         this.router.navigateByUrl('/billoption');
     };
 
-    redirectToDetail = () => {
-        this.router.navigateByUrl('/billdetail');
+    redirectToDetail = (billId: numId) => {
+        // console.info(billId);
+        this.router.navigateByUrl(`/billdetail/${billId}`);
     };
 
     redirectToPaymentHistory = () => {

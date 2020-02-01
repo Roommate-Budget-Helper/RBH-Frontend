@@ -40,6 +40,7 @@
     .bill-detail-page-user-info {
         margin-left: auto;
         margin-right: 0;
+        text-align: right;
     }
     .bill-detail-page__detail {
         margin-bottom: 10px;
@@ -51,9 +52,9 @@
         }
         .bill-detail-page__users {
             margin-top: 20px;
-            p:nth-child(1) {
-                margin-right: 10px;
-            }
+            // p:nth-child(1) {
+            //     margin-right: 10px;
+            // }
         }
     }
 }
