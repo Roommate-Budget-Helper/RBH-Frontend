@@ -12,7 +12,7 @@
                 Bill Name:&nbsp;
             </p>
             <p>
-                {{ billDetail.billName }}
+                {{ billDetail && billDetail[0].billName }}
             </p>
             <button class="edit-button">
                 Edit
@@ -23,7 +23,7 @@
                 Creator:&nbsp;
             </p>
             <p>
-                {{ billDetail.created_by }}
+                {{ billDetail && findOwner(billDetail) }}
             </p>
         </div>
         <div class="bill-detail-page__time flex-align-center">
@@ -31,7 +31,7 @@
                 Create Time:&nbsp;
             </p>
             <p>
-                {{ billDetail.created_at.substr(0, 10) }}
+                {{ billDetail && billDetail[0].created_at.substr(0, 10) }}
             </p>
         </div>
         <div class="bill-detail-page__amount flex-align-center">
@@ -39,7 +39,7 @@
                 Total Amount:&nbsp;
             </p>
             <p>
-                {{ billDetail.totalAmount }}
+                {{ billDetail && billDetail[0].totalAmount }}
             </p>
             <button class="edit-button">
                 Edit
@@ -56,35 +56,12 @@
                 Edit
             </button>
         </div>
-        <div class="bill-detail-page__users flex-align-center">
-            <p class="bold">
-                creater:&nbsp;
-            </p>
-            <p>
-                33%
-            </p>
-            <button class="user-button">
-                Receipt
-            </button>
+        <div class="bill-detail-page__users flex-align-center" *ngFor="let item of billDetail; let i = index">
+            <p class="bold">{{ billDetail && getTitle(i) }}:&nbsp;{{ billDetail && billDetail[i].userName }}&nbsp;</p>
+            <p>{{ billDetail && billDetail[i].proportion * 100 }}%</p>
+            <button class="user-button">{{ billDetail && getButtonText(i) }}</button>
         </div>
-        <div class="bill-detail-page__users flex-align-center">
-            <p class="bold">
-                Darcy:&nbsp;
-            </p>
-            <p>
-                33%
-            </p>
-            <button class="user-button">Upload Proof</button>
-        </div>
-        <div class="bill-detail-page__users flex-align-center">
-            <p class="bold">
-                creater2:&nbsp;
-            </p>
-            <p>
-                33%
-            </p>
-            <button class="user-button">To Be Audited</button>
-        </div>
+
         <div class="delete-button">
             <button>
                 Delete
