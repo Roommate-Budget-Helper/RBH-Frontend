@@ -82,6 +82,51 @@ export class CreateBillRecurringPageComponent implements OnInit {
     onSubmit() {
         console.info("what?")
         console.info(this.recurrentBillForm.value)
+
+        let result_am = [];
+        let result_pp = [];
+        let result = this.recurrentBillForm.value;
+        let result_rm = [];
+
+        console.info(this.recurrentBillForm.controls);
+
+        this.addDynamicElement.value.forEach((element) => {
+            console.info('element amount: ' + parseInt(element.amount) * parseInt(result.amount));
+            result_rm.push(element.rm_name);
+            result_am.push(parseInt(element.amount) * parseInt(result.amount));
+            result_pp.push(parseFloat((element.amount).toPrecision(2)));
+        });
+        result_rm.push(this.user.userName)
+        result_pp.push(this.ownerpp)
+        console.info("?????")
+        let thisDialogRef = this.dialog.open(SharePlanDialogComponent, { data: { pp: this.ownerpp, recurrent: true }, disableClose: true });
+        let date: Date = new Date();
+        thisDialogRef.afterClosed().subscribe(async (res) => {
+            console.info(result)
+            console.info(res)
+            if (res == "back") {
+                return;
+            }
+            ApiClient.bill.createBill({
+                ownerId: this.user.id,
+                homeId: this.home.HouseId,
+                plannedSharedFlag: 1,
+                sharePlanid: -1,
+                full_name: res,
+                totalAmount: result.amount,
+                roommates: result_rm,
+                amount: result_am,
+                proportion: result_pp,
+                billName: result.billname,
+                descri: result.description,
+                isRecurrent: 0,
+                isRecurrentdatetime: date,
+                recurrentInterval: 0,
+                created_at: date,
+                created_by: this.user.userName
+            });
+        })
+        // this.router.navigateByUrl('/homedetail')
     }
 
     get addDynamicElement() {
