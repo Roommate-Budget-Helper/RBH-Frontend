@@ -25,6 +25,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
     shareplan_array;
     shareplanId;
     shareplanName;
+    shareplanName_array = [];
     rm_num = this.roommate_array.length - 1;
     constructor(
         private router: Router,
@@ -48,6 +49,9 @@ export class CreateBillOneTimePageComponent implements OnInit {
         this.deleteRoommate(this.user.userName);
 
         await this.getPlan();
+        this.shareplan_array.forEach(element => {
+            this.shareplanName_array.push(element)
+        });
 
         console.log(this.shareplan_array);
     }
@@ -146,7 +150,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
         // console.info(result)
         console.info(result_rm);
         let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {
-            data: { amount: this.owneram, pp: this.ownerpp, spName: this.shareplanName, sp_array: this.shareplan_array },
+            data: { amount: this.owneram, pp: this.ownerpp, spName: this.shareplanName, sp_array: this.shareplanName_array },
             disableClose: true
         });
         let date: Date = new Date();
@@ -170,10 +174,12 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     billName: result.billname,
                     descri: result.description,
                     isRecurrent: 0,
+                    isRecurrentdatetime: date,
+                    recurrentInterval:0,
                     created_at: date,
                     created_by: this.user.userName
                 });
-            } else if (this.shareplan_array.indexOf(res) >= 0) {
+            } else if (this.shareplanName_array.indexOf(res) >= 0) {
                 ApiClient.bill.createBill({
                     ownerId: this.user.id,
                     homeId: this.home.HouseId,
@@ -187,6 +193,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     billName: result.billname,
                     descri: result.description,
                     isRecurrent: 0,
+                    isRecurrentdatetime: date,
+                    recurrentInterval:0,
                     created_at: date,
                     created_by: this.user.userName
                 });
@@ -204,6 +212,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     billName: result.billname,
                     descri: result.description,
                     isRecurrent: 0,
+                    isRecurrentdatetime: date,
+                    recurrentInterval:0,
                     created_at: date,
                     created_by: this.user.userName
                 });
