@@ -1,14 +1,30 @@
+<div *ngIf="data.spName!=null&&data.spName.length>0; then yes;else no"></div>
+<ng-template class="home-detail-page-nameAndButtons flex-align-center" #yes>
 <h2 mat-dialog-title>Hold on a sec!</h2>
-<mat-dialog-content>Please make sure you want to pay {{data.pp}}% ({{data.amount}} dollar) on this bill
+<mat-dialog-content>Please make sure you want to pay {{data.pp}}% ({{data.amount}} dollar) on this bill<br>
+  And you are using shareplan: {{data.spName}}
 </mat-dialog-content>
-<button type="submit" mat-button class="background-primary text-floral-white flex-align-center"
-  (click)="confirmed = true">
+<button type="submit" mat-button class="background-primary text-floral-white flex-align-center" mat-dialog-close="{{data.spName}}">
   I Confirm
 </button>
-<button type="submit" mat-button mat-dialog-close mat-dialog-close=""
+<button type="submit" mat-button mat-dialog-close mat-dialog-close="back"
   class="nevermind background-primary text-floral-white flex-align-center">
   Go Back
 </button>
+</ng-template>
+<ng-template class="home-detail-page-nameAndButtons flex-align-center" #no>
+  <h2 mat-dialog-title>Hold on a sec!</h2>
+  <mat-dialog-content>Please make sure you want to pay {{data.pp}}% ({{data.amount}} dollar) on this bill<br>
+  </mat-dialog-content>
+  <button type="submit" mat-button class="background-primary text-floral-white flex-align-center"
+    (click)="confirmed = true">
+    I Confirm
+  </button>
+  <button type="submit" mat-button mat-dialog-close mat-dialog-close="back"
+    class="nevermind background-primary text-floral-white flex-align-center">
+    Go Back
+  </button>
+</ng-template>
 <div *ngIf="confirmed; then plan"></div>
 
 <ng-template class="home-detail-page-nameAndButtons flex-align-center" #plan>
@@ -22,7 +38,7 @@
     </button>
     <button type="submit" mat-button mat-dialog-close mat-dialog-close=""
       class="nevermind background-primary text-floral-white flex-align-center">
-      Nevermind
+      No.
     </button>
   </mat-dialog-actions>
 
@@ -39,7 +55,7 @@
         <mat-error *ngIf="emailFormControl.hasError('required')"> name is <strong>required</strong> </mat-error>
       </mat-form-field>
       <button type="submit" mat-button class="background-primary text-floral-white flex-align-center"
-        [disabled]="emailFormControl.invalid" mat-dialog-close mat-dialog-close={{planName.value}}>
+        [disabled]="emailFormControl.invalid" mat-dialog-close mat-dialog-close={{checkName(planName.value)}}>
         OK!
       </button>
     </form>

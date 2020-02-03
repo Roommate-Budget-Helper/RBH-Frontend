@@ -30,9 +30,9 @@
                         (change)="uploadFile($event)"
                     />
                     <label for="imageUpload" [ngClass]="['custom-label', 'upload-image']">{{ labelMsg }}</label>
-                    <select>
-                        <option value="">Choose a share plan...</option>
-                        <option *ngFor="let plan of shareplan_array">{{ plan.name }}</option>
+                    <select (change)="updateList($event)">
+                        <option value="-1">Choose a share plan...</option>
+                        <option *ngFor="let plan of shareplan_array; let i = index" [value] ="i">{{ plan.full_name }}</option>
                     </select>
                     <!-- <label class="image-upload-container btn btn-bwm">
                         <input #imageInput
@@ -49,7 +49,7 @@
                     <option value="Percentage">Percentage</option>
                     <option value="Amount">Amount</option>
                 </select>
-                <img src="../../assets/add-arrow.svg" class="button" (click)="addItems()" />
+                <img src="../../assets/add-arrow.svg" class="button" (click)="addItems(shareDetail)" />
                 <img src="../../assets/minus-arrow.svg" class="button" id="minus" (click)="deleteItems()" />
             </div>
             <p>You are now paying {{ownerpp}}% of this bill, in total ${{owneram}}.</p>
@@ -68,8 +68,8 @@
                             (change)="changeName(i, $event)"
                         >
                             <select  formControlName="rm_name">
-                                <option value="">Choose...</option>
-                                <option *ngFor="let rm of roommate_array" [ngValue]="rm">{{ rm }}</option>
+                                <option>{{item.get('rm_name').value.length!=0 ? item.get('rm_name').value : 'Choose'}}</option>
+                                <option *ngFor="let rm of roommate_array">{{ rm }}</option>
                             </select>
                             <input type="number" class="form-control" formControlName="amount" placeholder="Amount Shared" />
                             <span matSuffix>%</span>
@@ -91,8 +91,8 @@
                             (change)="changeName(i, $event)"
                         >
                             <select  formControlName="rm_name">
-                                <option value="">Choose...</option>
-                                <option *ngFor="let rm of roommate_array" [ngValue]="rm">{{ rm }}</option>
+                                <option>{{item.get('rm_name').value.length!=0 ? item.get('rm_name').value : 'Choose'}}</option>
+                                <option *ngFor="let rm of roommate_array">{{ rm }}</option>
                             </select>
                             <input type="number" class="form-control" formControlName="amount" placeholder="Amount Shared" />
                             <span matSuffix>.00</span>
@@ -100,7 +100,6 @@
                     </ul>
                 </div>
             </ng-template>
-            
 
             <button class="createbutton" type="submit" (click)="onSubmit()">Create</button>
         </form>

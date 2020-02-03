@@ -55,7 +55,7 @@ export let routes: Routes = [
     { path: 'recurringtimebill', component: CreateBillRecurringPageComponent },
     { path: 'paymenthistory', component: PaymentHistoryPageComponent },
     { path: 'recurringtimebill', component: CreateBillRecurringPageComponent },
-    { path: 'billdetail', component: BillDetailPageComponent }
+    { path: 'billdetail/:id', component: BillDetailPageComponent }
 ];
 @NgModule({
     imports: [
