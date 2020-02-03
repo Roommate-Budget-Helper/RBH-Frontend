@@ -1,27 +1,129 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 import { StorageServiceService } from '../storage-service.service';
-import * as jwt from 'jsonwebtoken';
 import ApiClient from '../api-client';
+import { element } from 'protractor';
+import { SharePlanDialogComponent } from '../share-plan-dialog/share-plan-dialog.component';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
 const HOME_STORAGE_KEY = 'local_homeId';
 const STORAGE_KEY = 'local_userInfo';
+
 @Component({
-    selector: 'app-create-bill-recurring-page',
+    selector: 'app-create-recurring-page',
     templateUrl: './create-bill-recurring-page.component.html',
     styleUrls: ['./create-bill-recurring-page.component.scss']
 })
 export class CreateBillRecurringPageComponent implements OnInit {
-    home
-
-    constructor(private router: Router,private StorageService:StorageServiceService) {}
+    current_array = [''];
+    user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
+    home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
+    roommate_array = this.home.roommates.trim().split('  ');
+    rec_method = ["Month", "Week", "3 Month", "6 Month"]
+    shareplan_array;
+    rm_num = this.roommate_array.length - 1
+    constructor(
+        private router: Router,
+        public fb: FormBuilder,
+        private StorageService: StorageServiceService,
+        public dialog: MatDialog,
+        public dialogRef: MatDialogRef<any>
+    ) {
+    }
+    recurrentBillForm = this.fb.group({
+        billname: [''],
+        description: [''],
+        startDate: [''],
+        addDynamicElement: this.fb.array([this.shareDetail]),
+        recurringMethod: ['']
+    });
+    ownerpp = 100;
 
     async ngOnInit() {
-        this.home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
+        this.deleteRoommate(this.user.userName);
+
+        await this.getPlan()
+
+        console.log(this.shareplan_array)
+    }
+
+    updateOwner = () => {
+        let result = this.recurrentBillForm.value;
+        this.ownerpp = 100
+        this.addDynamicElement.value.forEach((element) => {
+            this.ownerpp -= element.amount
+        })
+    }
+
+    get shareDetail(): FormGroup {
+        return this.fb.group({
+            rm_name: '',
+            amount: 0
+        });
+    }
+
+    getPlan = async () => {
+        this.shareplan_array = await ApiClient.bill.getSharePlans(this.home.HouseId)
+    }
+    handleBack = () => {
+        this.router.navigateByUrl('/billoption');
+    };
+
+    deleteRoommate(msg: string) {
+        const index: number = this.roommate_array.indexOf(msg);
+        console.log(index)
+        if (index !== -1) {
+            this.roommate_array.splice(index, 1);
+        }
     }
 
 
+    onSubmit() {
+        console.info("what?")
+        console.info(this.recurrentBillForm.value)
+    }
 
-    handleBack = () => {
-        this.router.navigateByUrl('./billoption')
+    get addDynamicElement() {
+        return this.recurrentBillForm.get('addDynamicElement') as FormArray;
+    }
+
+    addItems = () => {
+        console.info(this.addDynamicElement.controls.length)
+        if (this.roommate_array.length == 0 || this.addDynamicElement.controls.length >= this.rm_num) {
+            alert(`You only have ${this.rm_num} roommates!`);
+        } else {
+            this.addDynamicElement.push(this.shareDetail);
+            this.current_array.push('');
+
+        }
+    };
+
+    deleteItems = () => {
+        this.addDynamicElement.removeAt(this.addDynamicElement.length - 1);
+        this.roommate_array.push(this.current_array.pop());
+    };
+
+    changeName(i, e) {
+        let total = this.recurrentBillForm.value.amount
+        let evalue = e.target.value;
+        console.log(this.roommate_array.indexOf(evalue))
+        if (this.roommate_array.indexOf(evalue) < 0) {
+            this.updateOwner()
+            return
+        }
+        console.info(this.addDynamicElement.at(i))
+
+        console.info('isisis', evalue);
+        console.info("current: ", this.current_array, i, this.current_array[i] == '')
+        if (this.current_array[i] == '') {
+            this.deleteRoommate(evalue);
+            this.current_array[i] = evalue;
+        } else {
+            this.deleteRoommate(evalue);
+            this.roommate_array.push(this.current_array[i]);
+            this.current_array[i] = evalue;
+        }
+        console.log(this.current_array, this.roommate_array)
     }
 }

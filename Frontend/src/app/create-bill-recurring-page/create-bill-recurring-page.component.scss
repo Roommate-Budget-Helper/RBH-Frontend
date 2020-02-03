@@ -23,6 +23,16 @@
                 border-radius: 4px;
             }
         }
+        .create-recurring__description {
+            input {
+                margin-bottom: 10px;
+                height: 30px;
+                width: 100%;
+                border: 1px solid $color--grey--border;
+                box-shadow: none;
+                border-radius: 4px;
+            }
+        }
 
         .create-recurring__date {
             margin-bottom: 10px;
@@ -49,6 +59,7 @@
         }
         .create-recurring__splitwith {
             margin-bottom: 10px;
+            width:80%;
             p {
                 margin-right: 10px;
             }
@@ -71,7 +82,7 @@
             select {
                 //margin-bottom: 10px;
                 height: 50px;
-                width: 60%;
+                width: 40%;
                 border: 1px solid $color--grey--border;
                 box-shadow: none;
                 border-radius: 4px;
@@ -85,6 +96,13 @@
                 box-shadow: none;
                 border-radius: 4px;
                 margin-right: 10px;
+            }
+            .create-recurring__subjectList {
+                width: 100%;
+
+                .create-recurring__list_elements {
+                    margin-bottom: 7px;
+                }
             }
         }
 

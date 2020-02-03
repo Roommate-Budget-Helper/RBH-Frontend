@@ -23,6 +23,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
     roommate_array = this.home.roommates.trim().split('  ');
     editable_array = this.home.roommates.trim().split('  ');
     shareplan_array;
+    shareplanId;
+    shareplanName;
     rm_num = this.roommate_array.length-1
     constructor(
         private router: Router,
@@ -38,18 +40,17 @@ export class CreateBillOneTimePageComponent implements OnInit {
         amount: [0],
         receipt: [null],
         splitMethod: ['Percentage'],
-        addDynamicElement: this.fb.array([this.shareDetail])
+        addDynamicElement: this.fb.array([])
     });
     owneram=0;
-    ownerpp=100;
+    ownerpp:number=100;
     
     async ngOnInit() {
         this.deleteRoommate(this.user.userName);
 
         await this.getPlan()
-        console.log(this.shareplan_array)
 
-        console.info(this.roommate_array);
+        console.log(this.shareplan_array)
     }
 
     updateOwner = () => {
@@ -61,11 +62,13 @@ export class CreateBillOneTimePageComponent implements OnInit {
                 console.info('element amount: ' + element.amount);
                 // console.info("hhhhhhhhhhh",element.rm_name.rm_name );
                 this.owneram-=element.amount
-                this.ownerpp-=(element.amount/result.amount*100)
+                this.ownerpp-=element.amount/result.amount*100
+                this.ownerpp = parseFloat(this.ownerpp.toPrecision(4))
+                console.info(this.ownerpp)
             });
         } else {
             this.addDynamicElement.value.forEach((element) => {
-                this.ownerpp-=element.amount
+                this.ownerpp-=parseFloat(element.amount.toPrecision(2))
                 this.owneram-=(element.amount/100*result.amount)
             });
         }
@@ -126,7 +129,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
                 result_rm.push(element.rm_name);
                 result_am.push(element.amount);
                 total_am+=element.amount
-                result_pp.push(parseInt(element.amount) / parseInt(result.amount)*100);
+                result_pp.push(parseFloat((parseFloat(element.amount) / parseFloat(result.amount)*100).toPrecision(2)));
             });
         } else {
             this.addDynamicElement.value.forEach((element) => {
@@ -134,7 +137,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
                 result_rm.push(element.rm_name);
                 result_am.push(parseInt(element.amount) * parseInt(result.amount));
                 total_am+=parseInt(element.amount) * parseInt(result.amount)/100
-                result_pp.push(element.amount);
+                result_pp.push(parseFloat((element.amount).toPrecision(2)));
             });
         }
         result_rm.push(this.user.userName)
@@ -142,11 +145,11 @@ export class CreateBillOneTimePageComponent implements OnInit {
         result_pp.push(this.ownerpp)
         // console.info(result)
         console.info(result_rm)
-        let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {data: { amount:this.owneram, pp:this.ownerpp }, disableClose: true });
+        let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {data: { amount:this.owneram, pp:this.ownerpp, spName:this.shareplanName, sp_array:this.shareplan_array }, disableClose: true });
         let date: Date = new Date();
         thisDialogRef.afterClosed().subscribe(async (res) => {
             console.info(result)
-            console.info(result_rm)
+            console.info(res)
             if(res=="back"){
                 return;
             }
@@ -163,10 +166,29 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     proportion: result_pp,
                     billName: result.billname,
                     descri: result.description,
+                    isRecurrent: 0,
                     created_at: date,
                     created_by: this.user.userName
                 });
-            } else {
+            }else if (this.shareplan_array.indexOf(res)>=0){
+                ApiClient.bill.createBill({
+                    ownerId: this.user.id,
+                    homeId: this.home.HouseId,
+                    plannedSharedFlag: 1,
+                    sharePlanid: this.shareplanId,
+                    full_name: res,
+                    totalAmount: result.amount,
+                    roommates: result_rm,
+                    amount: result_am,
+                    proportion: result_pp,
+                    billName: result.billname,
+                    descri: result.description,
+                    isRecurrent: 0,
+                    created_at: date,
+                    created_by: this.user.userName
+                });
+            }
+            else{
                 ApiClient.bill.createBill({
                     ownerId: this.user.id,
                     homeId: this.home.HouseId,
@@ -179,6 +201,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     proportion: result_pp,
                     billName: result.billname,
                     descri: result.description,
+                    isRecurrent: 0,
                     created_at: date,
                     created_by: this.user.userName
                 });
@@ -194,14 +217,16 @@ export class CreateBillOneTimePageComponent implements OnInit {
         return this.oneTimeBillForm.get('addDynamicElement') as FormArray;
     }
 
-    addItems = () => {
+    
+
+    addItems = (value) => {
         console.info(this.addDynamicElement.controls.length)
         if (this.roommate_array.length == 0||this.addDynamicElement.controls.length>=this.rm_num) {
             alert(`You only have ${this.rm_num} roommates!`);
         } else {
-            this.addDynamicElement.push(this.shareDetail);
-            this.current_array.push('');
-
+            this.addDynamicElement.push(value);
+            console.info(value)
+            this.current_array.push(value);
         }
     };
 
@@ -209,6 +234,47 @@ export class CreateBillOneTimePageComponent implements OnInit {
         this.addDynamicElement.removeAt(this.addDynamicElement.length - 1);
         this.roommate_array.push(this.current_array.pop());
     };
+
+    updateList = (e) => {
+        console.info("event: ", e.target.value);
+        console.info(e)
+        if(e.target.value==-1){
+            this.shareplanId = -1
+            this.shareplanName = ""
+            while(this.addDynamicElement.length!=0){
+                this.deleteItems()
+            }
+            this.updateOwner()
+            return;
+        }else{
+            this.shareplanId = this.shareplan_array[e.target.value].id
+            this.shareplanName = this.shareplan_array[e.target.value].full_name
+        }
+        let selectedPlan = this.shareplan_array[e.target.value]
+        let rm = selectedPlan.userName;
+        let pp = selectedPlan.ratio;
+        this.oneTimeBillForm.get("splitMethod").setValue("Percentage")
+        if(this.addDynamicElement.length!=0){
+            while(this.addDynamicElement.length!=0){
+                this.deleteItems()
+            }
+        }
+        if(rm.indexOf( this.user.userName)<0){
+            alert("you cannot use this share plan because you are not part of it.")
+        }else{
+            for(let i = 0; i < rm.length;i++){
+                if(rm[i]!=this.user.userName){
+                    
+                        this.addItems(this.fb.group({
+                            rm_name: rm[i],
+                            amount: pp[i]
+                        }))
+                    
+                }
+            }
+            this.updateOwner()
+        }
+    }
 
     changeName(i, e) {
         let total=this.oneTimeBillForm.value.amount
