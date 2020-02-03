@@ -52,8 +52,8 @@
                 <img src="../../assets/add-arrow.svg" class="button" (click)="addItems()" />
                 <img src="../../assets/minus-arrow.svg" class="button" id="minus" (click)="deleteItems()" />
             </div>
-            <p>You are now paying {{ ownerpp }}% of this bill, in total ${{ owneram }}.</p>
-            <div *ngIf="oneTimeBillForm.value.splitMethod == 'Percentage'; then pp; else am"></div>
+            <p>You are now paying {{ownerpp}}% of this bill, in total ${{owneram}}.</p>
+            <div *ngIf="oneTimeBillForm.value.splitMethod=='Percentage'; then pp; else am"></div>
             <ng-template class="home-detail-page-nameAndButtons flex-align-center" #pp>
                 <div class="create-bill-one__user flex-align-center" formArrayName="addDynamicElement">
                     <!-- <select name="user1" id="user1">
@@ -70,6 +70,9 @@
                             <select formControlName="rm_name">
                                 <option value="">Choose...</option>
                                 <option *ngFor="let rm of roommate_array" [ngValue]="rm">{{ rm }}</option>
+                            <select  formControlName="rm_name">
+                                <option>{{item.get('rm_name').value.length!=0 ? item.get('rm_name').value : 'Choose'}}</option>
+                                <option *ngFor="let rm of roommate_array">{{ rm }}</option>
                             </select>
                             <input type="number" class="form-control" formControlName="amount" placeholder="Amount Shared" />
                             <span matSuffix>%</span>
@@ -93,6 +96,9 @@
                             <select formControlName="rm_name">
                                 <option value="">Choose...</option>
                                 <option *ngFor="let rm of roommate_array" [ngValue]="rm">{{ rm }}</option>
+                            <select  formControlName="rm_name">
+                                <option>{{item.get('rm_name').value.length!=0 ? item.get('rm_name').value : 'Choose'}}</option>
+                                <option *ngFor="let rm of roommate_array">{{ rm }}</option>
                             </select>
                             <input type="number" class="form-control" formControlName="amount" placeholder="Amount Shared" />
                             <span matSuffix>.00</span>

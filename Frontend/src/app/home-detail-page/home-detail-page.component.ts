@@ -21,14 +21,14 @@ export class HomeDetailPageComponent implements OnInit {
     roommate_string = '';
     owner;
     isowner;
-    billArray;
+    billArray: IBill[];
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     constructor(
         private router: Router,
         private StorageService: StorageServiceService,
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<any>
-    ) {}
+    ) { }
 
     async ngOnInit() {
         this.home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
@@ -91,6 +91,26 @@ export class HomeDetailPageComponent implements OnInit {
         this.router.navigateByUrl(`/billdetail/${billId}`);
     };
 
+    deleteBill = (billId) => {
+        console.info(billId)
+        let index;
+        for (let bill of this.billArray) {
+            if (bill.id == billId) {
+                index = this.billArray.indexOf(bill);
+                if (index !== -1) {
+                    this.billArray.splice(index, 1);
+                }
+            }
+        }
+        ApiClient.bill.deleteBill(billId)
+    }
+
+    deleteRoommate(msg: string) {
+        const index: number = this.roommate_array.indexOf(msg);
+        if (index !== -1) {
+            this.roommate_array.splice(index, 1);
+        }
+    }
     redirectToPaymentHistory = () => {
         this.router.navigateByUrl('/paymenthistory');
     };

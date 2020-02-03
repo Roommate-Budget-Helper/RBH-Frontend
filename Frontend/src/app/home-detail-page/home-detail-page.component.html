@@ -55,7 +55,7 @@
                         <div>
                             <div class="home-detail-page-bill-list-title flex-align-center">
                                 <P>{{ billArray[i].billName }}</P>
-                                <button class="home-detail-page-bill-list-delete">
+                                <button class="home-detail-page-bill-list-delete" (click)="deleteBill(billArray[i].id)">
                                     Delete
                                 </button>
                                 <button class="home-detail-page-bill-list-edit">
