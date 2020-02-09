@@ -22,6 +22,7 @@ export class HomeDetailPageComponent implements OnInit {
     owner;
     isowner;
     billArray: IBill[];
+    recurrentbillArray:IBillSharePlan[];
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     constructor(
         private router: Router,
@@ -38,6 +39,8 @@ export class HomeDetailPageComponent implements OnInit {
 
         this.convertRoommateString();
         this.billArray = await ApiClient.bill.getBillByHome(this.homeId);
+        this.recurrentbillArray = await ApiClient.bill.getRecurrentBill(this.homeId)
+        console.log(this.recurrentbillArray)
         console.log(this.billArray);
     }
 

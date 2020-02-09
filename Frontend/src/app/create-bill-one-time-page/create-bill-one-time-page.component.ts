@@ -177,8 +177,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     billName: result.billname,
                     descri: result.description,
                     isRecurrent: 0,
-                    isRecurrentdatetime: date,
-                    recurrentInterval:0,
+                    isRecurrentDateTime: date,
+                    recurrentIntervl:0,
                     created_at: date,
                     created_by: this.user.userName
                 });
@@ -196,8 +196,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     billName: result.billname,
                     descri: result.description,
                     isRecurrent: 0,
-                    isRecurrentdatetime: date,
-                    recurrentInterval:0,
+                    isRecurrentDateTime: date,
+                    recurrentIntervl:0,
                     created_at: date,
                     created_by: this.user.userName
                 });
@@ -215,8 +215,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     billName: result.billname,
                     descri: result.description,
                     isRecurrent: 0,
-                    isRecurrentdatetime: date,
-                    recurrentInterval:0,
+                    isRecurrentDateTime: date,
+                    recurrentIntervl:0,
                     created_at: date,
                     created_by: this.user.userName
                 });

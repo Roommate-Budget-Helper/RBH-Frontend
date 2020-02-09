@@ -135,14 +135,14 @@ export class CreateBillRecurringPageComponent implements OnInit {
                     billName: result.billname,
                     descri: result.description,
                     isRecurrent: 1,
-                    isRecurrentdatetime: date,
-                    recurrentInterval: 0,
+                    isRecurrentDateTime: date,
+                    recurrentIntervl: rec_interval,
                     created_at: date,
                     created_by: this.user.userName
                 });
             }
         })
-        // this.router.navigateByUrl('/homedetail')
+        this.router.navigateByUrl('/homedetail')
     }
 
     get addDynamicElement() {
