@@ -12,6 +12,8 @@ export class BillDetailPageComponent implements OnInit {
     billDetail: IBillDetail[];
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     ownerName = '111';
+    nameFlag = false;
+    amountFlag = false;
     constructor(private route: ActivatedRoute, private router: Router, private StorageService: StorageServiceService) {}
 
     async ngOnInit() {
@@ -70,6 +72,36 @@ export class BillDetailPageComponent implements OnInit {
             } else {
                 return 'Check Proof';
             }
+        }
+    };
+
+    nameOnclick = () => {
+        const tempName = this.billDetail[0].billName;
+        //this.amountFlag = !this.amountFlag;
+        if (this.nameFlag === true) {
+            this.billDetail.forEach((item) => {
+                item.billName = tempName;
+            });
+            console.log(this.billDetail);
+            const result = ApiClient.bill.editBillById(this.billDetail).then(() => {
+                this.nameFlag = !this.nameFlag;
+            });
+        } else {
+            this.nameFlag = !this.nameFlag;
+        }
+    };
+
+    amountOnclick = () => {
+        //this.amountFlag = !this.amountFlag;
+        if (this.amountFlag === true) {
+            this.billDetail.forEach((item) => {
+                item.totalAmount = this.billDetail[0].totalAmount;
+            });
+            const result = ApiClient.bill.editBillById(this.billDetail).then(() => {
+                this.amountFlag = !this.amountFlag;
+            });
+        } else {
+            this.amountFlag = !this.amountFlag;
         }
     };
 }

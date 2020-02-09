@@ -11,13 +11,18 @@
             <p class="bold">
                 Bill Name:&nbsp;
             </p>
-            <p>
+
+            <p>{{ billDetail && billDetail[0].billName }}</p>
+
+            <!-- <p>
                 {{ billDetail && billDetail[0].billName }}
-            </p>
-            <button class="edit-button">
+            </p> -->
+
+            <button class="edit-button" (click)="nameOnclick()">
                 Edit
             </button>
         </div>
+        <input class="edit-text" *ngIf="nameFlag" [(ngModel)]="billDetail[0].billName" type="text" class="form-control" />
         <div class="bill-detail-page__creator flex-align-center">
             <p class="bold">
                 Creator:&nbsp;
@@ -41,10 +46,12 @@
             <p>
                 {{ billDetail && billDetail[0].totalAmount }}
             </p>
-            <button class="edit-button">
+
+            <button class="edit-button" (click)="amountOnclick()">
                 Edit
             </button>
         </div>
+        <input class="edit-text" *ngIf="amountFlag" [(ngModel)]="billDetail[0].totalAmount" type="text" class="form-control" />
         <div class="bill-detail-page__split flex-align-center">
             <p class="bold">
                 Split by:&nbsp;
