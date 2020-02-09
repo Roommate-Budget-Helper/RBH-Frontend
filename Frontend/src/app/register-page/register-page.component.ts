@@ -70,15 +70,17 @@ export class RegisterPageComponent implements OnInit {
         console.log(this.registerForm.value);
         this.options = this.registerForm.value;
         const result = await ApiClient.auth.register(this.options.username, sha256(this.options.password), this.options.email);
-        
+        console.info(result)
         result.isRegistered == false ? alert('user exists') : this.handleRedirect();
         
     };
 
     handleRedirect = async () =>{
         const result = await ApiClient.auth.login(this.options.username, sha256(this.options.password));
-            _.isEmpty(result.userInfo) ? alert('wrong credential combination') : this.router.navigateByUrl('/home');
-            this.StorageService.storeOnLocalStorage(result);
+        this.StorageService.storeOnLocalStorage(result);
+        console.info(result)
+        _.isEmpty(result.userInfo) ? alert('wrong credential combination') : this.router.navigateByUrl('/home');
+            
         this.router.navigateByUrl("/home")
     }
 }

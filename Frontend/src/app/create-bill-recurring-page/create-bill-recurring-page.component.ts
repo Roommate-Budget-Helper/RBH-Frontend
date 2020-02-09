@@ -20,7 +20,7 @@ export class CreateBillRecurringPageComponent implements OnInit {
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
     roommate_array = this.home.roommates.trim().split('  ');
-    rec_method = ["Month", "Week", "3 Month", "6 Month"]
+    rec_method = ["Week", "Month", "3 Month", "6 Month"]
     shareplan_array;
     rm_num = this.roommate_array.length - 1
     constructor(
@@ -89,7 +89,23 @@ export class CreateBillRecurringPageComponent implements OnInit {
         let result_rm = [];
 
         console.info(this.recurrentBillForm.controls);
-
+        let rec_interval;
+        switch (result.recurringMethod) {
+            case "Month":
+                rec_interval = 30
+                break;
+            case "Week":
+                rec_interval = 7
+                break;
+            case "3 Month":
+                rec_interval = 90
+                break;
+            case "6 Month":
+                rec_interval = 180
+                break;
+            default:
+                rec_interval = 30
+        }
         this.addDynamicElement.value.forEach((element) => {
             console.info('element amount: ' + parseInt(element.amount) * parseInt(result.amount));
             result_rm.push(element.rm_name);
@@ -98,33 +114,33 @@ export class CreateBillRecurringPageComponent implements OnInit {
         });
         result_rm.push(this.user.userName)
         result_pp.push(this.ownerpp)
-        console.info("?????")
-        let thisDialogRef = this.dialog.open(SharePlanDialogComponent, { data: { pp: this.ownerpp, recurrent: true }, disableClose: true });
+        let thisDialogRef = this.dialog.open(SharePlanDialogComponent, { data: { pp: this.ownerpp, recurrent: true , interval: result.recurringMethod, starton: result.startDate}, disableClose: true });
         let date: Date = new Date();
         thisDialogRef.afterClosed().subscribe(async (res) => {
             console.info(result)
             console.info(res)
             if (res == "back") {
                 return;
+            } else {
+                ApiClient.bill.createBill({
+                    ownerId: this.user.id,
+                    homeId: this.home.HouseId,
+                    plannedSharedFlag: 1,
+                    sharePlanid: -1,
+                    full_name: res,
+                    totalAmount: result.amount,
+                    roommates: result_rm,
+                    amount: result_am,
+                    proportion: result_pp,
+                    billName: result.billname,
+                    descri: result.description,
+                    isRecurrent: 1,
+                    isRecurrentdatetime: date,
+                    recurrentInterval: 0,
+                    created_at: date,
+                    created_by: this.user.userName
+                });
             }
-            ApiClient.bill.createBill({
-                ownerId: this.user.id,
-                homeId: this.home.HouseId,
-                plannedSharedFlag: 1,
-                sharePlanid: -1,
-                full_name: res,
-                totalAmount: result.amount,
-                roommates: result_rm,
-                amount: result_am,
-                proportion: result_pp,
-                billName: result.billname,
-                descri: result.description,
-                isRecurrent: 0,
-                isRecurrentdatetime: date,
-                recurrentInterval: 0,
-                created_at: date,
-                created_by: this.user.userName
-            });
         })
         // this.router.navigateByUrl('/homedetail')
     }

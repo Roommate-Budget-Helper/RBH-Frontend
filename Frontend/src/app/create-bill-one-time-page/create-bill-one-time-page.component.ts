@@ -50,7 +50,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
 
         await this.getPlan();
         this.shareplan_array.forEach(element => {
-            this.shareplanName_array.push(element)
+            this.shareplanName_array.push(element.full_name)
         });
 
         console.log(this.shareplan_array);
@@ -133,7 +133,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
                 result_rm.push(element.rm_name);
                 result_am.push(element.amount);
                 total_am += element.amount;
-                result_pp.push(parseFloat(((parseFloat(element.amount) / parseFloat(result.amount)) * 100).toPrecision(2)));
+                result_pp.push(parseFloat(((parseFloat(element.amount) / parseFloat(result.amount)) * 100).toPrecision(4)));
             });
         } else {
             this.addDynamicElement.value.forEach((element) => {
@@ -141,7 +141,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
                 result_rm.push(element.rm_name);
                 result_am.push(parseInt(element.amount) * parseInt(result.amount));
                 total_am += (parseInt(element.amount) * parseInt(result.amount)) / 100;
-                result_pp.push(parseFloat(element.amount.toPrecision(2)));
+                result_pp.push(parseFloat(element.amount.toPrecision(4)));
             });
         }
         result_rm.push(this.user.userName);
@@ -149,8 +149,11 @@ export class CreateBillOneTimePageComponent implements OnInit {
         result_pp.push(this.ownerpp);
         // console.info(result)
         console.info(result_rm);
+        console.info(this.shareplanId)
+        console.info(this.shareplanName_array.indexOf(this.shareplanName))
+
         let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {
-            data: { amount: this.owneram, pp: this.ownerpp, spName: this.shareplanName, sp_array: this.shareplanName_array },
+            data: { amount: this.owneram, pp: this.ownerpp, spName: this.shareplanName, sp_array: this.shareplanName_array,recurrent: false },
             disableClose: true
         });
         let date: Date = new Date();
@@ -179,7 +182,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     created_at: date,
                     created_by: this.user.userName
                 });
-            } else if (this.shareplanName_array.indexOf(res) >= 0) {
+            } else if (this.shareplanName_array.indexOf(this.shareplanName) >= 0) {
                 ApiClient.bill.createBill({
                     ownerId: this.user.id,
                     homeId: this.home.HouseId,
