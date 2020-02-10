@@ -15,7 +15,7 @@ describe('StartingPageComponent', () => {
     let fixture: ComponentFixture<StartingPageComponent>;
     let button;
     let buttons;
-    let router: Router;
+    let router;
     let spy;
     // let location: SpyLocation;
 
@@ -34,9 +34,9 @@ describe('StartingPageComponent', () => {
         component = fixture.componentInstance;
     }));
 
+
     describe('Basic Tests', () => {
         it('should create', () => {
-            console.log()
             expect(component).toBeTruthy();
         });
     });
