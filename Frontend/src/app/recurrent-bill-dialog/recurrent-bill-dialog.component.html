@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Recurrent Bill Notification!</h2>
+<mat-dialog-content>Your recurrent bill: {{data.billName}} for this {{data.interval}} needs to be updated!</mat-dialog-content>
+<form class="example-form" #form>
+  <mat-form-field class="example-full-width" appearance="outline">
+    <mat-label>Enter the amount for this {{data.interval}} on {{data.billName}}!</mat-label>
+
+    <input matInput #userToInvite matInput placeholder="Amount" [formControl]="emailFormControl"
+           [errorStateMatcher]="matcher">
+    <mat-icon matSuffix></mat-icon>
+    <mat-hint>Please enter amount</mat-hint>
+    <mat-error *ngIf="emailFormControl.hasError('required')">
+      amount is <strong>required</strong>
+    </mat-error>
+  </mat-form-field>
+  <ul *ngFor="let rm of data.rm; let i = index">
+    <li class="home-page-item flex-align-center" (click)="handleDirectToHome(home)">
+      {{rm}} pays {{data.ratio[i]}}% (${{data.ratio[i]*userToInvite.value/100}})
+    </li>
+  </ul>
+
+  <mat-dialog-actions>
+    <button type="submit" mat-button mat-dialog-close mat-dialog-close = {{userToInvite.value}} class="background-primary text-floral-white flex-align-center"
+     [disabled]="emailFormControl.invalid">
+        Publish!
+    </button>
+</mat-dialog-actions>
+</form>

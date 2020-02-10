@@ -8,6 +8,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { AddRoommateDialogComponent } from '../add-roommate-dialog/add-roommate-dialog.component';
 import { RemoveRoommateDialogComponent } from '../remove-roommate-dialog/remove-roommate-dialog.component';
+import { RecurrentBillDialogComponent } from '../recurrent-bill-dialog/recurrent-bill-dialog.component'
 
 @Component({
     selector: 'app-home-detail-page',
@@ -22,7 +23,8 @@ export class HomeDetailPageComponent implements OnInit {
     owner;
     isowner;
     billArray: IBill[];
-    recurrentbillArray:IBillSharePlan[];
+    recurrentbillArray: IBillRecurrent[];
+    date = new Date()
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     constructor(
         private router: Router,
@@ -36,12 +38,87 @@ export class HomeDetailPageComponent implements OnInit {
         this.owner = this.home.admin_name;
         this.isowner = this.owner == this.user.userName;
         this.homeId = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY).HouseId;
-
         this.convertRoommateString();
         this.billArray = await ApiClient.bill.getBillByHome(this.homeId);
         this.recurrentbillArray = await ApiClient.bill.getRecurrentBill(this.homeId)
+        this.recurrentbillArray.forEach(element => {
+            console.info(element.ownerId)
+            if (this.date.getTime() >= new Date(element.isRecurentdatetime).getTime() && element.ownerId == this.user.id) {
+                let thisDialogRef = this.dialog.open(RecurrentBillDialogComponent, { data: { billName: element.full_name, interval: this.convertRecurrentBillInterval(element.recurrentInterval), rm: element.userName, ratio: element.ratio }, disableClose: true });
+                thisDialogRef.updatePosition({ top: '1%', right: '1%' });
+                thisDialogRef.afterClosed().subscribe(async (result) => {
+                    console.info(result)
+                    let amount = []
+                    element.ratio.forEach(ratio => {
+                        amount.push(ratio * result / 100)
+                    })
+                    console.info(amount)
+                    await ApiClient.bill.createBill({
+                        ownerId: this.user.id,
+                        homeId: this.home.HouseId,
+                        plannedSharedFlag: 1,
+                        sharePlanid: element.id,
+                        full_name: element.full_name,
+                        totalAmount: result,
+                        roommates: element.userName,
+                        amount: amount,
+                        proportion: element.ratio,
+                        billName: element.full_name,
+                        descri: element.descri,
+                        isRecurrent: 0,
+                        isRecurrentDateTime: this.date,
+                        recurrentIntervl: 0,
+                        created_at: this.date,
+                        created_by: this.user.userName
+                    });
+                    let newDate = this.convertNextDate(element.recurrentInterval)
+                    console.info(newDate, element.id)
+                    await ApiClient.bill.updateRecurrent({id: element.id, newDate: newDate})
+                })
+            }
+        });
+
         console.log(this.recurrentbillArray)
         console.log(this.billArray);
+    }
+
+    convertRecurrentBillInterval = (num) => {
+        switch (num) {
+            case 30:
+                return "Month"
+            case 7:
+                return "Week"
+            case 90:
+                return "Quarter of Year"
+            case 180:
+                return "Half of Year"
+            default:
+                ""
+        }
+    }
+
+    convertNextDate = (num) => {
+        switch (num) {
+            case 30:
+                var now = new Date();
+                return this.addAMonth(now)
+            case 7:
+                return new Date(Date.now() + (6.04e+8))
+            case 90:
+                return this.addAMonth(this.addAMonth(this.addAMonth(now)))
+            case 180:
+                return this.addAMonth(this.addAMonth(this.addAMonth(this.addAMonth(this.addAMonth(this.addAMonth(now))))))
+            default:
+                ""
+        }
+    }
+
+    addAMonth = (date) => {
+        if (date.getMonth() == 11) {
+            return new Date(date.getFullYear() + 1, 0, date.getDate());
+        } else {
+            return new Date(date.getFullYear(), date.getMonth() + 1, date.getDate());
+        }
     }
 
     convertRoommateString = () => {

@@ -43,6 +43,7 @@ import { CreateBillRecurringPageComponent } from './create-bill-recurring-page/c
 import { BillDetailPageComponent } from './bill-detail-page/bill-detail-page.component';
 import { PaymentHistoryPageComponent } from './payment-history-page/payment-history-page.component';
 import { SharePlanDialogComponent } from './share-plan-dialog/share-plan-dialog.component';
+import { RecurrentBillDialogComponent } from './recurrent-bill-dialog/recurrent-bill-dialog.component';
 export let routes: Routes = [
     { path: '', component: StartingPageComponent },
     { path: 'login', component: LoginPageComponent },
@@ -101,7 +102,8 @@ export let routes: Routes = [
         CreateBillRecurringPageComponent,
         BillDetailPageComponent,
         PaymentHistoryPageComponent,
-        SharePlanDialogComponent
+        SharePlanDialogComponent,
+        RecurrentBillDialogComponent
     ],
     providers: [{ provide: MatDialogRef, useValue: {} }, StorageServiceService],
     entryComponents: [
@@ -110,7 +112,8 @@ export let routes: Routes = [
         InvitationDialogComponent,
         AddRoommateDialogComponent,
         RemoveRoommateDialogComponent,
-        SharePlanDialogComponent
+        SharePlanDialogComponent,
+        RecurrentBillDialogComponent
     ],
     bootstrap: [AppComponent]
 })

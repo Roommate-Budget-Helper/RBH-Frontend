@@ -141,8 +141,9 @@ export class CreateBillRecurringPageComponent implements OnInit {
                     created_by: this.user.userName
                 });
             }
+            this.router.navigateByUrl('/homedetail')
+
         })
-        this.router.navigateByUrl('/homedetail')
     }
 
     get addDynamicElement() {
