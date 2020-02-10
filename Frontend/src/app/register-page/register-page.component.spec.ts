@@ -210,7 +210,7 @@ describe('RegisterPageComponent', () => {
   describe('Button Tests', () => {
     let submitButton;
     beforeEach(() => {
-      fixture = TestBed.createComponent(LoginPageComponent);
+      fixture = TestBed.createComponent(RegisterPageComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
       submitButton = fixture.debugElement.queryAll(By.css('button'))[0].nativeElement;
