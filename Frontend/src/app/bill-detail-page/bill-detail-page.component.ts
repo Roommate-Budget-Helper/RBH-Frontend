@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import ApiClient from '../api-client';
 import { StorageServiceService } from '../storage-service.service';
@@ -14,14 +14,18 @@ export class BillDetailPageComponent implements OnInit {
     ownerName = '111';
     nameFlag = false;
     amountFlag = false;
+    fileToUpload: File = null;
+    fileName: String = null;
     constructor(private route: ActivatedRoute, private router: Router, private StorageService: StorageServiceService) {}
 
     async ngOnInit() {
         this.billDetail = await ApiClient.bill.getBillById(this.route.snapshot.params['id']);
         this.findOwner(this.billDetail);
-        // this.billDetail = await ApiClient.bill.getBillById('41');
-        console.info(this.billDetail);
     }
+
+    ngOnChanges = (changes) => {
+        console.log(changes['file'].currentValue);
+    };
 
     handleBack = () => {
         this.router.navigateByUrl('/homedetail');
@@ -103,5 +107,14 @@ export class BillDetailPageComponent implements OnInit {
         } else {
             this.amountFlag = !this.amountFlag;
         }
+    };
+
+    onFileUpload = (files: FileList) => {
+        let formData = new FormData();
+        this.fileToUpload = files.item(0);
+        this.fileName = files.item(0).name;
+        formData.append('file', this.fileToUpload);
+        console.info(formData);
+        ApiClient.bill.uploadProofById(31, formData);
     };
 }
