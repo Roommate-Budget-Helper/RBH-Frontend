@@ -6,7 +6,11 @@ import { FormsModule, ReactiveFormsModule,FormBuilder} from '@angular/forms';
 import { StorageServiceService } from '../storage-service.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogRef,MatInputModule,MatDialogModule  } from '@angular/material';
+import { By } from "@angular/platform-browser";
+import ApiClient from '../api-client';
+
 import user from 'rbh-api-service/lib/user';
+import { computeStyle } from '@angular/animations/browser/src/util';
 
 const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
@@ -45,6 +49,10 @@ describe('RegisterPageComponent', () => {
       expect(compiled.querySelector('h1').textContent).toContain('Sign up');
     });  
 
+    it('should create the FormGroup', () => {
+      expect(component.registerForm).not.toBeNull;
+    });  
+
     it('should have options initialized to be ""', () => {
       expect(component.options['username']).toBe("");
       expect(component.options['password']).toBe("");
@@ -71,6 +79,19 @@ describe('RegisterPageComponent', () => {
         component.registerForm.controls['username'].patchValue("abcdefghijklmnopqrstuvxyz");
         expect(component.registerForm.invalid).toBeTruthy();
       });
+
+      //to be continued, to be add later.
+      // it('should show mat-error message when gets invalid username', () => {
+      //   component.registerForm.controls['username'].patchValue("user");
+      //   const input = fixture.debugElement.query(By.css("[formControlName='username']"));
+      //   const errors = fixture.debugElement.queryAll(By.css("mat-error"));
+      //   console.info(input);
+      //   console.info(errors);
+      //   // input.nativeElement.dispatchEvent(new Event("input"));
+      //   // fixture.detectChanges();
+      //   expect(errors.length).toEqual(1);
+      //   expect(errors[0].nativeElement.innerHTML.trim()).toMatch("Username must contain at least 5 characters.");
+      // });
 
       it('should be invalid when username contains invalid character', () => {
         component.registerForm.controls['username'].patchValue("//++==");
@@ -124,7 +145,34 @@ describe('RegisterPageComponent', () => {
   });
 
   describe('Function Tests', () => {
-    describe('Basic Tests for Functions', () => {
+    describe('Basic Function Tests(createForm, checkPasswords)', () => {
+      beforeEach(async(() => {
+        fixture = TestBed.createComponent(RegisterPageComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+      }));
+
+      it('should call createForm to create registerForm', () => {
+        spyOn(RegisterPageComponent.prototype, 'createForm');
+        fixture = TestBed.createComponent(RegisterPageComponent);
+        component = fixture.componentInstance;
+        expect(component.createForm).toHaveBeenCalled();
+      });
+
+      it('should return null when password and repassword are the same ', () => {
+        component.registerForm.setValue({username: username, email:email, password: password, repassword: repassword});
+        expect(component.checkPasswords(component.registerForm)).toBeNull();
+      });
+
+      it('should return null when password and repassword are the same ', () => {
+        component.registerForm.setValue({username: username, email:email, password: password, repassword: repassword});
+        component.registerForm.controls['repassword'].patchValue("incorrectPassword");
+        expect(component.checkPasswords(component.registerForm)).not.toBeNull();
+        expect(component.checkPasswords(component.registerForm).notSame).toBeTruthy();
+      });
+    });
+
+    describe('handleRedirect() Tests', () => {
       beforeEach(async(() => {
         fixture = TestBed.createComponent(RegisterPageComponent);
         component = fixture.componentInstance;
@@ -132,28 +180,42 @@ describe('RegisterPageComponent', () => {
         component.options['password'] = password;
         component.options['email'] = email;
         component.options['repassword'] = repassword;
+        component.registerForm.setValue({username: username, email:email, password: password, repassword: repassword});
         fixture.detectChanges();
+        //to be continued
+        let sampleCorrect = {userInfo: {id: 111111,
+          full_name: "full_name",
+          balance: 0,
+          userName: "username",
+          hashedPassword: "hashedPass",
+          email: "some@gmail.com"},
+          token:"some-token"};
       }));
-
-
-      it('should call checkPasswords()', () => {
-        spyOn(component, 'checkPasswords');
-        component.checkPasswords(component.registerForm)
-        expect(component.checkPasswords).toHaveBeenCalled();
-      });
-
-      it('should return null when checkPasswords() called with different pwds', () => {
-        spyOn(component, 'checkPasswords');
-        component.options['repassword'] = 'repassword';
-        // console.log(component.checkPasswords(component.registerForm));
-        expect(component.checkPasswords(component.registerForm).notSame).toBeTruthy();
-      });
-
-      // it('should return true when checkPasswords() called with same pwds', () => {
-      //   spyOn(component, 'checkPasswords');
-      //   expect(component.checkPasswords(component.registerForm)).toBeNull();
+      
+      // it("should nav to /home after log in", ()=>{
+      //   spyOnProperty(ApiClient, 'auth').and.returnValue({ login: () => Promise.resolve(sampleCorrect)})
+      //   router = fixture.debugElement.injector.get(Router);
+      //   component.options['username'] = username;
+      //   component.options['password'] = password;
+      //   const spy = router.navigateByUrl as jasmine.Spy;
+      //   component.handleSubmit();
+      //   fixture.whenStable().then(() => {
+      //     const navArgs = spy.calls.mostRecent().args[0];
+      //     expect(navArgs).toBe('/home', 'should nav to home page');
+      //   });
       // });
     });
+  });
+
+  describe('Button Tests', () => {
+    let submitButton;
+    beforeEach(() => {
+      fixture = TestBed.createComponent(LoginPageComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      submitButton = fixture.debugElement.queryAll(By.css('button'))[0].nativeElement;
+    });
+    //to be continued;
   });
 
 });
