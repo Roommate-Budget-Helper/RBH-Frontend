@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import ApiClient from '../api-client';
 import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 import { StorageServiceService } from '../storage-service.service';
+import { NgxImageCompressService } from 'ngx-image-compress';
+
 const STORAGE_KEY = 'local_userInfo';
 @Component({
     selector: 'app-bill-detail-page',
@@ -10,7 +12,6 @@ const STORAGE_KEY = 'local_userInfo';
     styleUrls: ['./bill-detail-page.component.scss']
 })
 export class BillDetailPageComponent implements OnInit {
-    show: Boolean = false;
     billDetail: IBillDetail[];
     labelMsg = 'Upload Image';
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
@@ -23,8 +24,9 @@ export class BillDetailPageComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private StorageService: StorageServiceService,
-        public fb: FormBuilder
-    ) {}
+        public fb: FormBuilder,
+        private imageCompress: NgxImageCompressService
+    ) { }
 
     async ngOnInit() {
         this.billDetail = await ApiClient.bill.getBillById(this.route.snapshot.params['id']);
@@ -118,18 +120,30 @@ export class BillDetailPageComponent implements OnInit {
         }
     };
 
-    onFileUpload = (event, data) => {
+    onFileUpload = (event) => {
         let reader = new FileReader();
         let file = event.target.files[0];
-        console.info(file.size)
+        let imgResultAfterCompress = file
+            
+        console.info(imgResultAfterCompress.size)
         if (event.target.files && event.target.files[0]) {
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(imgResultAfterCompress);
+            
+            console.info(reader.result.toString())
             reader.onload = () => {
+                console.info(reader.result.toString())
+                this.imageCompress.compressFile(reader.result.toString(), 1, 10, 10).then(
+                    result => {
+                        console.info(result);
+                        imgResultAfterCompress = result;
+                        console.warn('Size in bytes is now:',this.imageCompress.byteCount(result));
+                    }
+                );
                 ApiClient.bill
                     .uploadProofById({
-                        numId: data.userId,
+                        numId: this.user.id,
                         billId: this.route.snapshot.params['id'],
-                        baseString: reader.result.toString().split(',')[1]
+                        baseString: imgResultAfterCompress.toString().split(',')[1]
                     })
                     .then(() => {
                         alert('Successfully uploaded!');
@@ -140,18 +154,8 @@ export class BillDetailPageComponent implements OnInit {
 
     onFileView = (basedString) => {
         var image = new Image();
-        image.style.width = '200px';
         image.src = 'data:image/png;base64,' + basedString.proof;
-        if (document.getElementById(basedString.index).childNodes.length === 0) {
-            document.getElementById(basedString.index).append(image);
-        }
 
-        if (this.show) {
-            document.getElementById(basedString.index).style.display = 'none';
-            this.show = !this.show;
-        } else {
-            document.getElementById(basedString.index).style.display = 'block';
-            this.show = !this.show;
-        }
+        alert(image);
     };
 }
