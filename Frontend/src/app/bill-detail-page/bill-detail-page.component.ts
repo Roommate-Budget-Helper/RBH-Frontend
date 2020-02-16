@@ -1,6 +1,7 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import ApiClient from '../api-client';
+import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 import { StorageServiceService } from '../storage-service.service';
 const STORAGE_KEY = 'local_userInfo';
 @Component({
@@ -10,13 +11,25 @@ const STORAGE_KEY = 'local_userInfo';
 })
 export class BillDetailPageComponent implements OnInit {
     billDetail: IBillDetail[];
+    labelMsg = 'Upload Image';
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     ownerName = '111';
     nameFlag = false;
     amountFlag = false;
     fileToUpload: File = null;
     fileName: String = null;
-    constructor(private route: ActivatedRoute, private router: Router, private StorageService: StorageServiceService) {}
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private StorageService: StorageServiceService,
+        public fb: FormBuilder
+    ) {}
+
+    // oneTimeBillForm = this.fb.group({
+    //     image: [],
+
+    //     addDynamicElement: this.fb.array([])
+    // });
 
     async ngOnInit() {
         this.billDetail = await ApiClient.bill.getBillById(this.route.snapshot.params['id']);
@@ -109,12 +122,22 @@ export class BillDetailPageComponent implements OnInit {
         }
     };
 
-    onFileUpload = (files: FileList) => {
-        let formData = new FormData();
-        this.fileToUpload = files.item(0);
-        this.fileName = files.item(0).name;
-        formData.append('file', this.fileToUpload);
-        console.info(formData);
-        ApiClient.bill.uploadProofById(31, formData);
+    onFileUpload = (event) => {
+        let reader = new FileReader();
+        let file = event.target.files[0];
+        if (event.target.files && event.target.files[0]) {
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                ApiClient.bill
+                    .uploadProofById({
+                        numId: this.user.id,
+                        billId: this.route.snapshot.params['id'],
+                        baseString: reader.result.toString().split(',')[1]
+                    })
+                    .then(() => {
+                        alert('Successfully uploaded!');
+                    });
+            };
+        }
     };
 }
