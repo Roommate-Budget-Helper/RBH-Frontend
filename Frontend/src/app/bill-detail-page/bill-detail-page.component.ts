@@ -121,7 +121,7 @@ export class BillDetailPageComponent implements OnInit {
     onFileUpload = (event, data) => {
         let reader = new FileReader();
         let file = event.target.files[0];
-
+        console.info(file.size)
         if (event.target.files && event.target.files[0]) {
             reader.readAsDataURL(file);
             reader.onload = () => {

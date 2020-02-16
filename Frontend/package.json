@@ -28,6 +28,7 @@
     "jwa": "^1.4.1",
     "jws": "^3.2.2",
     "jwt-decode": "^2.2.0",
+    "ngx-image-compress": "^8.0.4",
     "ngx-webstorage-service": "^4.1.0",
     "node-sass": "^4.13.1",
     "rbh-api-service": "^1.7.5",

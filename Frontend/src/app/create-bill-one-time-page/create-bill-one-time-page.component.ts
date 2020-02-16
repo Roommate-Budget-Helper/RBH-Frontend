@@ -22,7 +22,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
     home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
     roommate_array = this.home.roommates.trim().split('  ');
     editable_array = this.home.roommates.trim().split('  ');
-    shareplan_array;
+    shareplan_array = [];
     shareplanId;
     shareplanName;
     shareplanName_array = [];
