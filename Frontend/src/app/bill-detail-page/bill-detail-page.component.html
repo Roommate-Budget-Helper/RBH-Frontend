@@ -73,13 +73,20 @@
                 <p>{{ billDetail && billDetail[i].userName }}</p>
                 <p>({{ billDetail && billDetail[i].proportion }}%)</p>
                 <label class="upload-btn" *ngIf="billDetail[i].proof == null">
-                    <input id="input-file" type="file" accept=".png, .jpg, .jpeg" #fileInput (change)="onFileUpload($event)" />
+                    <input
+                        id="input-file"
+                        type="file"
+                        accept=".png, .jpg, .jpeg"
+                        #fileInput
+                        (change)="onFileUpload($event, { userId: billDetail[i].userId })"
+                    />
                     <span id="selectedFileName">{{ billDetail && getButtonText(i) }}</span>
                 </label>
-                <Button class="view-btn" *ngIf="billDetail[i].proof != null" (click)="onFileView({ proof: billDetail[i].proof })"
+                <Button class="view-btn" *ngIf="billDetail[i].proof != null" (click)="onFileView({ proof: billDetail[i].proof, index: i })"
                     >View</Button
                 >
             </div>
+            <div attr.id="{{ i }}"></div>
         </div>
 
         <div class="delete-button">

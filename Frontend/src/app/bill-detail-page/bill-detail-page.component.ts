@@ -10,6 +10,7 @@ const STORAGE_KEY = 'local_userInfo';
     styleUrls: ['./bill-detail-page.component.scss']
 })
 export class BillDetailPageComponent implements OnInit {
+    show: Boolean = false;
     billDetail: IBillDetail[];
     labelMsg = 'Upload Image';
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
@@ -117,7 +118,7 @@ export class BillDetailPageComponent implements OnInit {
         }
     };
 
-    onFileUpload = (event) => {
+    onFileUpload = (event, data) => {
         let reader = new FileReader();
         let file = event.target.files[0];
 
@@ -126,7 +127,7 @@ export class BillDetailPageComponent implements OnInit {
             reader.onload = () => {
                 ApiClient.bill
                     .uploadProofById({
-                        numId: this.user.id,
+                        numId: data.userId,
                         billId: this.route.snapshot.params['id'],
                         baseString: reader.result.toString().split(',')[1]
                     })
@@ -140,7 +141,16 @@ export class BillDetailPageComponent implements OnInit {
     onFileView = (basedString) => {
         var image = new Image();
         image.src = 'data:image/png;base64,' + basedString.proof;
+        if (document.getElementById(basedString.index).childNodes.length === 0) {
+            document.getElementById(basedString.index).append(image);
+        }
 
-        alert(image);
+        if (this.show) {
+            document.getElementById(basedString.index).style.display = 'none';
+            this.show = !this.show;
+        } else {
+            document.getElementById(basedString.index).style.display = 'block';
+            this.show = !this.show;
+        }
     };
 }
