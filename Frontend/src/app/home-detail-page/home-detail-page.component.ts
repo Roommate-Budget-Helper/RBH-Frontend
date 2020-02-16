@@ -42,7 +42,7 @@ export class HomeDetailPageComponent implements OnInit {
         this.billArray = await ApiClient.bill.getBillByHome(this.homeId);
         this.recurrentbillArray = await ApiClient.bill.getRecurrentBill(this.homeId)
         this.recurrentbillArray.forEach(element => {
-            console.info(element.ownerId)
+            console.info(element)
             if (this.date.getTime() >= new Date(element.isRecurentdatetime).getTime() && element.ownerId == this.user.id) {
                 let thisDialogRef = this.dialog.open(RecurrentBillDialogComponent, { data: { billName: element.full_name, interval: this.convertRecurrentBillInterval(element.recurrentInterval), rm: element.userName, ratio: element.ratio }, disableClose: true });
                 thisDialogRef.updatePosition({ top: '1%', right: '1%' });
@@ -98,9 +98,9 @@ export class HomeDetailPageComponent implements OnInit {
     }
 
     convertNextDate = (num) => {
+        var now = new Date();
         switch (num) {
             case 30:
-                var now = new Date();
                 return this.addAMonth(now)
             case 7:
                 return new Date(Date.now() + (6.04e+8))

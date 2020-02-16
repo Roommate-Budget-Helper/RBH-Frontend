@@ -60,6 +60,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
         let result = this.oneTimeBillForm.value;
         this.owneram = result.amount;
         this.ownerpp = 100;
+        this.shareplanName = ''
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
                 console.info('element amount: ' + element.amount);
