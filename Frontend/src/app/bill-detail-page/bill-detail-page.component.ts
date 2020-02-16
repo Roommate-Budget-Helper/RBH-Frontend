@@ -25,20 +25,15 @@ export class BillDetailPageComponent implements OnInit {
         public fb: FormBuilder
     ) {}
 
-    // oneTimeBillForm = this.fb.group({
-    //     image: [],
-
-    //     addDynamicElement: this.fb.array([])
-    // });
-
     async ngOnInit() {
         this.billDetail = await ApiClient.bill.getBillById(this.route.snapshot.params['id']);
+        // console.info(this.billDetail);
         this.findOwner(this.billDetail);
     }
 
-    ngOnChanges = (changes) => {
-        console.log(changes['file'].currentValue);
-    };
+    // ngOnChanges = (changes) => {
+    //     console.log(changes['file'].currentValue);
+    // };
 
     handleBack = () => {
         this.router.navigateByUrl('/homedetail');
@@ -125,6 +120,7 @@ export class BillDetailPageComponent implements OnInit {
     onFileUpload = (event) => {
         let reader = new FileReader();
         let file = event.target.files[0];
+
         if (event.target.files && event.target.files[0]) {
             reader.readAsDataURL(file);
             reader.onload = () => {
@@ -139,5 +135,12 @@ export class BillDetailPageComponent implements OnInit {
                     });
             };
         }
+    };
+
+    onFileView = (basedString) => {
+        var image = new Image();
+        image.src = 'data:image/png;base64,' + basedString.proof;
+
+        alert(image);
     };
 }

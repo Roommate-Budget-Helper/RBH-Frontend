@@ -66,20 +66,19 @@
         <div class="bill-detail-page__users" *ngFor="let item of billDetail; let i = index">
             <div class="flex-align-center">
                 <p class="bold">{{ billDetail && getTitle(i) }}:</p>
-
-                <p>Filename: {{ fileName }}</p>
+                <p>{{ billDetail[i].proof == null ? 'No File' : 'Uploaded' }}</p>
             </div>
+
             <div class="flex-align-center">
                 <p>{{ billDetail && billDetail[i].userName }}</p>
                 <p>({{ billDetail && billDetail[i].proportion }}%)</p>
-                <!-- <button class="user-button">{{ billDetail && getButtonText(i) }}</button> -->
-
-                <label class="upload-btn">
+                <label class="upload-btn" *ngIf="billDetail[i].proof == null">
                     <input id="input-file" type="file" accept=".png, .jpg, .jpeg" #fileInput (change)="onFileUpload($event)" />
                     <span id="selectedFileName">{{ billDetail && getButtonText(i) }}</span>
                 </label>
-
-                <!-- <input name="Filename:" type="file" id="upload-photo" /> -->
+                <Button class="view-btn" *ngIf="billDetail[i].proof != null" (click)="onFileView({ proof: billDetail[i].proof })"
+                    >View</Button
+                >
             </div>
         </div>
 
