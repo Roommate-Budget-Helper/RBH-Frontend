@@ -140,6 +140,7 @@ export class BillDetailPageComponent implements OnInit {
 
     onFileView = (basedString) => {
         var image = new Image();
+        image.style.width = '200px';
         image.src = 'data:image/png;base64,' + basedString.proof;
         if (document.getElementById(basedString.index).childNodes.length === 0) {
             document.getElementById(basedString.index).append(image);
