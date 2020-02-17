@@ -1,23 +1,12 @@
-<div *ngIf="data.spName!=null&&data.spName.length>0; then yes;else no"></div>
-<ng-template class="home-detail-page-nameAndButtons flex-align-center" #yes>
-<h2 mat-dialog-title>Hold on a sec!</h2>
-<mat-dialog-content>Please make sure you want to pay {{data.pp}}% ({{data.amount}} dollar) on this bill<br>
-  And you are using shareplan: {{data.spName}}
-</mat-dialog-content>
-<button type="submit" mat-button class="background-primary text-floral-white flex-align-center" mat-dialog-close="{{data.spName}}">
-  I Confirm
-</button>
-<button type="submit" mat-button mat-dialog-close mat-dialog-close="back"
-  class="nevermind background-primary text-floral-white flex-align-center">
-  Go Back
-</button>
-</ng-template>
-<ng-template class="home-detail-page-nameAndButtons flex-align-center" #no>
+<div *ngIf="data.recurrent; then recur;else oneTime"></div>
+
+<ng-template #recur>
   <h2 mat-dialog-title>Hold on a sec!</h2>
-  <mat-dialog-content>Please make sure you want to pay {{data.pp}}% ({{data.amount}} dollar) on this bill<br>
+  <mat-dialog-content>Please make sure you want to pay {{data.pp}}% on this bill.<br>
+     Starting on {{data.starton}} and recur for every {{data.interval}} after that
   </mat-dialog-content>
   <button type="submit" mat-button class="background-primary text-floral-white flex-align-center"
-    (click)="confirmed = true">
+    mat-dialog-close="">
     I Confirm
   </button>
   <button type="submit" mat-button mat-dialog-close mat-dialog-close="back"
@@ -25,40 +14,71 @@
     Go Back
   </button>
 </ng-template>
-<div *ngIf="confirmed; then plan"></div>
 
-<ng-template class="home-detail-page-nameAndButtons flex-align-center" #plan>
-
-  <mat-dialog-content>And do you want to save this bill's share plan?</mat-dialog-content>
-
-  <mat-dialog-actions>
+<ng-template #oneTime>
+  <div *ngIf="data.spName!=null&&data.spName.length>0; then yes;else no"></div>
+  <ng-template class="home-detail-page-nameAndButtons flex-align-center" #yes>
+    <h2 mat-dialog-title>Hold on a sec!</h2>
+    <mat-dialog-content>Please make sure you want to pay {{data.pp}}% ({{data.amount}} dollar) on this bill<br>
+      And you are using shareplan: {{data.spName}}
+    </mat-dialog-content>
     <button type="submit" mat-button class="background-primary text-floral-white flex-align-center"
-      (click)="haveName = true">
-      Yes!
+      mat-dialog-close="{{data.spName}}">
+      I Confirm
     </button>
-    <button type="submit" mat-button mat-dialog-close mat-dialog-close=""
+    <button type="submit" mat-button mat-dialog-close mat-dialog-close="back"
       class="nevermind background-primary text-floral-white flex-align-center">
-      No.
+      Go Back
     </button>
-  </mat-dialog-actions>
-
-  <div *ngIf="haveName; then name"></div>
-  <ng-template class="home-detail-page-nameAndButtons flex-align-center" #name>
-    <form class="example-form" #form>
-      <mat-form-field class="example-full-width" appearance="outline">
-        <mat-label>Enter a name for the bill for future reference</mat-label>
-
-        <input matInput #planName matInput placeholder="sharePlan Name" [formControl]="emailFormControl"
-          [errorStateMatcher]="matcher" />
-        <mat-icon matSuffix></mat-icon>
-        <mat-hint>Please enter the name of the bill</mat-hint>
-        <mat-error *ngIf="emailFormControl.hasError('required')"> name is <strong>required</strong> </mat-error>
-      </mat-form-field>
-      <button type="submit" mat-button class="background-primary text-floral-white flex-align-center"
-        [disabled]="emailFormControl.invalid" mat-dialog-close mat-dialog-close={{checkName(planName.value)}}>
-        OK!
-      </button>
-    </form>
   </ng-template>
+  <ng-template class="home-detail-page-nameAndButtons flex-align-center" #no>
+    <h2 mat-dialog-title>Hold on a sec!</h2>
+    <mat-dialog-content>Please make sure you want to pay {{data.pp}}% ({{data.amount}} dollar) on this bill<br>
+    </mat-dialog-content>
+    <button type="submit" mat-button class="background-primary text-floral-white flex-align-center"
+      (click)="confirmed = true">
+      I Confirm
+    </button>
+    <button type="submit" mat-button mat-dialog-close mat-dialog-close="back"
+      class="nevermind background-primary text-floral-white flex-align-center">
+      Go Back
+    </button>
+  </ng-template>
+  <div *ngIf="confirmed; then plan"></div>
 
+  <ng-template class="home-detail-page-nameAndButtons flex-align-center" #plan>
+
+    <mat-dialog-content>And do you want to save this bill's share plan?</mat-dialog-content>
+
+    <mat-dialog-actions>
+      <button type="submit" mat-button class="background-primary text-floral-white flex-align-center"
+        (click)="haveName = true">
+        Yes!
+      </button>
+      <button type="submit" mat-button mat-dialog-close mat-dialog-close=""
+        class="nevermind background-primary text-floral-white flex-align-center">
+        No.
+      </button>
+    </mat-dialog-actions>
+
+    <div *ngIf="haveName; then name"></div>
+    <ng-template class="home-detail-page-nameAndButtons flex-align-center" #name>
+      <form class="example-form" #form>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Enter a name for the bill for future reference</mat-label>
+
+          <input matInput #planName matInput placeholder="sharePlan Name" [formControl]="emailFormControl"
+            [errorStateMatcher]="matcher" />
+          <mat-icon matSuffix></mat-icon>
+          <mat-hint>Please enter the name of the bill</mat-hint>
+          <mat-error *ngIf="emailFormControl.hasError('required')"> name is <strong>required</strong> </mat-error>
+        </mat-form-field>
+        <button type="submit" mat-button class="background-primary text-floral-white flex-align-center"
+          [disabled]="emailFormControl.invalid" mat-dialog-close mat-dialog-close={{checkName(planName.value)}}>
+          OK!
+        </button>
+      </form>
+    </ng-template>
+
+  </ng-template>
 </ng-template>

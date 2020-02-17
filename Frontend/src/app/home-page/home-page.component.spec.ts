@@ -6,6 +6,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialog, MatDialogRef} from '@angular/material';
 import { By } from "@angular/platform-browser";
 import ApiClient from '../api-client';
+import { of} from 'rxjs';
+
 let sampleStorage = {userInfo: {id: 111111,
     full_name: "full_name",
     balance: 0,
@@ -20,6 +22,19 @@ let sampleInvitation = [{id: 0, userName: "user0", houseName: "home0", userId:0,
 {id: 1, userName: "user1", houseName: "home1", userId:1,houseId: 1,created_at: new Date().getDate()}]
 const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 // const storageSpy = jasmine.createSpyObj('StorageServiceService', ['storeOnLocalStorage', 'getLocalStorage', 'storeHomeOnLocalStorage', 'getHomeLocalStorage']);
+
+
+export class MdDialogMock {
+  // When the component calls this.dialog.open(...) we'll return an object
+  // with an afterClosed method that allows to subscribe to the dialog result observable.
+  open(){
+    return {
+      afterClosed: () => of(),
+      updatePosition: () => {}
+    }
+  };
+};
+
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
   let fixture: ComponentFixture<HomePageComponent>;
@@ -31,9 +46,8 @@ describe('HomePageComponent', () => {
       declarations: [ HomePageComponent],
       imports: [RouterTestingModule],
       providers: [{ provide: Router,   useValue: routerSpy }, 
-        // { provide: StorageServiceService,   useValue: storageSpy},
         StorageServiceService,
-        { provide: MatDialog,   useValue: {} },
+        { provide: MatDialog,   useValue: MdDialogMock},
         { provide: MatDialogRef,   useValue: {}}]
     })
     .compileComponents();
@@ -46,12 +60,12 @@ describe('HomePageComponent', () => {
     component.username = component.user.userName;
     storage = fixture.debugElement.injector.get(StorageServiceService);
     fixture.detectChanges();
-    spyOnProperty(ApiClient, 'home').and.returnValue({ getHome: () => Promise.resolve(sampleGetHome)})
-    spyOnProperty(ApiClient, 'invitation').and.returnValue({getInvitation: () => Promise.resolve(sampleInvitation)})
-
+    spyOnProperty(ApiClient, 'home').and.returnValue({ getHome: () => Promise.resolve(sampleGetHome)});
+    spyOnProperty(ApiClient, 'invitation').and.returnValue({getInvitation: (uid) => Promise.resolve(sampleInvitation)});
   });
   describe('Basic Tests', () => {
     it('should create', () => {
+      console.info("dialog is "+ component.dialog.open)
         expect(component).toBeTruthy();
     });
 
@@ -61,7 +75,7 @@ describe('HomePageComponent', () => {
     });
 
     it('should call ApiClient.home.getHome when init', () => {
-      spyOn(HomePageComponent.prototype, 'handleInvitation');
+      spyOn(ApiClient.home, 'getHome');
       fixture = TestBed.createComponent(HomePageComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
@@ -69,11 +83,10 @@ describe('HomePageComponent', () => {
     });
 
     it('should call handleInvitation when init', () => {
-      spyOn(HomePageComponent.prototype, 'handleInvitation');
-      fixture = TestBed.createComponent(HomePageComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-      expect(component.handleInvitation).toHaveBeenCalled();
+      spyOnProperty(ApiClient, 'home').and.returnValue({ getHome: () => Promise.resolve(sampleGetHome)});
+      spyOnProperty(ApiClient, 'invitation').and.returnValue({getInvitation: (uid) => Promise.resolve(sampleInvitation)});
+      console.info(component.invitations+"++++++++++++++++++++++++++")
+      expect(component.invitations).toBe(sampleInvitation);
     });
 
 
