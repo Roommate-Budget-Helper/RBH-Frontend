@@ -18,7 +18,7 @@
     <span id="selectedFileName">Upload Receipt</span>
   </label>
   <ul *ngFor="let rm of data.rm; let i = index">
-    <li class="home-page-item flex-align-center" (click)="handleDirectToHome(home)">
+    <li class="home-page-item flex-align-center">
       {{rm}} pays {{data.ratio[i]}}% (${{data.ratio[i]*userToInvite.value/100}})
     </li>
   </ul>

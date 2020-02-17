@@ -41,15 +41,17 @@ export class HomeDetailPageComponent implements OnInit {
         this.convertRoommateString();
         this.billArray = await ApiClient.bill.getBillByHome(this.homeId);
         this.recurrentbillArray = await ApiClient.bill.getRecurrentBill(this.homeId)
-        this.recurrentbillArray.forEach(element => {
-            console.info(element)
-            if (this.date.getTime() >= new Date(element.isRecurentdatetime).getTime() && element.ownerId == this.user.id) {
-                let thisDialogRef = this.dialog.open(RecurrentBillDialogComponent, { data: { billName: element.full_name, interval: this.convertRecurrentBillInterval(element.recurrentInterval), rm: element.userName, ratio: element.ratio, element:element, user:this.user, home:this.home }, disableClose: true });
-                thisDialogRef.updatePosition({ top: '1%', right: '1%' });
-                thisDialogRef.afterClosed().subscribe(async (result) => {
-                })
-            }
-        });
+        if (this.recurrentbillArray.length > 0) {
+            this.recurrentbillArray.forEach(element => {
+                console.info(element)
+                if (this.date.getTime() >= new Date(element.isRecurentdatetime).getTime() && element.ownerId == this.user.id) {
+                    let thisDialogRef = this.dialog.open(RecurrentBillDialogComponent, { data: { billName: element.full_name, interval: this.convertRecurrentBillInterval(element.recurrentInterval), rm: element.userName, ratio: element.ratio, element: element, user: this.user, home: this.home }, disableClose: true });
+                    thisDialogRef.updatePosition({ top: '1%', right: '1%' });
+                    thisDialogRef.afterClosed().subscribe(async (result) => {
+                    })
+                }
+            });
+        }
 
         console.log(this.recurrentbillArray)
         console.log(this.billArray);
@@ -70,7 +72,7 @@ export class HomeDetailPageComponent implements OnInit {
         }
     }
 
-    
+
 
     convertRoommateString = () => {
         this.roommate_array = this.home.roommates.trim().split('  ');

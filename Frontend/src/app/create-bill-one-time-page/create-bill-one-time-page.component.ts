@@ -78,7 +78,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
         let result = this.oneTimeBillForm.value;
         this.owneram = result.amount;
         this.ownerpp = 100;
-        this.shareplanName = '';
+        console.info(this.shareplanName)
+        // this.shareplanName = '';
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
                 this.owneram -= element.amount;
@@ -162,7 +163,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
         result_am.push(this.owneram);
         result_pp.push(this.ownerpp);
         // console.info(result)
-
+        console.info(this.shareplanName)
         let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {
             data: {
                 amount: this.owneram,
@@ -245,8 +246,12 @@ export class CreateBillOneTimePageComponent implements OnInit {
     get addDynamicElement() {
         return this.oneTimeBillForm.get('addDynamicElement') as FormArray;
     }
+    updatePlan(){
+        this.shareplanName = ""
+    }
 
     addItems = (value) => {
+        
         if (this.roommate_array.length == 0 || this.addDynamicElement.controls.length >= this.rm_num) {
             alert(`You only have ${this.rm_num} roommates!`);
         } else {

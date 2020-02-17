@@ -63,6 +63,8 @@ export class RecurrentBillDialogComponent implements OnInit {
     let newDate = this.convertNextDate(this.data.element.recurrentInterval)
     console.info(newDate, this.data.element.id)
     await ApiClient.bill.updateRecurrent({ id: this.data.element.id, newDate: newDate })
+    this.imgResultAfterCompress = await this.imageCompress.compressFile(this.imgResultAfterCompress, 1, 20, 20)
+console.info(this.data.user.id, billRes.id, this.imgResultAfterCompress.toString().split(',')[1])
     await ApiClient.bill
       .uploadProofById({
         numId: this.data.user.id,
@@ -102,9 +104,8 @@ export class RecurrentBillDialogComponent implements OnInit {
       reader.readAsDataURL(file);
 
       reader.onload = async () => {
-        this.imgResultAfterCompress = await this.imageCompress.compressFile(reader.result.toString(), 1, 20, 20)
-           
-          
+        this.imgResultAfterCompress = reader.result.toString()
+           document.getElementById("selectedFileName").innerHTML = file.name  
       };
     }
   };
