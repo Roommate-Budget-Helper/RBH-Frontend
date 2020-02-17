@@ -88,6 +88,9 @@ export let routes: Routes = [
         RouterTestingModule,
         CommonModule
     ],
+    exports: [
+        MatCheckboxModule
+    ],
     declarations: [
         AppComponent,
         StartingPageComponent,

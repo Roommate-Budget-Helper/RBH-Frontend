@@ -102,7 +102,7 @@ export class RecurrentBillDialogComponent implements OnInit {
       reader.readAsDataURL(file);
 
       reader.onload = async () => {
-        this.imgResultAfterCompress = await this.imageCompress.compressFile(reader.result.toString(), 1, 10, 10)
+        this.imgResultAfterCompress = await this.imageCompress.compressFile(reader.result.toString(), 1, 20, 20)
            
           
       };

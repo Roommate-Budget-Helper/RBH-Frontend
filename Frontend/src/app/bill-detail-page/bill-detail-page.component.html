@@ -25,10 +25,10 @@
         <input class="edit-text" *ngIf="nameFlag" [(ngModel)]="billDetail[0].billName" type="text" class="form-control" />
         <div class="bill-detail-page__creator flex-align-center">
             <p class="bold">
-                Creator:&nbsp;
+                Description:&nbsp;
             </p>
             <p>
-                {{ billDetail && findOwner(billDetail) }}
+                {{ billDetail && findDescription(billDetail) }}
             </p>
         </div>
         <div class="bill-detail-page__time flex-align-center">

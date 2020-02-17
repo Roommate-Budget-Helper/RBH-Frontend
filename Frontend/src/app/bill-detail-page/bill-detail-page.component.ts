@@ -5,6 +5,8 @@ import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 import { StorageServiceService } from '../storage-service.service';
 const STORAGE_KEY = 'local_userInfo';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material';
+
 
 @Component({
     selector: 'app-bill-detail-page',
@@ -52,6 +54,9 @@ export class BillDetailPageComponent implements OnInit {
         });
         return this.ownerName;
     };
+    findDescription = (billDetail: IBillDetail[]): stringId => {
+        return this.billDetail[0].descri;
+    };
 
     getTitle = (index: number): string => {
         if (this.user.userName === this.ownerName) {
@@ -83,8 +88,8 @@ export class BillDetailPageComponent implements OnInit {
             //if is not owner
             if (this.billDetail[index].ownerId === this.billDetail[index].userId) {
                 return 'Check Recipt';
-            } else if (this.user.userId === this.billDetail[index].userId) {
-                return 'Upload Proof';
+            } else if (this.user.id === this.billDetail[index].userId) {
+                return 'Upload My Proof';
             } else {
                 return 'No Proof Uploaded';
             }
@@ -132,7 +137,7 @@ export class BillDetailPageComponent implements OnInit {
             console.info(reader.result.toString())
             reader.onload = () => {
                 console.info(reader.result.toString())
-                this.imageCompress.compressFile(reader.result.toString(), 1, 10, 10).then(
+                this.imageCompress.compressFile(reader.result.toString(), 1, 20, 20).then(
                     result => {
                         console.info(result);
                         imgResultAfterCompress = result;
@@ -159,6 +164,8 @@ export class BillDetailPageComponent implements OnInit {
         image.src = 'data:image/png;base64,' + basedString.proof;
         if (document.getElementById(basedString.index).childNodes.length === 0) {
             document.getElementById(basedString.index).append(image);
+            document.getElementById(basedString.index).innerHTML+="<br><input type='checkbox'>  Approve  </input> <input type='checkbox'>  Decline  </input>"
+            console.info( document.getElementById(basedString.index).innerHTML)
         }
 
         if (this.show) {
