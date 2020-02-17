@@ -3,15 +3,16 @@ import { Router, ActivatedRoute } from '@angular/router';
 import ApiClient from '../api-client';
 import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 import { StorageServiceService } from '../storage-service.service';
-import { NgxImageCompressService } from 'ngx-image-compress';
-
 const STORAGE_KEY = 'local_userInfo';
+import {NgxImageCompressService} from 'ngx-image-compress';
+
 @Component({
     selector: 'app-bill-detail-page',
     templateUrl: './bill-detail-page.component.html',
     styleUrls: ['./bill-detail-page.component.scss']
 })
 export class BillDetailPageComponent implements OnInit {
+    show: Boolean = false;
     billDetail: IBillDetail[];
     labelMsg = 'Upload Image';
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
@@ -26,7 +27,7 @@ export class BillDetailPageComponent implements OnInit {
         private StorageService: StorageServiceService,
         public fb: FormBuilder,
         private imageCompress: NgxImageCompressService
-    ) { }
+    ) {}
 
     async ngOnInit() {
         this.billDetail = await ApiClient.bill.getBillById(this.route.snapshot.params['id']);
@@ -43,7 +44,6 @@ export class BillDetailPageComponent implements OnInit {
     };
 
     findOwner = (billDetail: IBillDetail[]): stringId => {
-        console.info(billDetail);
         this.billDetail.map((i) => {
             if (i.ownerId == i.userId) {
                 this.ownerName = i.userName;
@@ -76,7 +76,7 @@ export class BillDetailPageComponent implements OnInit {
             if (this.billDetail[index].ownerId === this.billDetail[index].userId) {
                 return 'Upload Recipt';
             } else {
-                return 'Audit Proof';
+                return 'View Receipt';
             }
         } else {
             //if is not owner
@@ -85,7 +85,7 @@ export class BillDetailPageComponent implements OnInit {
             } else if (this.user.userId === this.billDetail[index].userId) {
                 return 'Upload Proof';
             } else {
-                return 'Check Proof';
+                return 'No Proof Uploaded';
             }
         }
     };
@@ -154,8 +154,23 @@ export class BillDetailPageComponent implements OnInit {
 
     onFileView = (basedString) => {
         var image = new Image();
+        image.style.width = '200px';
         image.src = 'data:image/png;base64,' + basedString.proof;
+        if (document.getElementById(basedString.index).childNodes.length === 0) {
+            document.getElementById(basedString.index).append(image);
+        }
 
-        alert(image);
+        if (this.show) {
+            document.getElementById(basedString.index).style.display = 'none';
+            this.show = !this.show;
+        } else {
+            document.getElementById(basedString.index).style.display = 'block';
+            this.show = !this.show;
+        }
     };
 }
+
+
+
+
+
