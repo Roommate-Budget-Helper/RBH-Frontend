@@ -31,6 +31,7 @@ export class SharePlanDialogComponent implements OnInit {
   checkName = (planName) => {
     if (this.data.sp_array.indexOf(planName) != -1) {
       alert('this name has already been used in this house')
+      return "";
     } else {
       return planName;
     }

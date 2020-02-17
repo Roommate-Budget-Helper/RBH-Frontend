@@ -30,7 +30,7 @@
                         (change)="uploadFile($event)"
                     />
                     <label for="imageUpload" [ngClass]="['custom-label', 'upload-image']">{{ labelMsg }}</label>
-                    <select #plan (change)="updateList($event)" *ngIf="shareplan_array.size>0">
+                    <select #plan (change)="updateList($event)" *ngIf="shareplan_array.length>0">
                         <option value="-1">Choose a share plan...</option>
                         <option *ngFor="let plan of shareplan_array; let i = index" value ="i">{{ plan.full_name }}</option>
                     </select>

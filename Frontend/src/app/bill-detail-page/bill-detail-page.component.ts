@@ -4,7 +4,7 @@ import ApiClient from '../api-client';
 import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
 import { StorageServiceService } from '../storage-service.service';
 const STORAGE_KEY = 'local_userInfo';
-import {NgxImageCompressService} from 'ngx-image-compress';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @Component({
     selector: 'app-bill-detail-page',
@@ -27,10 +27,11 @@ export class BillDetailPageComponent implements OnInit {
         private StorageService: StorageServiceService,
         public fb: FormBuilder,
         private imageCompress: NgxImageCompressService
-    ) {}
+    ) { }
 
     async ngOnInit() {
         this.billDetail = await ApiClient.bill.getBillById(this.route.snapshot.params['id']);
+        console.info(this.billDetail)
         // console.info(this.billDetail);
         this.findOwner(this.billDetail);
     }
@@ -124,11 +125,10 @@ export class BillDetailPageComponent implements OnInit {
         let reader = new FileReader();
         let file = event.target.files[0];
         let imgResultAfterCompress = file
-            
-        console.info(imgResultAfterCompress.size)
+
         if (event.target.files && event.target.files[0]) {
             reader.readAsDataURL(imgResultAfterCompress);
-            
+
             console.info(reader.result.toString())
             reader.onload = () => {
                 console.info(reader.result.toString())
@@ -136,18 +136,19 @@ export class BillDetailPageComponent implements OnInit {
                     result => {
                         console.info(result);
                         imgResultAfterCompress = result;
-                        console.warn('Size in bytes is now:',this.imageCompress.byteCount(result));
+                        console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
+                        ApiClient.bill
+                            .uploadProofById({
+                                numId: this.user.id,
+                                billId: this.route.snapshot.params['id'],
+                                baseString: imgResultAfterCompress.toString().split(',')[1]
+                            })
+                            .then(() => {
+                                alert('Successfully uploaded!');
+                            });
                     }
                 );
-                ApiClient.bill
-                    .uploadProofById({
-                        numId: this.user.id,
-                        billId: this.route.snapshot.params['id'],
-                        baseString: imgResultAfterCompress.toString().split(',')[1]
-                    })
-                    .then(() => {
-                        alert('Successfully uploaded!');
-                    });
+
             };
         }
     };

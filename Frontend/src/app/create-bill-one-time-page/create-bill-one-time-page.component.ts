@@ -51,6 +51,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
         this.deleteRoommate(this.user.userName);
 
         await this.getPlan();
+        console.info(this.shareplan_array)
         if (this.shareplan_array.length > 0) {
             this.shareplan_array.forEach((element) => {
                 this.shareplanName_array.push(element.full_name);
@@ -113,19 +114,19 @@ export class CreateBillOneTimePageComponent implements OnInit {
             this.roommate_array.splice(index, 1);
         }
     }
-    fileUpload = (billId, file) => {
+    fileUpload = async (billId, file) => {
         let afterCompress = file;
         this.imageCompress.compressFile(file, 1, 10, 10).then((result) => {
             afterCompress = result;
         });
-        ApiClient.bill
+        console.info(billId, afterCompress)
+        await ApiClient.bill
             .uploadProofById({
                 numId: this.user.id,
                 billId: billId,
                 baseString: afterCompress.toString().split(',')[1]
             })
             .then(() => {
-                alert('Successfully uploaded!');
                 this.router.navigateByUrl('/homedetail');
             });
     };
