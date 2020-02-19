@@ -25,10 +25,10 @@
         <input class="edit-text" *ngIf="nameFlag" [(ngModel)]="billDetail[0].billName" type="text" class="form-control" />
         <div class="bill-detail-page__creator flex-align-center">
             <p class="bold">
-                Creator:&nbsp;
+                Description:&nbsp;
             </p>
             <p>
-                {{ billDetail && findOwner(billDetail) }}
+                {{ billDetail && findDescription(billDetail) }}
             </p>
         </div>
         <div class="bill-detail-page__time flex-align-center">
@@ -66,19 +66,28 @@
         <div class="bill-detail-page__users" *ngFor="let item of billDetail; let i = index">
             <div class="flex-align-center">
                 <p class="bold">{{ billDetail && getTitle(i) }}:</p>
-
-                <p>Filename: {{ fileName }}</p>
+                <p>{{ billDetail[i].proof == null||billDetail[i].proof.length<=100 ? 'No File' : 'Uploaded' }}</p>
             </div>
+
             <div class="flex-align-center">
                 <p>{{ billDetail && billDetail[i].userName }}</p>
-                <p>({{ billDetail && billDetail[i].proportion * 100 }}%)</p>
-                <!-- <button class="user-button">{{ billDetail && getButtonText(i) }}</button> -->
-                <label class="upload-btn">
-                    <input type="file" id="input-file" name="file" (change)="onFileUpload($event.target.files)" />
+                <p>({{ billDetail && billDetail[i].proportion }}%)</p>
+                <label class="upload-btn" *ngIf="billDetail[i].proof == null||billDetail[i].proof.length<=100" >
+                    <input
+                        id="input-file"
+                        type="file"
+                        accept=".png, .jpg, .jpeg"
+                        #fileInput
+                        (change)="onFileUpload($event, { userId: billDetail[i].userId })"
+                        [disabled]="billDetail[i].userName!=user.userName "
+                    />
                     <span id="selectedFileName">{{ billDetail && getButtonText(i) }}</span>
                 </label>
-                <!-- <input name="Filename:" type="file" id="upload-photo" /> -->
+                <Button class="view-btn" *ngIf="billDetail[i].proof != null&&billDetail[i].proof.length>100" (click)="onFileView({ proof: billDetail[i].proof, index: i })" 
+                    >View
+                </Button>
             </div>
+            <div attr.id="{{ i }}"></div>
         </div>
 
         <div class="delete-button">

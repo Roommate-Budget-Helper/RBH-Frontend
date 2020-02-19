@@ -6,6 +6,7 @@ import ApiClient from '../api-client';
 import { element } from 'protractor';
 import { SharePlanDialogComponent } from '../share-plan-dialog/share-plan-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 const HOME_STORAGE_KEY = 'local_homeId';
 const STORAGE_KEY = 'local_userInfo';
@@ -22,7 +23,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
     home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
     roommate_array = this.home.roommates.trim().split('  ');
     editable_array = this.home.roommates.trim().split('  ');
-    shareplan_array;
+    shareplan_array = [];
     shareplanId;
     shareplanName;
     shareplanName_array = [];
@@ -32,7 +33,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
         public fb: FormBuilder,
         private StorageService: StorageServiceService,
         public dialog: MatDialog,
-        public dialogRef: MatDialogRef<any>
+        public dialogRef: MatDialogRef<any>,
+        private imageCompress: NgxImageCompressService
     ) {}
     oneTimeBillForm = this.fb.group({
         billname: [''],
@@ -49,25 +51,40 @@ export class CreateBillOneTimePageComponent implements OnInit {
         this.deleteRoommate(this.user.userName);
 
         await this.getPlan();
-        this.shareplan_array.forEach(element => {
-            this.shareplanName_array.push(element.full_name)
-        });
-
-        console.log(this.shareplan_array);
+        console.info(this.shareplan_array)
+        if (this.shareplan_array.length > 0) {
+            this.shareplan_array.forEach((element) => {
+                this.shareplanName_array.push(element.full_name);
+            });
+        }
     }
 
+    uploadFile(event) {
+        let reader = new FileReader();
+        let file = event.target.files[0];
+        this.labelMsg = file.name;
+        if (event.target.files && event.target.files[0]) {
+            reader.readAsDataURL(file);
+
+            // When file uploads set it to file formcontrol
+            reader.onload = () => {
+                this.oneTimeBillForm.patchValue({
+                    receipt: reader.result
+                });
+            };
+        }
+    }
     updateOwner = () => {
         let result = this.oneTimeBillForm.value;
         this.owneram = result.amount;
         this.ownerpp = 100;
+        console.info(this.shareplanName)
+        // this.shareplanName = '';
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
-                console.info('element amount: ' + element.amount);
-                // console.info("hhhhhhhhhhh",element.rm_name.rm_name );
                 this.owneram -= element.amount;
                 this.ownerpp -= (element.amount / result.amount) * 100;
                 this.ownerpp = parseFloat(this.ownerpp.toPrecision(4));
-                console.info(this.ownerpp);
             });
         } else {
             this.addDynamicElement.value.forEach((element) => {
@@ -98,23 +115,22 @@ export class CreateBillOneTimePageComponent implements OnInit {
             this.roommate_array.splice(index, 1);
         }
     }
-    uploadFile(event) {
-        let reader = new FileReader();
-        let file = event.target.files[0];
-        this.labelMsg = file.name;
-        if (event.target.files && event.target.files[0]) {
-            reader.readAsDataURL(file);
-
-            // When file uploads set it to file formcontrol
-            reader.onload = () => {
-                this.oneTimeBillForm.patchValue({
-                    receipt: reader.result
-                });
-            };
-            // ChangeDetectorRef since file is loading outside the zone
-            //   this.cd.markForCheck();
-        }
-    }
+    fileUpload = async (billId, file) => {
+        let afterCompress = file;
+        this.imageCompress.compressFile(file, 1, 10, 10).then((result) => {
+            afterCompress = result;
+        });
+        console.info(billId, afterCompress)
+        await ApiClient.bill
+            .uploadProofById({
+                numId: this.user.id,
+                billId: billId,
+                baseString: afterCompress.toString().split(',')[1]
+            })
+            .then(() => {
+                this.router.navigateByUrl('/homedetail');
+            });
+    };
 
     onSubmit() {
         let result_am = [];
@@ -125,7 +141,6 @@ export class CreateBillOneTimePageComponent implements OnInit {
         let total_am = 0,
             total_pp = 0;
 
-        console.info(this.oneTimeBillForm.controls);
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
                 console.info('element amount: ' + element.amount);
@@ -148,23 +163,25 @@ export class CreateBillOneTimePageComponent implements OnInit {
         result_am.push(this.owneram);
         result_pp.push(this.ownerpp);
         // console.info(result)
-        console.info(result_rm);
-        console.info(this.shareplanId)
-        console.info(this.shareplanName_array.indexOf(this.shareplanName))
-
+        console.info(this.shareplanName)
         let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {
-            data: { amount: this.owneram, pp: this.ownerpp, spName: this.shareplanName, sp_array: this.shareplanName_array,recurrent: false },
+            data: {
+                amount: this.owneram,
+                pp: this.ownerpp,
+                spName: this.shareplanName,
+                sp_array: this.shareplanName_array,
+                recurrent: false
+            },
             disableClose: true
         });
         let date: Date = new Date();
         thisDialogRef.afterClosed().subscribe(async (res) => {
-            console.info(result);
-            console.info(res);
             if (res == 'back') {
                 return;
             }
+            var billRes = {} as IBillCreateResponse;
             if (res == '') {
-                ApiClient.bill.createBill({
+                billRes = await ApiClient.bill.createBill({
                     ownerId: this.user.id,
                     homeId: this.home.HouseId,
                     plannedSharedFlag: 0,
@@ -178,12 +195,12 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     descri: result.description,
                     isRecurrent: 0,
                     isRecurrentDateTime: date,
-                    recurrentIntervl:0,
+                    recurrentIntervl: 0,
                     created_at: date,
                     created_by: this.user.userName
                 });
             } else if (this.shareplanName_array.indexOf(this.shareplanName) >= 0) {
-                ApiClient.bill.createBill({
+                billRes = await ApiClient.bill.createBill({
                     ownerId: this.user.id,
                     homeId: this.home.HouseId,
                     plannedSharedFlag: 1,
@@ -197,12 +214,12 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     descri: result.description,
                     isRecurrent: 0,
                     isRecurrentDateTime: date,
-                    recurrentIntervl:0,
+                    recurrentIntervl: 0,
                     created_at: date,
                     created_by: this.user.userName
                 });
             } else {
-                ApiClient.bill.createBill({
+                billRes = await ApiClient.bill.createBill({
                     ownerId: this.user.id,
                     homeId: this.home.HouseId,
                     plannedSharedFlag: 1,
@@ -216,27 +233,30 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     descri: result.description,
                     isRecurrent: 0,
                     isRecurrentDateTime: date,
-                    recurrentIntervl:0,
+                    recurrentIntervl: 0,
                     created_at: date,
                     created_by: this.user.userName
                 });
             }
-            this.router.navigateByUrl('/homedetail')
 
+            this.fileUpload(billRes.id, result.receipt);
         });
     }
 
     get addDynamicElement() {
         return this.oneTimeBillForm.get('addDynamicElement') as FormArray;
     }
+    updatePlan(){
+        this.shareplanName = ""
+    }
 
     addItems = (value) => {
-        console.info(this.addDynamicElement.controls.length);
+        
         if (this.roommate_array.length == 0 || this.addDynamicElement.controls.length >= this.rm_num) {
             alert(`You only have ${this.rm_num} roommates!`);
         } else {
             this.addDynamicElement.push(value);
-            console.info(value);
+
             this.current_array.push(value);
         }
     };
@@ -247,8 +267,6 @@ export class CreateBillOneTimePageComponent implements OnInit {
     };
 
     updateList = (e) => {
-        console.info('event: ', e.target.value);
-        console.info(e);
         if (e.target.value == -1) {
             this.shareplanId = -1;
             this.shareplanName = '';
@@ -290,23 +308,12 @@ export class CreateBillOneTimePageComponent implements OnInit {
     changeName(i, e) {
         let total = this.oneTimeBillForm.value.amount;
         let evalue = e.target.value;
-        console.log(this.roommate_array.indexOf(evalue));
+
         if (this.roommate_array.indexOf(evalue) < 0) {
             this.updateOwner();
             return;
         }
-        console.info(this.addDynamicElement.at(i));
-        // this.addDynamicElement.at(i)
-        //     .patchValue(
-        //         {rm_name: value}
-        //     );
-        // this.addDynamicElement.get(`${i}`)   .['rm_name'].setValue(value)
-        console.info('isisis', evalue);
-        console.info('current: ', this.current_array, i, this.current_array[i] == '');
-        // console.info("current array is: "+this.current_array)
-        // console.info("roommate array is: "+this.roommate_array)
-        // console.info("changed to: "+ value)
-        // console.info("last value is: "+ this.current_array[i])
+
         if (this.current_array[i] == '') {
             this.deleteRoommate(evalue);
             this.current_array[i] = evalue;
@@ -315,7 +322,6 @@ export class CreateBillOneTimePageComponent implements OnInit {
             this.roommate_array.push(this.current_array[i]);
             this.current_array[i] = evalue;
         }
-        console.log(this.current_array, this.roommate_array);
 
         // if(this.oneTimeBillForm.value.splitMethod=="Percentage"){
         //       this.result_pp.push(moneyValue)

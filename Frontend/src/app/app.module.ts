@@ -11,6 +11,8 @@ import { StorageServiceModule } from 'ngx-webstorage-service';
 import { StorageServiceService } from './storage-service.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule } from '@angular/common';
+import {NgxImageCompressService} from 'ngx-image-compress';
+
 import {
     MatButtonModule,
     MatCheckboxModule,
@@ -86,6 +88,9 @@ export let routes: Routes = [
         RouterTestingModule,
         CommonModule
     ],
+    exports: [
+        MatCheckboxModule
+    ],
     declarations: [
         AppComponent,
         StartingPageComponent,
@@ -105,7 +110,7 @@ export let routes: Routes = [
         SharePlanDialogComponent,
         RecurrentBillDialogComponent
     ],
-    providers: [{ provide: MatDialogRef, useValue: {} }, StorageServiceService],
+    providers: [{ provide: MatDialogRef, useValue: {} }, StorageServiceService, NgxImageCompressService],
     entryComponents: [
         RegisterPageComponent,
         LoginPageComponent,

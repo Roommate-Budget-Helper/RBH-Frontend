@@ -30,7 +30,7 @@
                         (change)="uploadFile($event)"
                     />
                     <label for="imageUpload" [ngClass]="['custom-label', 'upload-image']">{{ labelMsg }}</label>
-                    <select (change)="updateList($event)">
+                    <select #plan (change)="updateList($event)" *ngIf="shareplan_array.length>0">
                         <option value="-1">Choose a share plan...</option>
                         <option *ngFor="let plan of shareplan_array; let i = index" [value] ="i">{{ plan.full_name }}</option>
                     </select>
@@ -45,12 +45,12 @@
             </div>
             <div class="create-bill-one__splitwith flex-align-center">
                 <p>Split with</p>
-                <select name="shareplan" id="shareplan" formControlName="splitMethod" (change)="updateOwner()">
+                <select name="shareplan" id="shareplan" formControlName="splitMethod" (change)="updateOwner(); plan.value = -1;updatePlan()">
                     <option value="Percentage">Percentage</option>
                     <option value="Amount">Amount</option>
                 </select>
-                <img src="../../assets/add-arrow.svg" class="button" (click)="addItems(shareDetail)" />
-                <img src="../../assets/minus-arrow.svg" class="button" id="minus" (click)="deleteItems()" />
+                <img src="../../assets/add-arrow.svg" class="button" (click)="addItems(shareDetail);plan.value = -1;updatePlan()" />
+                <img src="../../assets/minus-arrow.svg" class="button" id="minus" (click)="deleteItems();plan.value = -1;updatePlan()" />
             </div>
             <p>You are now paying {{ownerpp}}% of this bill, in total ${{owneram}}.</p>
             <div *ngIf="oneTimeBillForm.value.splitMethod=='Percentage'; then pp; else am"></div>
@@ -65,7 +65,7 @@
                             *ngFor="let item of addDynamicElement.controls; let i = index"
                             class="create-bill-one__list_elements flex-align-center"
                             [formGroupName]="i"
-                            (change)="changeName(i, $event)"
+                            (change)="changeName(i, $event);plan.value = -1;updatePlan()"
                         >
                             <select  formControlName="rm_name">
                                 <option>{{item.get('rm_name').value.length!=0 ? item.get('rm_name').value : 'Choose'}}</option>
@@ -88,7 +88,7 @@
                             *ngFor="let item of addDynamicElement.controls; let i = index"
                             class="create-bill-one__list_elements flex-align-center"
                             [formGroupName]="i"
-                            (change)="changeName(i, $event)"
+                            (change)="changeName(i, $event);plan.value = -1;updatePlan()"
                         >
                             <select  formControlName="rm_name">
                                 <option>{{item.get('rm_name').value.length!=0 ? item.get('rm_name').value : 'Choose'}}</option>

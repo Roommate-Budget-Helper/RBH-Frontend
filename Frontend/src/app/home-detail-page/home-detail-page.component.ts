@@ -41,42 +41,17 @@ export class HomeDetailPageComponent implements OnInit {
         this.convertRoommateString();
         this.billArray = await ApiClient.bill.getBillByHome(this.homeId);
         this.recurrentbillArray = await ApiClient.bill.getRecurrentBill(this.homeId)
-        this.recurrentbillArray.forEach(element => {
-            console.info(element.ownerId)
-            if (this.date.getTime() >= new Date(element.isRecurentdatetime).getTime() && element.ownerId == this.user.id) {
-                let thisDialogRef = this.dialog.open(RecurrentBillDialogComponent, { data: { billName: element.full_name, interval: this.convertRecurrentBillInterval(element.recurrentInterval), rm: element.userName, ratio: element.ratio }, disableClose: true });
-                thisDialogRef.updatePosition({ top: '1%', right: '1%' });
-                thisDialogRef.afterClosed().subscribe(async (result) => {
-                    console.info(result)
-                    let amount = []
-                    element.ratio.forEach(ratio => {
-                        amount.push(ratio * result / 100)
+        if (this.recurrentbillArray.length > 0) {
+            this.recurrentbillArray.forEach(element => {
+                console.info(element)
+                if (this.date.getTime() >= new Date(element.isRecurentdatetime).getTime() && element.ownerId == this.user.id) {
+                    let thisDialogRef = this.dialog.open(RecurrentBillDialogComponent, { data: { billName: element.full_name, interval: this.convertRecurrentBillInterval(element.recurrentInterval), rm: element.userName, ratio: element.ratio, element: element, user: this.user, home: this.home }, disableClose: true });
+                    thisDialogRef.updatePosition({ top: '1%', right: '1%' });
+                    thisDialogRef.afterClosed().subscribe(async (result) => {
                     })
-                    console.info(amount)
-                    await ApiClient.bill.createBill({
-                        ownerId: this.user.id,
-                        homeId: this.home.HouseId,
-                        plannedSharedFlag: 1,
-                        sharePlanid: element.id,
-                        full_name: element.full_name,
-                        totalAmount: result,
-                        roommates: element.userName,
-                        amount: amount,
-                        proportion: element.ratio,
-                        billName: element.full_name,
-                        descri: element.descri,
-                        isRecurrent: 0,
-                        isRecurrentDateTime: this.date,
-                        recurrentIntervl: 0,
-                        created_at: this.date,
-                        created_by: this.user.userName
-                    });
-                    let newDate = this.convertNextDate(element.recurrentInterval)
-                    console.info(newDate, element.id)
-                    await ApiClient.bill.updateRecurrent({id: element.id, newDate: newDate})
-                })
-            }
-        });
+                }
+            });
+        }
 
         console.log(this.recurrentbillArray)
         console.log(this.billArray);
@@ -97,29 +72,7 @@ export class HomeDetailPageComponent implements OnInit {
         }
     }
 
-    convertNextDate = (num) => {
-        switch (num) {
-            case 30:
-                var now = new Date();
-                return this.addAMonth(now)
-            case 7:
-                return new Date(Date.now() + (6.04e+8))
-            case 90:
-                return this.addAMonth(this.addAMonth(this.addAMonth(now)))
-            case 180:
-                return this.addAMonth(this.addAMonth(this.addAMonth(this.addAMonth(this.addAMonth(this.addAMonth(now))))))
-            default:
-                ""
-        }
-    }
 
-    addAMonth = (date) => {
-        if (date.getMonth() == 11) {
-            return new Date(date.getFullYear() + 1, 0, date.getDate());
-        } else {
-            return new Date(date.getFullYear(), date.getMonth() + 1, date.getDate());
-        }
-    }
 
     convertRoommateString = () => {
         this.roommate_array = this.home.roommates.trim().split('  ');
