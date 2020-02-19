@@ -47,8 +47,6 @@ export class HomeDetailPageComponent implements OnInit {
                 if (this.date.getTime() >= new Date(element.isRecurentdatetime).getTime() && element.ownerId == this.user.id) {
                     let thisDialogRef = this.dialog.open(RecurrentBillDialogComponent, { data: { billName: element.full_name, interval: this.convertRecurrentBillInterval(element.recurrentInterval), rm: element.userName, ratio: element.ratio, element: element, user: this.user, home: this.home }, disableClose: true });
                     thisDialogRef.updatePosition({ top: '1%', right: '1%' });
-                    thisDialogRef.afterClosed().subscribe(async (result) => {
-                    })
                 }
             });
         }

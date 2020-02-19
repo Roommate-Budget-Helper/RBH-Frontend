@@ -122,7 +122,7 @@ export class CreateBillRecurringPageComponent implements OnInit {
             if (res == "back") {
                 return;
             } else {
-                ApiClient.bill.createBill({
+                await ApiClient.bill.createBill({
                     ownerId: this.user.id,
                     homeId: this.home.HouseId,
                     plannedSharedFlag: 1,
