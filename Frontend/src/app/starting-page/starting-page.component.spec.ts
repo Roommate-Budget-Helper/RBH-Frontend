@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { SpyLocation } from '@angular/common/testing';;
 // import { Location } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
@@ -14,7 +15,7 @@ describe('StartingPageComponent', () => {
     let fixture: ComponentFixture<StartingPageComponent>;
     let button;
     let buttons;
-    let router: Router;
+    let router;
     let spy;
     // let location: SpyLocation;
 
@@ -23,7 +24,9 @@ describe('StartingPageComponent', () => {
             imports:[FormsModule, RouterTestingModule],
             declarations: [StartingPageComponent],
             providers: [
-                { provide: Router,   useValue: routerSpy }
+                { provide: Router,   useValue: routerSpy },
+                { provide: MatDialog,   useValue: {} },
+                { provide: MatDialogRef,   useValue: {} }
                 // Location
             ]
         }).compileComponents();
@@ -31,9 +34,9 @@ describe('StartingPageComponent', () => {
         component = fixture.componentInstance;
     }));
 
+
     describe('Basic Tests', () => {
         it('should create', () => {
-            console.log()
             expect(component).toBeTruthy();
         });
     });
