@@ -4,34 +4,48 @@ import * as sha256 from 'sha256';
 import * as _ from 'lodash';
 import { Router } from '@angular/router';
 import { MatDialogRef } from '@angular/material';
-import { Validators, FormGroup, FormBuilder } from '@angular/forms';
+import {FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder} from '@angular/forms';
 import { StorageServiceService } from '../storage-service.service';
+import {ErrorStateMatcher} from '@angular/material/core';
+
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+    
+    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+        const invalidCtrl = !!(control && control.invalid&&control.parent.dirty);
+        const invalidParent = !!(control && control.parent && control.parent.invalid && control.parent.dirty);
+        return (invalidCtrl||invalidParent);
+    }
+  }
 
 @Component({
     selector: 'app-register-page',
     templateUrl: './register-page.component.html',
     styleUrls: ['./register-page.component.scss']
 })
-export class RegisterPageComponent implements OnInit {
+export class RegisterPageComponent {
     options: any;
     registerForm: FormGroup;
-    formErrors = {
-        username: '',
-        email: '',
-        password: '',
-        repassword: ''
-    };
-    constructor(private dialogRef: MatDialogRef<RegisterPageComponent>, private fb: FormBuilder, private router: Router, private StorageService: StorageServiceService) {
+    matcher= new MyErrorStateMatcher();
+
+    constructor(private fb: FormBuilder, private router: Router, private StorageService: StorageServiceService) {
+        
+
         this.createForm();
         this.options = { email: '', username: '', password: '', repassword: '' };
     }
-
+    
     checkPasswords(group: FormGroup) {
-        let pass = group.get('password').value;
+        let pass:string = group.get('password').value;
         let confirmPass = group.get('repassword').value;
-
-        return pass === confirmPass ? null : { notSame: true };
+// console.info(pass == confirmPass, pass, confirmPass, confirmPass!=null)
+        if(pass == confirmPass){
+         return null }
+         else{ 
+             return { notSame: true } };
     }
+    
+
     createForm() {
         this.registerForm = this.fb.group(
             {
@@ -48,14 +62,14 @@ export class RegisterPageComponent implements OnInit {
                         Validators.pattern('^[a-zA-Z0-9_@!?-]{1,100}$')
                     ]
                 ],
-                repassword: ['', [Validators.required]],
+                repassword: [''],
                 email: ['', [Validators.email, Validators.required]]
             },
             { validator: this.checkPasswords }
         );
     }
 
-    ngOnInit() {}
+
 
     handleBack = () => {
         this.router.navigateByUrl('/');

@@ -34,7 +34,7 @@
                 Password *
             </p>
             <mat-form-field>
-                <input formControlName="password" class="form-input" matInput type="password" required />
+                <input formControlName="password" class="form-input" matInput type="password"  />
                 <mat-error>
                     Invalid password: Password must be at least 5 characters.
                 </mat-error>
@@ -45,8 +45,8 @@
                 Re-Enter Password *
             </p>
             <mat-form-field>
-                <input formControlName="repassword" class="form-input" matInput type="password" required />
-                <mat-error>
+                <input formControlName="repassword" class="form-input" matInput type="password" [errorStateMatcher]="matcher"/>
+                <mat-error *ngIf="registerForm.hasError('notSame')">
                     Please re-enter your password same as above.
                 </mat-error>
             </mat-form-field>
