@@ -1,0 +1,29 @@
+<div class="bill-history-container">
+    <img class="bill-history-arrow" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
+    <div class="bill-history-user-info">
+        <img class="bill-history-user-icon" src="../../assets/user-icon.svg" />
+        <p class="black">Hi {{ user.userName }}</p>
+    </div>
+    <div class="history-item">
+        <h2>
+            Bill History
+        </h2>
+        <ul *ngFor="let history of histories">
+            <li class="home-page-item flex-align-center">
+                <img class="home-page-house-icon" src="../../assets/home-cover.svg" />
+                <div class="home-page-item__content align-center">
+                    <p>{{ history.billName }}</p>
+                    <div class="home-page-item__people flex-align-center grey">
+                        <p><strong>Updated at:</strong> {{ history.created_at.substr(0, 10) }}</p>
+                    </div>
+                    <div class="home-page-item__people flex-align-center grey">
+                        <p><strong>Description: </strong>{{ history.descri }}</p>
+                    </div>
+                    <div class="home-page-item__people flex-align-center grey">
+                        <p><strong>Total amount: </strong>{{ history.totalAmount }}</p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

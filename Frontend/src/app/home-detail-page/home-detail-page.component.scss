@@ -14,11 +14,6 @@
         left: 20px;
         top: 20px;
     }
-    .home-detail-page-title {
-        position: absolute;
-        left: 30px;
-        top: 50px;
-    }
 
     .home-detail-page-user-info {
         text-align: right;
@@ -26,6 +21,11 @@
         position: absolute;
         right: 5%;
         top: 20px;
+    }
+    .home-detail-page-title {
+        position: absolute;
+        left: 30px;
+        top: 50px;
     }
 
     .home-detail-page-item {
@@ -114,7 +114,12 @@
                     .home-detail-page-list-view {
                         margin-left: auto;
 
-                        padding: 10px;
+                        // padding: 10px;
+                        button {
+                            display: block;
+                            width: 45px;
+                            padding: 5px 5px 5px 5px;
+                        }
                     }
                     button {
                         padding: 5px 10px 5px 10px;

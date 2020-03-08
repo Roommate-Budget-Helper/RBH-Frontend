@@ -69,7 +69,7 @@
                         >
                             <select  formControlName="rm_name">
                                 <option>{{item.get('rm_name').value.length!=0 ? item.get('rm_name').value : 'Choose'}}</option>
-                                <option *ngFor="let rm of roommate_array">{{ rm }}</option>
+                                <option *ngFor="let rm of roommate_array" >{{ rm }}</option>
                             </select>
                             <input type="number" class="form-control" formControlName="amount" placeholder="Amount Shared" />
                             <span matSuffix>%</span>

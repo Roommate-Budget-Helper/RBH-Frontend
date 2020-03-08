@@ -64,9 +64,14 @@
                             </div>
                             <p>Created By: {{ billArray[i].created_by }} {{ billArray[i].created_at.substr(0, 10) }}</p>
                         </div>
-                        <button class="home-detail-page-list-view" (click)="redirectToDetail(billArray[i].id)">
-                            View
-                        </button>
+                        <div class="home-detail-page-list-view">
+                            <button (click)="redirectToDetail(billArray[i].id)">
+                                View
+                            </button>
+                            <button (click)="redirectToHistory(billArray[i].id)">
+                                History
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

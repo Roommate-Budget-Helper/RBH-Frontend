@@ -19,7 +19,7 @@
             </p> -->
 
             <button class="edit-button" (click)="nameOnclick()">
-                Edit
+                {{nameStatus}}
             </button>
         </div>
         <input class="edit-text" *ngIf="nameFlag" [(ngModel)]="billDetail[0].billName" type="text" class="form-control" />
@@ -30,7 +30,11 @@
             <p>
                 {{ billDetail && findDescription(billDetail) }}
             </p>
+            <button class="edit-button" (click)="descriptionOnclick()">
+                {{descriStatus}}
+            </button>
         </div>
+        <input class="edit-text" *ngIf="descriFlag" [(ngModel)]="billDetail[0].descri" type="text" class="form-control" />
         <div class="bill-detail-page__time flex-align-center">
             <p class="bold">
                 Create Time:&nbsp;
@@ -48,7 +52,7 @@
             </p>
 
             <button class="edit-button" (click)="amountOnclick()">
-                Edit
+                {{amountStatus}}
             </button>
         </div>
         <input class="edit-text" *ngIf="amountFlag" [(ngModel)]="billDetail[0].totalAmount" type="text" class="form-control" />
@@ -59,9 +63,9 @@
             <p>
                 Percentage
             </p>
-            <button class="edit-button">
+            <!-- <button class="edit-button">
                 Edit
-            </button>
+            </button> -->
         </div>
         <div class="bill-detail-page__users" *ngFor="let item of billDetail; let i = index">
             <div class="flex-align-center">
@@ -90,8 +94,11 @@
             <div attr.id="{{ i }}"></div>
         </div>
 
-        <div class="delete-button">
-            <button>
+        <div class="bottom-buttons">
+            <button class="update-button" (click)="updateBillDetailOnclick()">
+                Update
+            </button>
+            <button class="delete-button">
                 Delete
             </button>
         </div>

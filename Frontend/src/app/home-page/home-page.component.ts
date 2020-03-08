@@ -33,7 +33,7 @@ export class HomePageComponent implements OnInit {
         await this.handleInvitation();
 
         for (let invitation of this.invitations) {
-            let thisDialogRef = this.dialog.open(InvitationDialogComponent, { data: { name: invitation.houseName }, disableClose: true  });
+            let thisDialogRef = this.dialog.open(InvitationDialogComponent, { data: { name: invitation.houseName }, disableClose: true });
             thisDialogRef.updatePosition({ top: '1%', right: '1%' });
             thisDialogRef.afterClosed().subscribe(async (result) => {
                 if (result == 'accept') {

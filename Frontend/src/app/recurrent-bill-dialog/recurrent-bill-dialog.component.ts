@@ -64,11 +64,10 @@ export class RecurrentBillDialogComponent implements OnInit {
     console.info(newDate, this.data.element.id)
     await ApiClient.bill.updateRecurrent({ id: this.data.element.id, newDate: newDate })
     this.imgResultAfterCompress = await this.imageCompress.compressFile(this.imgResultAfterCompress, 1, 20, 20)
-console.info(this.data.user.id, billRes.id, this.imgResultAfterCompress.toString().split(',')[1])
     await ApiClient.bill
       .uploadProofById({
         numId: this.data.user.id,
-        billId: billRes.id,
+        billId: billRes.id.valueOf(),
         baseString: this.imgResultAfterCompress.toString().split(',')[1]
       })
   }
