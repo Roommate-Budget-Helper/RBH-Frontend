@@ -11,7 +11,7 @@ import { StorageServiceModule } from 'ngx-webstorage-service';
 import { StorageServiceService } from './storage-service.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule } from '@angular/common';
-import {NgxImageCompressService} from 'ngx-image-compress';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 import {
     MatButtonModule,
@@ -59,7 +59,8 @@ export let routes: Routes = [
     { path: 'recurringtimebill', component: CreateBillRecurringPageComponent },
     { path: 'paymenthistory', component: PaymentHistoryPageComponent },
     { path: 'recurringtimebill', component: CreateBillRecurringPageComponent },
-    { path: 'billdetail/:id', component: BillDetailPageComponent }
+    { path: 'billdetail/:id', component: BillDetailPageComponent },
+    { path: 'billhistory/:id', component: BillHistoryPageComponent }
 ];
 @NgModule({
     imports: [
@@ -89,9 +90,7 @@ export let routes: Routes = [
         RouterTestingModule,
         CommonModule
     ],
-    exports: [
-        MatCheckboxModule
-    ],
+    exports: [MatCheckboxModule],
     declarations: [
         AppComponent,
         StartingPageComponent,

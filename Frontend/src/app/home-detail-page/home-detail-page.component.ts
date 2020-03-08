@@ -135,7 +135,6 @@ export class HomeDetailPageComponent implements OnInit {
     };
 
     deleteBill = (billId) => {
-        console.info(billId);
         let index;
         for (let bill of this.billArray) {
             if (bill.id == billId) {

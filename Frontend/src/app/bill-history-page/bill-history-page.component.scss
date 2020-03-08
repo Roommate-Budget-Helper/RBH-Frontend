@@ -1,0 +1,56 @@
+@import '../../styles.scss';
+
+.bill-history-container {
+    width: 100%;
+    height: 100%;
+    .bill-history-arrow {
+        position: absolute;
+        left: 20px;
+        top: 20px;
+    }
+
+    .bill-history-user-info {
+        text-align: right;
+        padding: 0px 0px 0px 0px;
+        position: absolute;
+        right: 5%;
+        top: 20px;
+    }
+    .history-item {
+        margin-top: 100px;
+        h2 {
+            margin-left: 10px;
+        }
+        ul {
+            padding: 0px;
+
+            .home-page-item {
+                margin: 10px;
+                border-radius: 4px;
+                padding: 10px;
+                display: flex;
+                align-items: center;
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                list-style-type: none;
+
+                .home-page-item__content {
+                    display: inline-block;
+                    margin-left: 10px;
+                    .home-page-item__people {
+                        p {
+                            font-size: $size__font--hint;
+                        }
+                        p:not(:first-child) {
+                            margin-left: 5px;
+                        }
+                    }
+                }
+
+                .home-page-bell-icon {
+                    margin-right: 10px;
+                    margin-left: auto;
+                }
+            }
+        }
+    }
+}
