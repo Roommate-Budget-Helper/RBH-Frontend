@@ -117,7 +117,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
     }
     fileUpload = async (billId, file) => {
         let afterCompress = file;
-        this.imageCompress.compressFile(file, 1, 10, 10).then((result) => {
+       this.imageCompress.compressFile(file, 1, 10, 10).then((result) => {
             afterCompress = result;
         });
         console.info(billId, afterCompress);
@@ -164,6 +164,13 @@ export class CreateBillOneTimePageComponent implements OnInit {
         result_pp.push(this.ownerpp);
         // console.info(result)
         console.info(this.shareplanName);
+        if(result.receipt==null){
+            alert("please upload a image for this bill")
+            return
+        } else if(result.billname==null){
+            alert("please give this bill a name")
+            return
+        }
         let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {
             data: {
                 amount: this.owneram,
@@ -179,6 +186,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
             if (res == 'back') {
                 return;
             }
+            
             var billRes = {} as IBillCreateResponse;
             if (res == '') {
                 billRes = await ApiClient.bill.createBill({
@@ -238,7 +246,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
                     created_by: this.user.userName
                 });
             }
-
+            
             this.fileUpload(billRes.id, result.receipt);
         });
     }
@@ -256,7 +264,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
             alert(`You only have ${this.rm_num} roommates!`);
         } else {
             this.addDynamicElement.push(value);
-            if (value.rm_name.length > 0) {
+            console.info(value.value.rm_name)
+            if (value.value.rm_name.length > 0) {
                 this.current_array.push(value.rm_name);
             }
         }
@@ -303,6 +312,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
                 }
             }
             this.updateOwner();
+            console.info(this.ownerpp)
         }
     };
 
