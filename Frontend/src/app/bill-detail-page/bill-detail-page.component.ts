@@ -21,8 +21,12 @@ export class BillDetailPageComponent implements OnInit {
     ownerName = '111';
     nameFlag = false;
     amountFlag = false;
+    descriFlag = false;
     fileToUpload: File = null;
     fileName: String = null;
+    nameStatus = "Edit";
+    descriStatus = "Edit";
+    amountStatus = "Edit";
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -98,33 +102,72 @@ export class BillDetailPageComponent implements OnInit {
 
     nameOnclick = () => {
         const tempName = this.billDetail[0].billName;
-        //this.amountFlag = !this.amountFlag;
-        if (this.nameFlag === true) {
-            this.billDetail.forEach((item) => {
-                item.billName = tempName;
-            });
-            console.log(this.billDetail);
-            const result = ApiClient.bill.editBillById(this.billDetail).then(() => {
-                this.nameFlag = !this.nameFlag;
-            });
-        } else {
             this.nameFlag = !this.nameFlag;
-        }
+            // this.billDetail.forEach((item) => {
+            //     item.billName = tempName;
+            // });
+            // console.log(this.billDetail);
     };
+
+
+    descriptionOnclick = () => {
+        // const tempName = this.billDetail[0].descri;
+        // if (this.descriFlag === true) {
+        //     this.billDetail.forEach((item) => {
+        //         item.descri = tempName;
+        //     });
+        //     console.log(this.billDetail);
+        //     // ApiClient.bill.editBillById(this.billDetail).then(() => {
+        //     //     this.descriFlag = !this.descriFlag;
+        //     // });
+        //     // this.descriStatus = "Edit";
+        // } else {
+            this.descriFlag = !this.descriFlag;
+            // this.billDetail.forEach((item) => {
+            //     item.descri = tempName;
+            // });
+            // console.log(this.billDetail);
+            // this.descriStatus = "Save";
+            
+        // }
+    }
 
     amountOnclick = () => {
         //this.amountFlag = !this.amountFlag;
-        if (this.amountFlag === true) {
-            this.billDetail.forEach((item) => {
-                item.totalAmount = this.billDetail[0].totalAmount;
-            });
-            const result = ApiClient.bill.editBillById(this.billDetail).then(() => {
-                this.amountFlag = !this.amountFlag;
-            });
-        } else {
+        // if (this.amountFlag === true) {
+            // this.billDetail.forEach((item) => {
+            //     item.totalAmount = this.billDetail[0].totalAmount;
+            // });
+            // const result = ApiClient.bill.editBillById(this.billDetail).then(() => {
+            //     this.amountFlag = !this.amountFlag;
+            // });
+            // this.amountStatus = "Edit";
+        // } else {
             this.amountFlag = !this.amountFlag;
-        }
+            // this.billDetail.forEach((item) => {
+            //     item.descri = this.billDetail[0].descri;
+            // });
+            
+            // this.amountStatus = "Save";
+        // }
     };
+
+    updateBillDetailOnclick = async() => {
+        let detail = this.billDetail[0]
+        this.billDetail.forEach((item) => {
+            item.totalAmount = this.billDetail[0].totalAmount;
+
+            item.descri = this.billDetail[0].descri;
+            item.billName = this.billDetail[0].billName;
+            });
+            console.info(this.billDetail)
+
+        await ApiClient.bill.editBillById(this.billDetail);
+        await ApiClient.bill.createBillHistory({ownerId:detail.ownerId, homeId:detail.homeId, totalAmount:detail.totalAmount,
+             currentID:detail.billId, billName:detail.billName, descri:detail.descri, created_at:detail.created_at,
+              created_by:new Date().toString()})
+        this.handleBack();
+    }
 
     onFileUpload = (event) => {
         let reader = new FileReader();
