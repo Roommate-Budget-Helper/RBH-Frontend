@@ -9,21 +9,18 @@
             Bill History
         </h2>
         <ul *ngFor="let history of histories">
-            <li class="home-page-item flex-align-center" (click)="handleDirectToHome(home)">
+            <li class="home-page-item flex-align-center">
                 <img class="home-page-house-icon" src="../../assets/home-cover.svg" />
                 <div class="home-page-item__content align-center">
                     <p>{{ history.billName }}</p>
                     <div class="home-page-item__people flex-align-center grey">
-                        <p>Updated at: {{ history.created_at.substr(0, 10) }}</p>
+                        <p><strong>Updated at:</strong> {{ history.created_at.substr(0, 10) }}</p>
                     </div>
                     <div class="home-page-item__people flex-align-center grey">
-                        <p>Description: {{ history.descri }}</p>
+                        <p><strong>Description: </strong>{{ history.descri }}</p>
                     </div>
                     <div class="home-page-item__people flex-align-center grey">
-                        <p>Updated by: {{ history.created_by }}</p>
-                    </div>
-                    <div class="home-page-item__people flex-align-center grey">
-                        <p>Total amount: {{ history.totalAmount }}</p>
+                        <p><strong>Total amount: </strong>{{ history.totalAmount }}</p>
                     </div>
                 </div>
             </li>

@@ -164,8 +164,8 @@ export class BillDetailPageComponent implements OnInit {
 
         await ApiClient.bill.editBillById(this.billDetail);
         await ApiClient.bill.createBillHistory({ownerId:detail.ownerId, homeId:detail.homeId, totalAmount:detail.totalAmount,
-             currentID:detail.billId, billName:detail.billName, descri:detail.descri, created_at:detail.created_at,
-              created_by:new Date().toString()})
+             currentID:detail.billId, billName:detail.billName, descri:detail.descri, created_at:new Date(),
+              created_by:detail.created_by})
         this.handleBack();
     }
 
