@@ -57,7 +57,7 @@ export let routes: Routes = [
     { path: 'billoption', component: CreateOptionPageComponent },
     { path: 'onetimebill', component: CreateBillOneTimePageComponent },
     { path: 'recurringtimebill', component: CreateBillRecurringPageComponent },
-    { path: 'paymenthistory', component: PaymentHistoryPageComponent },
+    { path: 'homesummary', component: PaymentHistoryPageComponent },
     { path: 'recurringtimebill', component: CreateBillRecurringPageComponent },
     { path: 'billdetail/:id', component: BillDetailPageComponent },
     { path: 'billhistory/:id', component: BillHistoryPageComponent }

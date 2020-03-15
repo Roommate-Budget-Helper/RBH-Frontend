@@ -153,7 +153,7 @@ export class HomeDetailPageComponent implements OnInit {
             this.roommate_array.splice(index, 1);
         }
     }
-    redirectToPaymentHistory = () => {
-        this.router.navigateByUrl('/paymenthistory');
+    redirectToSummary = () => {
+        this.router.navigateByUrl('/homesummary');
     };
 }
