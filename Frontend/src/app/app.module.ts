@@ -47,6 +47,7 @@ import { PaymentHistoryPageComponent } from './payment-history-page/payment-hist
 import { SharePlanDialogComponent } from './share-plan-dialog/share-plan-dialog.component';
 import { RecurrentBillDialogComponent } from './recurrent-bill-dialog/recurrent-bill-dialog.component';
 import { BillHistoryPageComponent } from './bill-history-page/bill-history-page.component';
+import { UserHistoryPageComponent } from './user-history-page/user-history-page.component';
 export let routes: Routes = [
     { path: '', component: StartingPageComponent },
     { path: 'login', component: LoginPageComponent },
@@ -60,7 +61,8 @@ export let routes: Routes = [
     { path: 'paymenthistory', component: PaymentHistoryPageComponent },
     { path: 'recurringtimebill', component: CreateBillRecurringPageComponent },
     { path: 'billdetail/:id', component: BillDetailPageComponent },
-    { path: 'billhistory/:id', component: BillHistoryPageComponent }
+    { path: 'billhistory/:id', component: BillHistoryPageComponent },
+    { path: 'history', component: UserHistoryPageComponent}
 ];
 @NgModule({
     imports: [
@@ -109,7 +111,8 @@ export let routes: Routes = [
         PaymentHistoryPageComponent,
         SharePlanDialogComponent,
         RecurrentBillDialogComponent,
-        BillHistoryPageComponent
+        BillHistoryPageComponent,
+        UserHistoryPageComponent
     ],
     providers: [{ provide: MatDialogRef, useValue: {} }, StorageServiceService, NgxImageCompressService],
     entryComponents: [

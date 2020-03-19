@@ -133,6 +133,9 @@ export class HomeDetailPageComponent implements OnInit {
     redirectToHistory = (billId: numId) => {
         this.router.navigateByUrl(`/billhistory/${billId}`);
     };
+    redirectToUserHistory = () => {
+        this.router.navigateByUrl('/history')
+    }
 
     deleteBill = (billId) => {
         let index;
