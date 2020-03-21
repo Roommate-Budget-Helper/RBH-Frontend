@@ -19,10 +19,10 @@ export class CreateBillRecurringPageComponent implements OnInit {
     current_array = [''];
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
-    roommate_array = this.home.roommates.trim().split('  ');
-    rec_method = ['Week', 'Month', '3 Month', '6 Month'];
+    roommate_array ;
+    rec_method = ["Week", "Month", "3 Month", "6 Month"]
     shareplan_array;
-    rm_num = this.roommate_array.length - 1;
+    rm_num;
     constructor(
         private router: Router,
         public fb: FormBuilder,
@@ -40,6 +40,8 @@ export class CreateBillRecurringPageComponent implements OnInit {
     ownerpp = 100;
 
     async ngOnInit() {
+        this.roommate_array = this.home.roommates.trim().split('  ')
+        this.rm_num = this.roommate_array.length - 1
         this.deleteRoommate(this.user.userName);
         if (this.roommate_array.length == 0) {
             this.recurrentBillForm = this.fb.group({

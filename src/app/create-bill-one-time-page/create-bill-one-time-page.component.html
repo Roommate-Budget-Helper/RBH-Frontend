@@ -34,8 +34,6 @@
           <input type="number" formControlName="amount" (change)="updateOwner()" />
           <input class="create-bill-one__file" type="file" id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput
             (change)="uploadFile($event)" />
-          <mat-error>
-            Please upload a receipt. </mat-error>
           <label for="imageUpload" [ngClass]="['custom-label', 'upload-image']">{{ labelMsg }}</label>
           <select #plan (change)="updateList($event)" *ngIf="shareplan_array.length>0">
             <option value="-1">Choose a share plan...</option>

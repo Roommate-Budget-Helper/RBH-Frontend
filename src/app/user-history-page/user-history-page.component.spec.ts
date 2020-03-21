@@ -42,6 +42,7 @@ describe('UserHistoryPageComponent', () => {
       fixture = TestBed.createComponent(UserHistoryPageComponent);
       component = fixture.componentInstance;
       component.user = sampleStorage.userInfo;
+      component.loaded = true;
       
       fixture.detectChanges();
     });
@@ -60,9 +61,9 @@ describe('UserHistoryPageComponent', () => {
     })
 
     it('should create correct header', () => {
-      let header = fixture.debugElement.nativeElement.querySelector('h1');
+      let header = fixture.debugElement.nativeElement.querySelector('h3');
       expect(header).toBeTruthy();
-        expect(header.textContent).toContain("Your summary");
+        expect(header.textContent).toContain("Summary");
     })
 
     it('should create correct greeting', () => {
@@ -79,7 +80,7 @@ describe('UserHistoryPageComponent', () => {
 
       component = fixture.componentInstance;
       component.user = sampleStorage.userInfo;
-      
+      component.history = sampleGetHistory
       fixture.detectChanges();
     });
 

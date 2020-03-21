@@ -18,7 +18,7 @@ import { RecurrentBillDialogComponent } from '../recurrent-bill-dialog/recurrent
 })
 export class HomeDetailPageComponent implements OnInit {
     homeId;
-    home;
+    home= this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
     roommate_array;
     roommate_string = '';
     owner;
@@ -36,7 +36,6 @@ export class HomeDetailPageComponent implements OnInit {
     ) {}
 
     async ngOnInit() {
-        this.home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
         this.owner = this.home.admin_name;
         this.isowner = this.owner == this.user.userName;
         this.homeId = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY).HouseId;
