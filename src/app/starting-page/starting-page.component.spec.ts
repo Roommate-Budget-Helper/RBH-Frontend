@@ -42,20 +42,6 @@ describe('StartingPageComponent', () => {
     });
 
     describe('Function Tests', () => {
-        describe('Basic Tests for Functions', () => {
-            it('should call handleRedirectLogin()', () => {
-                spyOn(component, 'handleRedirectLogin');
-                component.handleRedirectLogin();
-                expect(component.handleRedirectLogin).toHaveBeenCalled();
-            });
-    
-            it('should call handleRedirectRegister()', () => {
-                spyOn(component, 'handleRedirectRegister');
-                component.handleRedirectRegister();
-                expect(component.handleRedirectRegister).toHaveBeenCalled();
-            });
-        });
-
         describe('Routing Tests for Functions', () => {
             beforeEach(() => {
                 router = fixture.debugElement.injector.get(Router);
@@ -99,6 +85,13 @@ describe('StartingPageComponent', () => {
                 expect(button.textContent).toContain('Log In');
             });
 
+            it('should call handleRedirectLogin()', () => {
+                spyOn(component, 'handleRedirectLogin');
+                button = fixture.debugElement.queryAll(By.css('button'))[0].nativeElement
+                button.click();
+                expect(component.handleRedirectLogin).toHaveBeenCalled();
+            });
+
             it('should nav to login page', () => {
                 router = fixture.debugElement.injector.get(Router);
                 spy = router.navigateByUrl as jasmine.Spy;
@@ -122,6 +115,13 @@ describe('StartingPageComponent', () => {
 
             it('should have correct text content', () => {
                 expect(button.textContent).toContain('Sign Up');
+            });
+
+            it('should call handleRedirectRegister()', () => {
+                spyOn(component, 'handleRedirectRegister');
+                button = fixture.debugElement.queryAll(By.css('button'))[1].nativeElement
+                button.click();
+                expect(component.handleRedirectRegister).toHaveBeenCalled();
             });
 
             it('should nav to register page', () => {
