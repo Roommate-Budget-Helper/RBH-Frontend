@@ -59,13 +59,11 @@
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
                 border-radius: 10px;
                 padding: 10px;
-                .payment-history__info {
-                    .payment-history__name {
-                        margin-bottom: 5px;
-                        h5:nth-child(1) {
-                            font-weight: bold;
-                        }
-                    }
+                margin-bottom: 10px;
+                p {
+                    margin-left: auto;
+                    margin-right: 10px;
+                    font-size: $size__font--text;
                 }
                 .viewbutton {
                     margin-left: auto;

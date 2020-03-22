@@ -15,18 +15,10 @@
         </div>
 
         <div class="summary__all">
-            <h3 class="bold">Bills</h3>
-            <div class="payment-history__detail flex-align-center">
-                <div class="payment-history__info">
-                    <div class="payment-history__name flex-align-center">
-                        <h5>Rent for Oct.</h5>
-                        <h5>(resolved)</h5>
-                    </div>
-                    <h6>
-                        Created By: Darcy 14:00 10/1/2019
-                    </h6>
-                </div>
-                <button class="viewbutton">View</button>
+            <h3 class="bold">Balance</h3>
+            <div class="payment-history__detail flex-align-center" *ngFor="let item of roommate_array; let i = index">
+                <div class="payment-history__info">{{ item }}&nbsp;</div>
+                <p class="">${{ balance_array[i] }}</p>
             </div>
         </div>
     </div>
