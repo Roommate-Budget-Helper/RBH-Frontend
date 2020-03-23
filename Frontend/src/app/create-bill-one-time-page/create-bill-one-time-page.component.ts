@@ -154,7 +154,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
             this.addDynamicElement.value.forEach((element) => {
                 console.info('element amount: ' + parseInt(element.amount) * parseInt(result.amount));
                 result_rm.push(element.rm_name);
-                result_am.push(parseInt(element.amount) * parseInt(result.amount));
+                result_am.push(parseInt(element.amount) * parseInt(result.amount) /100);
                 total_am += (parseInt(element.amount) * parseInt(result.amount)) / 100;
                 result_pp.push(parseFloat(element.amount.toPrecision(4)));
             });
