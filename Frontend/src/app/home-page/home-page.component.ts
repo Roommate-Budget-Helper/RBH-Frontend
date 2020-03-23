@@ -82,4 +82,7 @@ export class HomePageComponent implements OnInit {
     handleDeclineInvitation = async (invitationId) => {
         await ApiClient.invitation.declineInvitation(invitationId);
     };
+    redirectToUserHistory = () => {
+        this.router.navigateByUrl('/history')
+    }
 }

@@ -166,7 +166,7 @@ export class BillDetailPageComponent implements OnInit {
             item.descri = this.billDetail[0].descri;
             item.billName = this.billDetail[0].billName;
             });
-            console.info(this.billDetail)
+            console.info(new Date())
         
         await ApiClient.bill.editBillById(this.billDetail);
         await ApiClient.bill.createBillHistory(this.original)

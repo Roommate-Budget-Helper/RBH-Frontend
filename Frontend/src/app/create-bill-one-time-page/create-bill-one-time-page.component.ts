@@ -131,6 +131,9 @@ export class CreateBillOneTimePageComponent implements OnInit {
                 this.router.navigateByUrl('/homedetail');
             });
     };
+    redirectToUserHistory = () => {
+        this.router.navigateByUrl('/history')
+    }
 
     onSubmit() {
         let result_am = [];

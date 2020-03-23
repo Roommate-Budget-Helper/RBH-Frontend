@@ -16,29 +16,7 @@ interface ExampleFlatNode {
   name: string;
   level: number;
 }
-const TREE_DATA: FoodNode[] = [
-  {
-    name: 'Fruit',
-    children: [
-      {name: 'Apple'},
-      {name: 'Banana'},
-      {name: 'Fruit loops'},
-    ]
-  }, {
-    name: 'Vegetables',
-    children: [
-      {
-        name: 'Green'
-      }, {
-        name: 'Orange',
-        children: [
-          {name: 'Pumpkins'},
-          {name: 'Carrots'},
-        ]
-      },
-    ]
-  },
-];
+
 @Component({
   selector: 'app-user-history-page',
   templateUrl: './user-history-page.component.html',
@@ -77,9 +55,9 @@ export class UserHistoryPageComponent implements OnInit {
     this.history.forEach(element => {
       let balanceWord = ""
       if(element.balance>0){
-        balanceWord = element.userName+" owes you "
+        balanceWord = element.userName+" owes you $"
       }else{
-        balanceWord = "you owes "+element.userName+" "
+        balanceWord = "you owes "+element.userName+" $"
       }
       summary_data.push({name:element.userName, children:[
         {name: "Balance: "+ balanceWord+Math.abs(element.balance)+" dollars."},

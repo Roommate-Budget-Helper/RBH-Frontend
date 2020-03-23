@@ -28,7 +28,7 @@ export class PaymentHistoryPageComponent implements OnInit {
         this.roommate_string = this.roommates.replace(this.home.admin_name, '');
         this.id = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY).id;
 
-        this.temp = await ApiClient.home.getUserbalanceByHome('darcy007', this.home.HouseId);
+        // this.temp = await ApiClient.home.getUserbalanceByHome('darcy007', this.home.HouseId);
 
         this.roommate_array = this.roommates.trim().split('  ');
 

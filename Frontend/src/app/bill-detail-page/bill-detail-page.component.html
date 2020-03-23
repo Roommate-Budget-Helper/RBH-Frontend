@@ -37,7 +37,7 @@
         <input class="edit-text" *ngIf="descriFlag" [(ngModel)]="billDetail[0].descri" type="text" class="form-control" />
         <div class="bill-detail-page__time flex-align-center">
             <p class="bold">
-                Create Time:&nbsp;
+                Last Modified:&nbsp;
             </p>
             <p>
                 {{ billDetail && billDetail[0].created_at.substr(0, 10) }}
