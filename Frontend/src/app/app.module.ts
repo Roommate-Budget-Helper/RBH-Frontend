@@ -12,6 +12,9 @@ import { StorageServiceService } from './storage-service.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule } from '@angular/common';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import {MatTreeModule} from '@angular/material/tree';
+import {CdkTreeModule} from '@angular/cdk/tree';
+
 
 import {
     MatButtonModule,
@@ -47,6 +50,7 @@ import { PaymentHistoryPageComponent } from './payment-history-page/payment-hist
 import { SharePlanDialogComponent } from './share-plan-dialog/share-plan-dialog.component';
 import { RecurrentBillDialogComponent } from './recurrent-bill-dialog/recurrent-bill-dialog.component';
 import { BillHistoryPageComponent } from './bill-history-page/bill-history-page.component';
+import { UserHistoryPageComponent } from './user-history-page/user-history-page.component';
 export let routes: Routes = [
     { path: '', component: StartingPageComponent },
     { path: 'login', component: LoginPageComponent },
@@ -60,11 +64,14 @@ export let routes: Routes = [
     { path: 'homesummary', component: PaymentHistoryPageComponent },
     { path: 'recurringtimebill', component: CreateBillRecurringPageComponent },
     { path: 'billdetail/:id', component: BillDetailPageComponent },
-    { path: 'billhistory/:id', component: BillHistoryPageComponent }
+    { path: 'billhistory/:id', component: BillHistoryPageComponent },
+    { path: 'history', component: UserHistoryPageComponent}
 ];
 @NgModule({
     imports: [
         BrowserModule,
+        MatTreeModule,
+        CdkTreeModule,
         StorageServiceModule,
         FormsModule,
         ReactiveFormsModule,
@@ -90,7 +97,12 @@ export let routes: Routes = [
         RouterTestingModule,
         CommonModule
     ],
-    exports: [MatCheckboxModule],
+    exports: [MatCheckboxModule,        
+        MatTreeModule,
+        MatIconModule,
+        MatButtonModule,
+
+    ],
     declarations: [
         AppComponent,
         StartingPageComponent,
@@ -109,9 +121,10 @@ export let routes: Routes = [
         PaymentHistoryPageComponent,
         SharePlanDialogComponent,
         RecurrentBillDialogComponent,
-        BillHistoryPageComponent
+        BillHistoryPageComponent,
+        UserHistoryPageComponent
     ],
-    providers: [{ provide: MatDialogRef, useValue: {} }, StorageServiceService, NgxImageCompressService],
+    providers: [{ provide: MatDialogRef, useValue: {appearance: 'fill'} }, StorageServiceService, NgxImageCompressService],
     entryComponents: [
         RegisterPageComponent,
         LoginPageComponent,
@@ -119,7 +132,8 @@ export let routes: Routes = [
         AddRoommateDialogComponent,
         RemoveRoommateDialogComponent,
         SharePlanDialogComponent,
-        RecurrentBillDialogComponent
+        RecurrentBillDialogComponent,
+        UserHistoryPageComponent
     ],
     bootstrap: [AppComponent]
 })
