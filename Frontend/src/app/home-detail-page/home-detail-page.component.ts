@@ -42,7 +42,7 @@ export class HomeDetailPageComponent implements OnInit {
         this.convertRoommateString();
         this.billArray = await ApiClient.bill.getBillByHome(this.homeId);
         this.recurrentbillArray = await ApiClient.bill.getRecurrentBill(this.homeId);
-        console.info(this.roommate_array);
+
         if (this.recurrentbillArray.length > 0) {
             this.recurrentbillArray.forEach((element) => {
                 if (this.date.getTime() >= new Date(element.isRecurentdatetime).getTime() && element.ownerId == this.user.id) {

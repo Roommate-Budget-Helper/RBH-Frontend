@@ -76,8 +76,13 @@
                 </div>
             </div>
         </div>
-        <div class="home-detail-page-transfer">
+        <div class="home-detail-page-transfer" *ngIf="isowner; else notOwner">
             <button (click)="onTransferClick()">Transfer Ownership</button>
         </div>
+        <ng-template #notOwner>
+            <div class="home-detail-page-transfer">
+                <button (click)="onTransferClick()" style="background-color: #D3D3D3;" disabled>Transfer Ownership</button>
+            </div>
+        </ng-template>
     </div>
 </div>
