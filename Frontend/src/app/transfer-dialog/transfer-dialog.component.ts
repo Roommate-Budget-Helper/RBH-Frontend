@@ -1,7 +1,7 @@
 import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-
+import { Router } from '@angular/router';
 import { ErrorStateMatcher } from '@angular/material/core';
 import ApiClient from '../api-client';
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -18,15 +18,26 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     styleUrls: ['./transfer-dialog.component.scss']
 })
 export class TransferDialogComponent implements OnInit {
-    constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
+    constructor(@Inject(MAT_DIALOG_DATA) public data: any, private router: Router) {}
     emailFormControl = new FormControl('', [Validators.required]);
     matcher = new MyErrorStateMatcher();
-    ngOnInit() {}
+    ngOnInit() {
+        // console.info(this.data);
+    }
 
     invite = async (username) => {
-        console.info(username);
         if (this.data.roommateArray.includes(username)) {
-            // await ApiClient.home.transerOwnership(username, this.data.houseId);
+            await ApiClient.home
+                .transerOwnership(this.data.houseId, username)
+                .then(() => {
+                    alert('Transfer succeeded!');
+                })
+                .then(() => {
+                    this.router.navigateByUrl('/home');
+                })
+                .catch(() => {
+                    alert('Transfer failed!');
+                });
         } else {
             alert('User does not exist!');
             return;
