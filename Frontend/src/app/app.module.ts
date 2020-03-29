@@ -51,6 +51,7 @@ import { SharePlanDialogComponent } from './share-plan-dialog/share-plan-dialog.
 import { RecurrentBillDialogComponent } from './recurrent-bill-dialog/recurrent-bill-dialog.component';
 import { BillHistoryPageComponent } from './bill-history-page/bill-history-page.component';
 import { UserHistoryPageComponent } from './user-history-page/user-history-page.component';
+import { TransferDialogComponent } from './transfer-dialog/transfer-dialog.component';
 export let routes: Routes = [
     { path: '', component: StartingPageComponent },
     { path: 'login', component: LoginPageComponent },
@@ -122,7 +123,8 @@ export let routes: Routes = [
         SharePlanDialogComponent,
         RecurrentBillDialogComponent,
         BillHistoryPageComponent,
-        UserHistoryPageComponent
+        UserHistoryPageComponent,
+        TransferDialogComponent
     ],
     providers: [{ provide: MatDialogRef, useValue: {appearance: 'fill'} }, StorageServiceService, NgxImageCompressService],
     entryComponents: [
