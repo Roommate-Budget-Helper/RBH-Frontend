@@ -12,9 +12,8 @@ import { StorageServiceService } from './storage-service.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule } from '@angular/common';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import {MatTreeModule} from '@angular/material/tree';
-import {CdkTreeModule} from '@angular/cdk/tree';
-
+import { MatTreeModule } from '@angular/material/tree';
+import { CdkTreeModule } from '@angular/cdk/tree';
 
 import {
     MatButtonModule,
@@ -66,7 +65,7 @@ export let routes: Routes = [
     { path: 'recurringtimebill', component: CreateBillRecurringPageComponent },
     { path: 'billdetail/:id', component: BillDetailPageComponent },
     { path: 'billhistory/:id', component: BillHistoryPageComponent },
-    { path: 'history', component: UserHistoryPageComponent}
+    { path: 'history', component: UserHistoryPageComponent }
 ];
 @NgModule({
     imports: [
@@ -98,12 +97,7 @@ export let routes: Routes = [
         RouterTestingModule,
         CommonModule
     ],
-    exports: [MatCheckboxModule,        
-        MatTreeModule,
-        MatIconModule,
-        MatButtonModule,
-
-    ],
+    exports: [MatCheckboxModule, MatTreeModule, MatIconModule, MatButtonModule],
     declarations: [
         AppComponent,
         StartingPageComponent,
@@ -126,7 +120,7 @@ export let routes: Routes = [
         UserHistoryPageComponent,
         TransferDialogComponent
     ],
-    providers: [{ provide: MatDialogRef, useValue: {appearance: 'fill'} }, StorageServiceService, NgxImageCompressService],
+    providers: [{ provide: MatDialogRef, useValue: { appearance: 'fill' } }, StorageServiceService, NgxImageCompressService],
     entryComponents: [
         RegisterPageComponent,
         LoginPageComponent,
@@ -135,7 +129,8 @@ export let routes: Routes = [
         RemoveRoommateDialogComponent,
         SharePlanDialogComponent,
         RecurrentBillDialogComponent,
-        UserHistoryPageComponent
+        UserHistoryPageComponent,
+        TransferDialogComponent
     ],
     bootstrap: [AppComponent]
 })

@@ -2,7 +2,7 @@
     <img class="home-detail-page-background" src="../../assets/background.svg" />
     <img class="home-detail-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
     <div class="home-detail-page-user-info">
-        <img class="home-detail-page-user-icon" src="../../assets/user-icon-white.svg" (click)="redirectToUserHistory()"/>
+        <img class="home-detail-page-user-icon" src="../../assets/user-icon-white.svg" (click)="redirectToUserHistory()" />
         <p class="white">Hi {{ user.userName }}</p>
     </div>
     <h1 class="home-detail-page-title white">
@@ -75,6 +75,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="home-detail-page-transfer">
+            <button (click)="onTransferClick()">Transfer Ownership</button>
         </div>
     </div>
 </div>

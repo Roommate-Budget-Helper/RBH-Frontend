@@ -8,15 +8,16 @@
     </h1> -->
 
     <ul *ngFor="let home of homes">
-        <li class="home-page-item flex-align-center" (click)="handleDirectToHome(home)">
-            <img class="home-page-house-icon" src="../../assets/home-cover.svg" />
-            <div class="home-page-item__content align-center">
+        <li class="home-page-item flex-align-center">
+            <img class="home-page-house-icon" src="../../assets/home-cover.svg" (click)="handleDirectToHome(home)" />
+            <div class="home-page-item__content align-center" (click)="handleDirectToHome(home)">
                 <p>{{ home.full_name }}</p>
                 <div class="home-page-item__people flex-align-center grey">
                     <p>{{ home.roommates }}</p>
                 </div>
             </div>
             <img class="home-page-bell-icon" src="../../assets/bell.svg" />
+            <button (click)="onHomeDelete(home)">Delete</button>
         </li>
     </ul>
     <div class="home-page-add-arrow">

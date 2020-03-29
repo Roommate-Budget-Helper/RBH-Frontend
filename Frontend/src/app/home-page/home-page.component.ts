@@ -83,6 +83,22 @@ export class HomePageComponent implements OnInit {
         await ApiClient.invitation.declineInvitation(invitationId);
     };
     redirectToUserHistory = () => {
-        this.router.navigateByUrl('/history')
-    }
+        this.router.navigateByUrl('/history');
+    };
+
+    onHomeDelete = (home) => {
+        console.info(home);
+        if (confirm('Are you sure you want to delete this home?')) {
+            ApiClient.home
+                .deleteHome(home.HouseId)
+                .then(() => {
+                    alert('Delete succeeded!');
+                })
+                .then(() => {
+                    window.location.reload();
+                });
+        } else {
+            return;
+        }
+    };
 }

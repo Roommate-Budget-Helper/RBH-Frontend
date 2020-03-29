@@ -113,7 +113,7 @@
                     }
                     .home-detail-page-list-view {
                         margin-left: auto;
- 
+
                         button {
                             display: block;
                             width: 45px;
@@ -147,6 +147,17 @@
                     border-radius: 8px;
                     color: $color--white;
                 }
+            }
+        }
+
+        .home-detail-page-transfer {
+            text-align: center;
+            button {
+                padding: 5px 10px 5px 10px;
+                background: #8c94e2;
+                border: 1px solid #e5e5e5;
+                border-radius: 8px;
+                color: $color--white;
             }
         }
     }
