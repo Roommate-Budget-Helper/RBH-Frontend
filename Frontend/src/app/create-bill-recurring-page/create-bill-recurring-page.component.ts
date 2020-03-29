@@ -69,6 +69,9 @@ export class CreateBillRecurringPageComponent implements OnInit {
     handleBack = () => {
         this.router.navigateByUrl('/billoption');
     };
+    redirectToUserHistory = () => {
+        this.router.navigateByUrl('/history')
+    }
 
     deleteRoommate(msg: string) {
         const index: number = this.roommate_array.indexOf(msg);

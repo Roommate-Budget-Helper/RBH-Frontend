@@ -1,0 +1,42 @@
+@import '../../styles.scss';
+
+.user-history-page-container {
+  width: 100%;
+  height: 100%;
+
+  .user-history-page-background {
+    z-index: -100;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .user-history-page-arrow {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+  }
+
+  .user-history-page-user-info {
+    text-align: right;
+    padding: 0px 0px 0px 0px;
+    position: absolute;
+    right: 5%;
+    top: 20px;
+  }
+
+  .user-history-page-title {
+    position: absolute;
+    left: 30px;
+    top: 50px;
+  }
+
+  .user-history-page-history-tree {
+    z-index: 100;
+    color: black;
+    margin-top: 150px;
+    width: 90%;
+    transform: translateX(5%);
+    // left: 50%;
+  }
+}

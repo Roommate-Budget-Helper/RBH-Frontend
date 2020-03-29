@@ -133,6 +133,9 @@ export class HomeDetailPageComponent implements OnInit {
     redirectToHistory = (billId: numId) => {
         this.router.navigateByUrl(`/billhistory/${billId}`);
     };
+    redirectToUserHistory = () => {
+        this.router.navigateByUrl('/history')
+    }
 
     deleteBill = (billId) => {
         let index;
@@ -153,7 +156,7 @@ export class HomeDetailPageComponent implements OnInit {
             this.roommate_array.splice(index, 1);
         }
     }
-    redirectToPaymentHistory = () => {
-        this.router.navigateByUrl('/paymenthistory');
+    redirectToSummary = () => {
+        this.router.navigateByUrl('/homesummary');
     };
 }

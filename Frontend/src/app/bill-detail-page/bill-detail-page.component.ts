@@ -27,6 +27,7 @@ export class BillDetailPageComponent implements OnInit {
     nameStatus = "Edit";
     descriStatus = "Edit";
     amountStatus = "Edit";
+    original : IBillHistory;
     constructor(
         private route: ActivatedRoute,
         private router: Router,
@@ -36,8 +37,12 @@ export class BillDetailPageComponent implements OnInit {
     ) { }
 
     async ngOnInit() {
+        
         this.billDetail = await ApiClient.bill.getBillById(this.route.snapshot.params['id']);
-        console.info(this.billDetail)
+        this.original = {ownerId:this.billDetail[0].ownerId, homeId:this.billDetail[0].homeId, totalAmount:this.billDetail[0].totalAmount,
+            currentID:this.billDetail[0].billId, billName:this.billDetail[0].billName, descri:this.billDetail[0].descri, created_at:this.billDetail[0].created_at,
+             created_by:this.billDetail[0].created_by}
+        console.info(this.original)
         // console.info(this.billDetail);
         this.findOwner(this.billDetail);
     }
@@ -154,18 +159,17 @@ export class BillDetailPageComponent implements OnInit {
 
     updateBillDetailOnclick = async() => {
         let detail = this.billDetail[0]
+        console.info(this.original);
         this.billDetail.forEach((item) => {
             item.totalAmount = this.billDetail[0].totalAmount;
 
             item.descri = this.billDetail[0].descri;
             item.billName = this.billDetail[0].billName;
             });
-            console.info(this.billDetail)
-
+            console.info(new Date())
+        
         await ApiClient.bill.editBillById(this.billDetail);
-        await ApiClient.bill.createBillHistory({ownerId:detail.ownerId, homeId:detail.homeId, totalAmount:detail.totalAmount,
-             currentID:detail.billId, billName:detail.billName, descri:detail.descri, created_at:new Date(),
-              created_by:detail.created_by})
+        await ApiClient.bill.createBillHistory(this.original)
         this.handleBack();
     }
 

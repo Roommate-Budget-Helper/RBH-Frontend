@@ -37,38 +37,46 @@
         color: white;
     }
     .payment-history__form {
+        .summary__roommates {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 10px;
+            padding: 10px;
+        }
         position: absolute;
         top: 150px;
         left: 20px;
         right: 20px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        padding: 20px;
         border-radius: 10px;
+        padding: 20px;
         background-color: white;
-        .payment-history__detail {
-            margin-top: 10px;
+        .summary__all {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            padding: 10px;
             border-radius: 10px;
-            .payment-history__info {
-                .payment-history__name {
-                    margin-bottom: 5px;
-                    h5:nth-child(1) {
-                        font-weight: bold;
-                    }
+            margin-top: 10px;
+            padding: 10px;
+            .payment-history__detail {
+                box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                border-radius: 10px;
+                padding: 10px;
+                margin-bottom: 10px;
+                p {
+                    margin-left: auto;
+                    margin-right: 10px;
+                    font-size: $size__font--text;
                 }
-            }
-            .viewbutton {
-                margin-left: auto;
-                margin-right: 10px;
-                background-color: $color--theme;
-                border: none;
-                border-radius: 4px;
-                color: $color--white;
-                font-size: $size__font--hint;
-                width: 35px;
-                height: 35px;
-                display: block;
+                .viewbutton {
+                    margin-left: auto;
+
+                    background-color: $color--theme;
+                    border: none;
+                    border-radius: 4px;
+                    color: $color--white;
+                    font-size: $size__font--hint;
+                    width: 35px;
+                    height: 35px;
+                    display: block;
+                }
             }
         }
     }

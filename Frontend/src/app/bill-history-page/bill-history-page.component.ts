@@ -15,6 +15,7 @@ export class BillHistoryPageComponent implements OnInit {
 
     async ngOnInit() {
         this.histories = await ApiClient.bill.getBillHistoryById(this.route.snapshot.params['id']);
+        console.info(this.histories)
     }
 
     handleBack = () => {

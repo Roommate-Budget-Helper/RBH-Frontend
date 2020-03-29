@@ -2,7 +2,7 @@
     <img class="home-detail-page-background" src="../../assets/background.svg" />
     <img class="home-detail-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
     <div class="home-detail-page-user-info">
-        <img class="home-detail-page-user-icon" src="../../assets/user-icon-white.svg" />
+        <img class="home-detail-page-user-icon" src="../../assets/user-icon-white.svg" (click)="redirectToUserHistory()"/>
         <p class="white">Hi {{ user.userName }}</p>
     </div>
     <h1 class="home-detail-page-title white">
@@ -38,13 +38,13 @@
         </ng-template>
 
         <div class="home-detail-page-bill-list">
-            <div class="home-detail-page-bill-list-head ">
+            <div class="home-detail-page-bill-list-head">
                 <div class="flex-align-center">
                     <div class="home-detail-page-bill-list-title">
                         Bills
                     </div>
-                    <button class="home-detail-page-bill-list-view-button" (click)="redirectToPaymentHistory()">
-                        View All
+                    <button class="home-detail-page-bill-list-view-button" (click)="redirectToSummary()">
+                        Summary
                     </button>
                     <button class="home-detail-page-bill-list-create-button" (click)="redirectToBill()">
                         Create New
