@@ -50,6 +50,9 @@ import { SharePlanDialogComponent } from './share-plan-dialog/share-plan-dialog.
 import { RecurrentBillDialogComponent } from './recurrent-bill-dialog/recurrent-bill-dialog.component';
 import { BillHistoryPageComponent } from './bill-history-page/bill-history-page.component';
 import { UserHistoryPageComponent } from './user-history-page/user-history-page.component';
+import{AngularFireModule} from 'angularfire2';
+import{AngularFireStorageModule} from 'angularfire2/storage';
+
 import { TransferDialogComponent } from './transfer-dialog/transfer-dialog.component';
 export let routes: Routes = [
     { path: '', component: StartingPageComponent },
@@ -69,6 +72,13 @@ export let routes: Routes = [
 ];
 @NgModule({
     imports: [
+        AngularFireModule.initializeApp({
+            apiKey: "AIzaSyBxKfmn3xG_kldO-EGTrId_5UlRfx4Z83M",
+            authDomain: "roommate-budget-helper.firebaseapp.com",
+            projectId: "roommate-budget-helper",
+            storageBucket: "roommate-budget-helper.appspot.com"
+        }),
+        AngularFireStorageModule,
         BrowserModule,
         MatTreeModule,
         CdkTreeModule,
