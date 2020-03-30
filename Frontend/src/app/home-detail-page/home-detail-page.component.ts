@@ -118,7 +118,8 @@ export class HomeDetailPageComponent implements OnInit {
         }
     };
     removeMyself = async () => {
-        await ApiClient.home.removeRoommate(this.user.userName, this.home.houseId);
+        await ApiClient.home.removeRoommate(this.user.id, this.home.HouseId);
+        this.router.navigateByUrl('/home');
     };
 
     redirectToBill = () => {

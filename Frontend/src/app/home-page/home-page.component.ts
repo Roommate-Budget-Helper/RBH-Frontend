@@ -29,7 +29,7 @@ export class HomePageComponent implements OnInit {
 
     async ngOnInit() {
         this.homes = await ApiClient.home.getHome(this.user.id);
-
+        console.info(this.homes)
         await this.handleInvitation();
 
         for (let invitation of this.invitations) {

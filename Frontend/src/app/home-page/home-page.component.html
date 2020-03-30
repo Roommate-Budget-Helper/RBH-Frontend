@@ -16,8 +16,12 @@
                     <p>{{ home.roommates }}</p>
                 </div>
             </div>
-            <img class="home-page-bell-icon" src="../../assets/bell.svg" />
-            <button (click)="onHomeDelete(home)">Delete</button>
+            <div class="home-page-bell-icon">
+                <button class="home-page-deleteButton" *ngIf="home.admin_id==user.id"(click)="onHomeDelete(home)">Delete</button>
+
+                <img src="../../assets/bell.svg" />
+            </div>
+            
         </li>
     </ul>
     <div class="home-page-add-arrow">

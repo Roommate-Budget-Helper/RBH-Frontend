@@ -51,6 +51,10 @@
             .home-page-bell-icon {
                 margin-right: 10px;
                 margin-left: auto;
+                .home-page-deleteButton{
+                    transform: translateY(-55%);
+
+                }
             }
         }
     }
