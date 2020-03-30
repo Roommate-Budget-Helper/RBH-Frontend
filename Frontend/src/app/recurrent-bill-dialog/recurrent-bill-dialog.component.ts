@@ -3,6 +3,9 @@ import { MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material';
 import { ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage'
+import { finalize } from 'rxjs/operators'
+import { Observable } from 'rxjs'
 
 
 
@@ -22,7 +25,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class RecurrentBillDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private imageCompress: NgxImageCompressService) { }
+  ref: AngularFireStorageReference;
+  task: AngularFireUploadTask;
+  downloadURL: Observable<string>;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private imageCompress: NgxImageCompressService, private afStorage: AngularFireStorage,
+  ) { }
   emailFormControl = new FormControl('', [
     Validators.required
   ]);
@@ -30,7 +37,7 @@ export class RecurrentBillDialogComponent implements OnInit {
   ngOnInit() {
   }
   date = new Date()
-  imgResultAfterCompress;
+  file;
 
 
   publish = async (result) => {
@@ -63,13 +70,25 @@ export class RecurrentBillDialogComponent implements OnInit {
     let newDate = this.convertNextDate(this.data.element.recurrentInterval)
     console.info(newDate, this.data.element.id)
     await ApiClient.bill.updateRecurrent({ id: this.data.element.id, newDate: newDate })
-    this.imgResultAfterCompress = await this.imageCompress.compressFile(this.imgResultAfterCompress, 1, 20, 20)
-    await ApiClient.bill
-      .uploadProofById({
-        numId: this.data.user.id,
-        billId: billRes.id.valueOf(),
-        baseString: this.imgResultAfterCompress.toString().split(',')[1]
-      })
+    console.info(this.file)
+    let id = Math.random().toString(36).substring(2);
+    this.ref = this.afStorage.ref(id);
+    this.task = this.ref.put(this.file)
+    this.task.snapshotChanges().pipe(
+      finalize(() => {
+        this.downloadURL = this.ref.getDownloadURL()
+        // console.info("url is:" + this.downloadURL)
+        this.downloadURL.subscribe(url => {
+          // console.info(url)
+          ApiClient.bill.uploadProofById(
+            {
+              numId: this.data.user.id,
+              billId: billRes.id.valueOf(),
+              baseString: url
+            }
+          );
+        });
+      })).subscribe();
   }
 
   convertNextDate = (num) => {
@@ -96,17 +115,9 @@ export class RecurrentBillDialogComponent implements OnInit {
     }
   }
   onFileUpload = (event) => {
-    let reader = new FileReader();
-    let file = event.target.files[0];
+    this.file = event.target.files[0];
+    document.getElementById("selectedFileName").innerHTML = this.file.name
 
-    if (event.target.files && event.target.files[0]) {
-      reader.readAsDataURL(file);
-
-      reader.onload = async () => {
-        this.imgResultAfterCompress = reader.result.toString()
-           document.getElementById("selectedFileName").innerHTML = file.name  
-      };
-    }
   };
 
 }

@@ -7,6 +7,10 @@ import { element } from 'protractor';
 import { SharePlanDialogComponent } from '../share-plan-dialog/share-plan-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage'
+import { finalize } from 'rxjs/operators'
+import { Observable } from 'rxjs'
+
 
 const HOME_STORAGE_KEY = 'local_homeId';
 const STORAGE_KEY = 'local_userInfo';
@@ -27,6 +31,9 @@ export class CreateBillOneTimePageComponent implements OnInit {
     shareplanId;
     shareplanName;
     shareplanName_array = [];
+    ref: AngularFireStorageReference;
+    task: AngularFireUploadTask;
+    downloadURL: Observable<string>;
     rm_num = this.roommate_array.length - 1;
     constructor(
         private router: Router,
@@ -34,7 +41,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
         private StorageService: StorageServiceService,
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<any>,
-        private imageCompress: NgxImageCompressService
+        private imageCompress: NgxImageCompressService,
+        private afStorage: AngularFireStorage,
     ) {}
     oneTimeBillForm = this.fb.group({
         billname: [''],
@@ -60,19 +68,11 @@ export class CreateBillOneTimePageComponent implements OnInit {
     }
 
     uploadFile(event) {
-        let reader = new FileReader();
         let file = event.target.files[0];
         this.labelMsg = file.name;
-        if (event.target.files && event.target.files[0]) {
-            reader.readAsDataURL(file);
-
-            // When file uploads set it to file formcontrol
-            reader.onload = () => {
-                this.oneTimeBillForm.patchValue({
-                    receipt: reader.result
-                });
-            };
-        }
+        this.oneTimeBillForm.patchValue({
+            receipt: file
+        });
     }
     updateOwner = () => {
         let result = this.oneTimeBillForm.value;
@@ -116,20 +116,40 @@ export class CreateBillOneTimePageComponent implements OnInit {
         }
     }
     fileUpload = async (billId, file) => {
-        let afterCompress = file;
-       this.imageCompress.compressFile(file, 1, 10, 10).then((result) => {
-            afterCompress = result;
-        });
-        console.info(billId, afterCompress);
-        await ApiClient.bill
-            .uploadProofById({
-                numId: this.user.id,
-                billId: billId,
-                baseString: afterCompress.toString().split(',')[1]
-            })
-            .then(() => {
-                this.router.navigateByUrl('/homedetail');
-            });
+        console.info(file)
+        const id = Math.random().toString(36).substring(2);
+        this.ref = this.afStorage.ref(id);
+        this.task = this.ref.put(file)
+        this.task.snapshotChanges().pipe(
+            finalize(() => {
+                this.downloadURL = this.ref.getDownloadURL()
+                // console.info("url is:" + this.downloadURL)
+                this.downloadURL.subscribe(url => {
+                    // console.info(url)
+                    ApiClient.bill.uploadProofById(
+                        {
+                            numId: this.user.id,
+                            billId: billId,
+                            baseString: url
+                        }
+                    );
+                });
+            })).subscribe();
+            this.router.navigateByUrl('/homedetail');
+    //     let afterCompress = file;
+    //    this.imageCompress.compressFile(file, 1, 10, 10).then((result) => {
+    //         afterCompress = result;
+    //     });
+    //     console.info(billId, afterCompress);
+    //     await ApiClient.bill
+    //         .uploadProofById({
+    //             numId: this.user.id,
+    //             billId: billId,
+    //             baseString: afterCompress.toString().split(',')[1]
+    //         })
+    //         .then(() => {
+    //            
+    //         });
     };
     redirectToUserHistory = () => {
         this.router.navigateByUrl('/history')
