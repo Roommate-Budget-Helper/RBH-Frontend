@@ -3,6 +3,21 @@
 .user-history-page-container {
     width: 100%;
     height: 100%;
+    .user-history-page-loading {
+        .mat-spinner {
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+        }
+        ::ng-deep .mat-progress-spinner circle,
+        .mat-spinner circle {
+            stroke: $color--theme;
+        }
+    }
 
     .user-history-page-background {
         z-index: -100;
@@ -40,6 +55,9 @@
         margin-top: 150px;
         margin-left: 20px;
         margin-right: 20px;
+        // .mat-tree-node {
+        //     padding-left: 0px;
+        // }
     }
     .user-history-page-history-logout {
         text-align: center;

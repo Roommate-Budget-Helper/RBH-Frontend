@@ -20,6 +20,7 @@ export class HomePageComponent implements OnInit {
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<any>
     ) {}
+    loaded = false;
     homes;
     invitations;
     roommates;
@@ -28,8 +29,11 @@ export class HomePageComponent implements OnInit {
     username = this.user.userName;
 
     async ngOnInit() {
-        this.homes = await ApiClient.home.getHome(this.user.id);
-        console.info(this.homes)
+        await ApiClient.home.getHome(this.user.id).then((result: IUser2Home[]) => {
+            this.homes = result;
+            this.loaded = !this.loaded;
+        });
+        console.info(this.homes);
         await this.handleInvitation();
 
         for (let invitation of this.invitations) {

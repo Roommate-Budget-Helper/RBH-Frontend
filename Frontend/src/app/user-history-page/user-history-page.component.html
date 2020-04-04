@@ -1,33 +1,42 @@
 <div class="user-history-page-container">
-    <img class="user-history-page-background" src="../../assets/background.svg" />
-    <img class="user-history-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
-    <div class="user-history-page-user-info">
-        <img class="user-history-page-user-icon" src="../../assets/user-icon-white.svg" />
-        <p class="white">Hi {{ user.userName }}</p>
+    <div *ngIf="!loaded; else elseBlock">
+        <div class="user-history-page-loading">
+            <mat-spinner></mat-spinner>
+        </div>
     </div>
-    <h3 class="user-history-page-title white">
-        summary of every other user
-    </h3>
-    <mat-tree class="user-history-page-history-tree" [dataSource]="dataSource" [treeControl]="treeControl">
-        <!-- This is the tree node template for leaf nodes -->
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-            <!-- use a disabled button to provide padding for tree leaf -->
-            <button mat-icon-button disabled></button>
-            <strong>{{ node.name }}</strong>
-        </mat-tree-node>
-        <!-- This is the tree node template for expandable nodes -->
-        <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
-            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
-                <mat-icon>
-                    {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-                </mat-icon>
+
+    <ng-template #elseBlock>
+        <img class="user-history-page-background" src="../../assets/background.svg" />
+        <img class="user-history-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
+        <div class="user-history-page-user-info">
+            <img class="user-history-page-user-icon" src="../../assets/user-icon-white.svg" />
+            <p class="white">Hi {{ user.userName }}</p>
+        </div>
+
+        <h3 class="user-history-page-title white">
+            Summary of every other user
+        </h3>
+        <mat-tree class="user-history-page-history-tree" [dataSource]="dataSource" [treeControl]="treeControl">
+            <!-- This is the tree node template for leaf nodes -->
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                <!-- use a disabled button to provide padding for tree leaf -->
+                <!-- <button mat-icon-button disabled></button> -->
+                <strong>{{ node.name }}</strong>
+            </mat-tree-node>
+            <!-- This is the tree node template for expandable nodes -->
+            <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+                    <mat-icon>
+                        {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
+                    </mat-icon>
+                </button>
+                {{ node.name }}
+            </mat-tree-node>
+        </mat-tree>
+        <div class="user-history-page-history-logout" (click)="handleLogout()">
+            <button>
+                Log Out
             </button>
-            {{ node.name }}
-        </mat-tree-node>
-    </mat-tree>
-    <div class="user-history-page-history-logout" (click)="handleLogout()">
-        <button>
-            Log Out
-        </button>
-    </div>
+        </div>
+    </ng-template>
 </div>

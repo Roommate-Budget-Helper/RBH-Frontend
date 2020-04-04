@@ -1,29 +1,33 @@
 <div class="home-page-container">
-    <div class="home-page-user-info">
-        <img class="home-page-user-icon" src="../../assets/user-icon.svg" (click)="redirectToUserHistory()" />
-        <p>Hi {{ username }}</p>
+    <div *ngIf="!loaded; else elseBlock">
+        <div class="home-page-loading">
+            <mat-spinner></mat-spinner>
+        </div>
     </div>
-    <!-- <h1 class="home-page-title white">
-        Home
-    </h1> -->
+    <ng-template #elseBlock>
+        <div class="home-page-user-info">
+            <img class="home-page-user-icon" src="../../assets/user-icon.svg" (click)="redirectToUserHistory()" />
+            <p>Hi {{ username }}</p>
+        </div>
 
-    <ul *ngFor="let home of homes">
-        <li class="home-page-item flex-align-center">
-            <img class="home-page-house-icon" src="../../assets/home-cover.svg" (click)="handleDirectToHome(home)" />
-            <div class="home-page-item__content align-center" (click)="handleDirectToHome(home)">
-                <p>{{ home.full_name }}</p>
-                <div class="home-page-item__people flex-align-center grey">
-                    <p>{{ home.roommates }}</p>
+        <ul *ngFor="let home of homes">
+            <li class="home-page-item flex-align-center">
+                <img class="home-page-house-icon" src="../../assets/home-cover.svg" (click)="handleDirectToHome(home)" />
+                <div class="home-page-item__content align-center" (click)="handleDirectToHome(home)">
+                    <p>{{ home.full_name }}</p>
+                    <div class="home-page-item__people flex-align-center grey">
+                        <p>{{ home.roommates }}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="home-page-bell-icon flex-align-center">
-                <button class="home-page-deleteButton" *ngIf="home.admin_id == user.id" (click)="onHomeDelete(home)">Delete</button>
+                <div class="home-page-bell-icon flex-align-center">
+                    <button class="home-page-deleteButton" *ngIf="home.admin_id == user.id" (click)="onHomeDelete(home)">Delete</button>
 
-                <img src="../../assets/bell.svg" />
-            </div>
-        </li>
-    </ul>
-    <div class="home-page-add-arrow">
-        <img src="../../assets/add-arrow.svg" (click)="handleAddhome()" />
-    </div>
+                    <img src="../../assets/bell.svg" />
+                </div>
+            </li>
+        </ul>
+        <div class="home-page-add-arrow">
+            <img src="../../assets/add-arrow.svg" (click)="handleAddhome()" />
+        </div>
+    </ng-template>
 </div>

@@ -25,8 +25,9 @@ interface ExampleFlatNode {
 export class UserHistoryPageComponent implements OnInit {
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     history: IHistoryResponse[];
+    loaded = false;
     constructor(private router: Router, private StorageService: StorageServiceService) {
-        console.info('?????');
+        // console.info('?????');
         // this.dataSource.data = TREE_DATA
     }
     private _transformer = (node: FoodNode, level: number) => {
@@ -51,7 +52,10 @@ export class UserHistoryPageComponent implements OnInit {
     dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
     async ngOnInit() {
-        this.history = await ApiClient.history.getHistory(this.user.id);
+        await ApiClient.history.getHistory(this.user.id).then((result: IHistoryResponse[]) => {
+            this.history = result;
+            this.loaded = !this.loaded;
+        });
         console.info(history);
         let summary_data: FoodNode[] = [];
         this.history.forEach((element) => {
