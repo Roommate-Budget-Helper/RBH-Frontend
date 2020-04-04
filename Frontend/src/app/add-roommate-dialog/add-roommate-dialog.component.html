@@ -1,6 +1,6 @@
 <form class="example-form" #form>
     <mat-form-field class="example-full-width" appearance="outline">
-        <mat-label>Invite New Roommate!</mat-label>
+        <!-- <mat-label>Invite New Roommate!</mat-label>
 
         <input
             matInput
@@ -9,10 +9,25 @@
             placeholder="Roommate Username"
             [formControl]="emailFormControl"
             [errorStateMatcher]="matcher"
+        /> -->
+        <mat-label>Roommates</mat-label>
+        <input
+            type="text"
+            matInput
+            #userToInvite
+            matInput
+            [errorStateMatcher]="matcher"
+            [formControl]="myControl"
+            [matAutocomplete]="auto"
         />
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{ option }}
+            </mat-option>
+        </mat-autocomplete>
         <mat-icon matSuffix></mat-icon>
         <mat-hint>Please enter valid username</mat-hint>
-        <mat-error *ngIf="emailFormControl.hasError('required')"> Username is <strong>required</strong> </mat-error>
+        <mat-error *ngIf="myControl.hasError('required')"> Username is <strong>required</strong> </mat-error>
     </mat-form-field>
 
     <mat-dialog-actions>
@@ -22,7 +37,7 @@
             mat-dialog-close
             class="background-primary text-floral-white flex-align-center"
             (click)="invite(userToInvite.value)"
-            [disabled]="emailFormControl.invalid"
+            [disabled]="myControl.invalid"
         >
             Invite!
         </button>

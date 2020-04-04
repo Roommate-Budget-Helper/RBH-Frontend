@@ -63,7 +63,6 @@ export class HomeDetailPageComponent implements OnInit {
                 }
             });
         }
-        console.info(this.roommate_array);
     }
 
     convertRecurrentBillInterval = (num) => {

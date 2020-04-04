@@ -4,6 +4,10 @@ import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/fo
 
 import { ErrorStateMatcher } from '@angular/material/core';
 import ApiClient from '../api-client';
+
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -18,10 +22,25 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     styleUrls: ['./add-roommate-dialog.component.scss']
 })
 export class AddRoommateDialogComponent implements OnInit {
+    myControl = new FormControl();
     constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
     emailFormControl = new FormControl('', [Validators.required]);
     matcher = new MyErrorStateMatcher();
-    ngOnInit() {
+
+    options: string[];
+
+    filteredOptions: Observable<string[]>;
+
+    async ngOnInit() {
+        await ApiClient.invitation.getAllUsername().then((result) => {
+            this.options = result;
+        });
+
+        this.filteredOptions = this.myControl.valueChanges.pipe(
+            startWith(''),
+            // map((value) => (typeof value === 'string' ? value : value.name))
+            map((name) => (name ? this._filter(name) : this.options.slice()))
+        );
         // console.info(this.data.roommates);
     }
 
@@ -33,4 +52,14 @@ export class AddRoommateDialogComponent implements OnInit {
             await ApiClient.invitation.createInvitation(username, this.data.houseId);
         }
     };
+
+    displayFn(user: string): string {
+        return user;
+    }
+
+    private _filter(name: string): string[] {
+        const filterValue = name.toLowerCase();
+
+        return this.options.filter((option) => option.toLowerCase().indexOf(filterValue) === 0);
+    }
 }
