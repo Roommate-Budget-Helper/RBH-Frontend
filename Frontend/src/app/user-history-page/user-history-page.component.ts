@@ -3,75 +3,85 @@ import { StorageServiceService } from '../storage-service.service';
 import ApiClient from '../api-client';
 const STORAGE_KEY = 'local_userInfo';
 import { Router } from '@angular/router';
-import {FlatTreeControl} from '@angular/cdk/tree';
+import { FlatTreeControl } from '@angular/cdk/tree';
 
-import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 
 interface FoodNode {
-  name: string;
-  children?: FoodNode[];
+    name: string;
+    children?: FoodNode[];
 }
 interface ExampleFlatNode {
-  expandable: boolean;
-  name: string;
-  level: number;
+    expandable: boolean;
+    name: string;
+    level: number;
 }
 
 @Component({
-  selector: 'app-user-history-page',
-  templateUrl: './user-history-page.component.html',
-  styleUrls: ['./user-history-page.component.scss']
+    selector: 'app-user-history-page',
+    templateUrl: './user-history-page.component.html',
+    styleUrls: ['./user-history-page.component.scss']
 })
 export class UserHistoryPageComponent implements OnInit {
-  user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
-  history: IHistoryResponse[];
-  constructor(        private router: Router,
-    private StorageService: StorageServiceService
-    ) { 
-      console.info("?????")
-      // this.dataSource.data = TREE_DATA
-
+    user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
+    history: IHistoryResponse[];
+    constructor(private router: Router, private StorageService: StorageServiceService) {
+        console.info('?????');
+        // this.dataSource.data = TREE_DATA
     }
     private _transformer = (node: FoodNode, level: number) => {
-      return {
-        expandable: !!node.children && node.children.length > 0,
-        name: node.name,
-        level: level,
-      };
+        return {
+            expandable: !!node.children && node.children.length > 0,
+            name: node.name,
+            level: level
+        };
+    };
+    treeControl = new FlatTreeControl<ExampleFlatNode>(
+        (node) => node.level,
+        (node) => node.expandable
+    );
+
+    treeFlattener = new MatTreeFlattener(
+        this._transformer,
+        (node) => node.level,
+        (node) => node.expandable,
+        (node) => node.children
+    );
+
+    dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
+    async ngOnInit() {
+        this.history = await ApiClient.history.getHistory(this.user.id);
+        console.info(history);
+        let summary_data: FoodNode[] = [];
+        this.history.forEach((element) => {
+            let balanceWord = '';
+            if (element.balance > 0) {
+                balanceWord = element.userName + ' owes you $';
+            } else {
+                balanceWord = 'you owes ' + element.userName + ' $';
+            }
+            summary_data.push({
+                name: element.userName,
+                children: [
+                    { name: 'Balance: ' + balanceWord + Math.abs(element.balance) + ' dollars.' },
+                    { name: 'Number Of Bills Between You: ' + element.billCount }
+                ]
+            });
+        });
+
+        this.dataSource.data = summary_data;
     }
-  treeControl = new FlatTreeControl<ExampleFlatNode>(node => node.level, node => node.expandable);
 
-  treeFlattener = new MatTreeFlattener(
-      this._transformer, node => node.level, node => node.expandable, node => node.children);
+    hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
-      dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+    handleBack = () => {
+        this.router.navigateByUrl('/home');
+    };
 
-  async ngOnInit() {
-    console.info("??")
-
-    this.history = await ApiClient.history.getHistory(this.user.id)
-    console.info(history)
-    let summary_data :FoodNode[] = [];
-    this.history.forEach(element => {
-      let balanceWord = ""
-      if(element.balance>0){
-        balanceWord = element.userName+" owes you $"
-      }else{
-        balanceWord = "you owes "+element.userName+" $"
-      }
-      summary_data.push({name:element.userName, children:[
-        {name: "Balance: "+ balanceWord+Math.abs(element.balance)+" dollars."},
-        {name: "Number Of Bills Between You: "+element.billCount},
-      ]})
-    });
-    console.info(summary_data)
-    this.dataSource.data = summary_data
-  }
-
-  hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
-
-  handleBack = () => {
-    this.router.navigateByUrl('/homedetail')
-  }
-
+    handleLogout = () => {
+        localStorage.clear();
+        this.router.navigateByUrl('/');
+        alert('Log out succeeded!');
+    };
 }

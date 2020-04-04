@@ -21,10 +21,16 @@ export class AddRoommateDialogComponent implements OnInit {
     constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
     emailFormControl = new FormControl('', [Validators.required]);
     matcher = new MyErrorStateMatcher();
-    ngOnInit() {}
+    ngOnInit() {
+        // console.info(this.data.roommates);
+    }
 
     invite = async (username) => {
-        console.info(username);
-        await ApiClient.invitation.createInvitation(username, this.data.houseId);
+        if (this.data.roommates.includes(username)) {
+            alert('User already exists in this home!');
+            return;
+        } else {
+            await ApiClient.invitation.createInvitation(username, this.data.houseId);
+        }
     };
 }

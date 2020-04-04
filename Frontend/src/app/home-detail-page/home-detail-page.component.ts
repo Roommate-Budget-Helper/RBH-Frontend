@@ -63,6 +63,7 @@ export class HomeDetailPageComponent implements OnInit {
                 }
             });
         }
+        console.info(this.roommate_array);
     }
 
     convertRecurrentBillInterval = (num) => {
@@ -95,7 +96,10 @@ export class HomeDetailPageComponent implements OnInit {
     };
 
     addRoommate = () => {
-        let thisDialogRef = this.dialog.open(AddRoommateDialogComponent, { data: { houseId: this.home.HouseId }, disableClose: true });
+        let thisDialogRef = this.dialog.open(AddRoommateDialogComponent, {
+            data: { houseId: this.home.HouseId, roommates: this.roommate_array },
+            disableClose: true
+        });
     };
     removeRoommate = () => {
         if (this.isowner) {
