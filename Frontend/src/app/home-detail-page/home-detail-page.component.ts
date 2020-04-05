@@ -81,6 +81,7 @@ export class HomeDetailPageComponent implements OnInit {
     };
 
     convertRoommateString = () => {
+        console.info(this.home)
         this.roommate_array = this.home.roommates.trim().split('  ');
         this.roommate_string = this.owner + '(Owner) ';
         for (let roommate in this.roommate_array) {
@@ -102,8 +103,10 @@ export class HomeDetailPageComponent implements OnInit {
     };
     removeRoommate = () => {
         if (this.isowner) {
+            console.info(this.roommate_array.slice(1))
+
             let thisDialogRef = this.dialog.open(RemoveRoommateDialogComponent, {
-                data: { roommates: this.roommate_array, isOwner: this.isowner, HouseId: this.home.HouseId },
+                data: { roommates: this.roommate_array.slice(1), isOwner: this.isowner, HouseId: this.home.HouseId },
                 disableClose: true
             });
             thisDialogRef.afterClosed().subscribe(async () => {
@@ -121,7 +124,7 @@ export class HomeDetailPageComponent implements OnInit {
         }
     };
     removeMyself = async () => {
-        await ApiClient.home.removeRoommate(this.user.id, this.home.HouseId);
+        await ApiClient.home.removeRoommate(this.user.userName, this.home.HouseId);
         this.router.navigateByUrl('/home');
     };
 
@@ -170,3 +173,4 @@ export class HomeDetailPageComponent implements OnInit {
         });
     };
 }
+

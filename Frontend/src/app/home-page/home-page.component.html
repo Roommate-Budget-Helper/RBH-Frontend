@@ -19,8 +19,9 @@
                         <p>{{ home.roommates }}</p>
                     </div>
                 </div>
-                <div class="home-page-bell-icon flex-align-center">
-                    <button class="home-page-deleteButton" *ngIf="home.admin_id == user.id" (click)="onHomeDelete(home)">Delete</button>
+            </div>
+            <div class="home-page-bell-icon">
+                <button class="home-page-deleteButton" *ngIf="home.admin_name==user.userName"(click)="onHomeDelete(home)">Delete</button>
 
                     <img src="../../assets/bell.svg" />
                 </div>
@@ -31,3 +32,4 @@
         </div>
     </ng-template>
 </div>
+
