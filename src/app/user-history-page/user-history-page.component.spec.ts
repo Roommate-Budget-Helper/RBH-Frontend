@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { StorageServiceService } from '../storage-service.service';
 import { MatTreeModule} from '@angular/material/tree';
 import { By } from "@angular/platform-browser";
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const sampleStorage = {userInfo: {id: 111111,
   full_name: "full_name",
@@ -20,14 +19,14 @@ const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
 let sampleGetHistory = [{userName: 'xixi', balance: 20, billCount: 1, homeCount: 0},
 {userName: 'zhuzhu', balance: 20, billCount: 2, homeCount: 0}];
-describe('UserHistoryPageComponent', () => {
+fdescribe('UserHistoryPageComponent', () => {
   let component: UserHistoryPageComponent;
   let fixture: ComponentFixture<UserHistoryPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ UserHistoryPageComponent ],
-      imports: [CdkTreeModule, MatTreeModule, MatIconModule, MatProgressSpinnerModule],
+      imports: [CdkTreeModule, MatTreeModule, MatIconModule],
       providers:[
         { provide: Router,   useValue: routerSpy },
         StorageServiceService
@@ -42,7 +41,6 @@ describe('UserHistoryPageComponent', () => {
       fixture = TestBed.createComponent(UserHistoryPageComponent);
       component = fixture.componentInstance;
       component.user = sampleStorage.userInfo;
-      component.loaded = true;
       
       fixture.detectChanges();
     });
@@ -61,13 +59,13 @@ describe('UserHistoryPageComponent', () => {
     })
 
     it('should create correct header', () => {
-      let header = fixture.debugElement.nativeElement.querySelector('h3');
+      let header = fixture.debugElement.nativeElement.querySelector('h1');
       expect(header).toBeTruthy();
-        expect(header.textContent).toContain("Summary");
+        expect(header.textContent).toContain("Your summary");
     })
 
     it('should create correct greeting', () => {
-      let greeting = fixture.debugElement.query(By.css('.user-history-page-user-info p')).nativeElement
+      let greeting = fixture.debugElement.nativeElement.querySelector('p')
       expect(greeting).toBeTruthy()
       expect(greeting.textContent).toContain(sampleStorage.userInfo.userName)
     })
@@ -80,7 +78,7 @@ describe('UserHistoryPageComponent', () => {
 
       component = fixture.componentInstance;
       component.user = sampleStorage.userInfo;
-      component.history = sampleGetHistory
+      
       fixture.detectChanges();
     });
 
