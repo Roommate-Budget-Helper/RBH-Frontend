@@ -83,9 +83,9 @@ export class UserHistoryPageComponent implements OnInit {
 
     hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
-    handleBack = () => {
-        this.router.navigateByUrl('/home');
-    };
+  handleBack = () => {
+    this.router.navigateByUrl('/home')
+  }
 
     handleLogout = () => {
         localStorage.clear();
