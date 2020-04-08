@@ -1,4 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
+import { Observable } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router';
 import ApiClient from '../api-client';
 import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
@@ -6,6 +7,8 @@ import { StorageServiceService } from '../storage-service.service';
 const STORAGE_KEY = 'local_userInfo';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material';
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage'
+import { finalize } from 'rxjs/operators'
 
 
 @Component({
@@ -27,21 +30,28 @@ export class BillDetailPageComponent implements OnInit {
     nameStatus = "Edit";
     descriStatus = "Edit";
     amountStatus = "Edit";
-    original : IBillHistory;
+    original: IBillHistory;
+    ref: AngularFireStorageReference;
+    task: AngularFireUploadTask;
+    downloadURL: Observable<string>;
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private StorageService: StorageServiceService,
         public fb: FormBuilder,
-        private imageCompress: NgxImageCompressService
+        private imageCompress: NgxImageCompressService,
+        private afStorage: AngularFireStorage,
+
     ) { }
 
     async ngOnInit() {
-        
+
         this.billDetail = await ApiClient.bill.getBillById(this.route.snapshot.params['id']);
-        this.original = {ownerId:this.billDetail[0].ownerId, homeId:this.billDetail[0].homeId, totalAmount:this.billDetail[0].totalAmount,
-            currentID:this.billDetail[0].billId, billName:this.billDetail[0].billName, descri:this.billDetail[0].descri, created_at:this.billDetail[0].created_at,
-             created_by:this.billDetail[0].created_by}
+        this.original = {
+            ownerId: this.billDetail[0].ownerId, homeId: this.billDetail[0].homeId, totalAmount: this.billDetail[0].totalAmount,
+            currentID: this.billDetail[0].billId, billName: this.billDetail[0].billName, descri: this.billDetail[0].descri, created_at: this.billDetail[0].created_at,
+            created_by: this.billDetail[0].created_by
+        }
         console.info(this.original)
         // console.info(this.billDetail);
         this.findOwner(this.billDetail);
@@ -107,11 +117,11 @@ export class BillDetailPageComponent implements OnInit {
 
     nameOnclick = () => {
         const tempName = this.billDetail[0].billName;
-            this.nameFlag = !this.nameFlag;
-            // this.billDetail.forEach((item) => {
-            //     item.billName = tempName;
-            // });
-            // console.log(this.billDetail);
+        this.nameFlag = !this.nameFlag;
+        // this.billDetail.forEach((item) => {
+        //     item.billName = tempName;
+        // });
+        // console.log(this.billDetail);
     };
 
 
@@ -127,37 +137,37 @@ export class BillDetailPageComponent implements OnInit {
         //     // });
         //     // this.descriStatus = "Edit";
         // } else {
-            this.descriFlag = !this.descriFlag;
-            // this.billDetail.forEach((item) => {
-            //     item.descri = tempName;
-            // });
-            // console.log(this.billDetail);
-            // this.descriStatus = "Save";
-            
+        this.descriFlag = !this.descriFlag;
+        // this.billDetail.forEach((item) => {
+        //     item.descri = tempName;
+        // });
+        // console.log(this.billDetail);
+        // this.descriStatus = "Save";
+
         // }
     }
 
     amountOnclick = () => {
         //this.amountFlag = !this.amountFlag;
         // if (this.amountFlag === true) {
-            // this.billDetail.forEach((item) => {
-            //     item.totalAmount = this.billDetail[0].totalAmount;
-            // });
-            // const result = ApiClient.bill.editBillById(this.billDetail).then(() => {
-            //     this.amountFlag = !this.amountFlag;
-            // });
-            // this.amountStatus = "Edit";
+        // this.billDetail.forEach((item) => {
+        //     item.totalAmount = this.billDetail[0].totalAmount;
+        // });
+        // const result = ApiClient.bill.editBillById(this.billDetail).then(() => {
+        //     this.amountFlag = !this.amountFlag;
+        // });
+        // this.amountStatus = "Edit";
         // } else {
-            this.amountFlag = !this.amountFlag;
-            // this.billDetail.forEach((item) => {
-            //     item.descri = this.billDetail[0].descri;
-            // });
-            
-            // this.amountStatus = "Save";
+        this.amountFlag = !this.amountFlag;
+        // this.billDetail.forEach((item) => {
+        //     item.descri = this.billDetail[0].descri;
+        // });
+
+        // this.amountStatus = "Save";
         // }
     };
 
-    updateBillDetailOnclick = async() => {
+    updateBillDetailOnclick = async () => {
         let detail = this.billDetail[0]
         console.info(this.original);
         this.billDetail.forEach((item) => {
@@ -165,9 +175,9 @@ export class BillDetailPageComponent implements OnInit {
 
             item.descri = this.billDetail[0].descri;
             item.billName = this.billDetail[0].billName;
-            });
-            console.info(new Date())
-        
+        });
+        console.info(new Date())
+
         await ApiClient.bill.editBillById(this.billDetail);
         await ApiClient.bill.createBillHistory(this.original)
         this.handleBack();
@@ -178,41 +188,64 @@ export class BillDetailPageComponent implements OnInit {
         let file = event.target.files[0];
         let imgResultAfterCompress = file
 
-        if (event.target.files && event.target.files[0]) {
-            reader.readAsDataURL(imgResultAfterCompress);
+        const id = Math.random().toString(36).substring(2);
+        this.ref = this.afStorage.ref(id);
+        this.task = this.ref.put(file)
+        this.task.snapshotChanges().pipe(
+            finalize(() => {
+                this.downloadURL = this.ref.getDownloadURL()
+                // console.info("url is:" + this.downloadURL)
+                this.downloadURL.subscribe(url => {
+                    // console.info(url)
+                    ApiClient.bill.uploadProofById(
+                        {
+                            numId: this.user.id,
+                            billId: this.route.snapshot.params['id'],
+                            baseString: url
+                        }
+                    );
+                });
+            })).subscribe();
 
-            console.info(reader.result.toString())
-            reader.onload = () => {
-                console.info(reader.result.toString())
-                this.imageCompress.compressFile(reader.result.toString(), 1, 20, 20).then(
-                    result => {
-                        console.info(result);
-                        imgResultAfterCompress = result;
-                        console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
-                        ApiClient.bill
-                            .uploadProofById({
-                                numId: this.user.id,
-                                billId: this.route.snapshot.params['id'],
-                                baseString: imgResultAfterCompress.toString().split(',')[1]
-                            })
-                            .then(() => {
-                                alert('Successfully uploaded!');
-                            });
-                    }
-                );
 
-            };
-        }
+
+        console.info("done")
+        // if (event.target.files && event.target.files[0]) {
+        //     reader.readAsDataURL(imgResultAfterCompress);
+
+        //     console.info(reader.result.toString())
+        //     reader.onload = () => {
+        //         console.info(reader.result.toString())
+        //         this.imageCompress.compressFile(reader.result.toString(), 1, 20, 20).then(
+        //             result => {
+        //                 console.info(result);
+        //                 imgResultAfterCompress = result;
+        //                 console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
+        //                 ApiClient.bill
+        //                     .uploadProofById({
+        //                         numId: this.user.id,
+        //                         billId: this.route.snapshot.params['id'],
+        //                         baseString: imgResultAfterCompress.toString().split(',')[1]
+        //                     })
+        //                     .then(() => {
+        //                         alert('Successfully uploaded!');
+        //                     });
+        //             }
+        //         );
+
+        //     };
+        // }
     };
 
     onFileView = (basedString) => {
         var image = new Image();
         image.style.width = '200px';
-        image.src = 'data:image/png;base64,' + basedString.proof;
+        // console.info(basedString.proof)
+        image.src = basedString.proof
         if (document.getElementById(basedString.index).childNodes.length === 0) {
             document.getElementById(basedString.index).append(image);
-            document.getElementById(basedString.index).innerHTML+="<br><input type='checkbox'>  Approve  </input> <input type='checkbox'>  Decline  </input>"
-            console.info( document.getElementById(basedString.index).innerHTML)
+            // document.getElementById(basedString.index).innerHTML += "<br><input type='checkbox'>  Approve  </input> <input type='checkbox'>  Decline  </input>"
+            console.info(document.getElementById(basedString.index).innerHTML)
         }
 
         if (this.show) {

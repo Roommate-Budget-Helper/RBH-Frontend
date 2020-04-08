@@ -20,6 +20,7 @@ export class HomePageComponent implements OnInit {
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<any>
     ) {}
+    loaded = false;
     homes;
     invitations;
     roommates;
@@ -28,8 +29,11 @@ export class HomePageComponent implements OnInit {
     username = this.user.userName;
 
     async ngOnInit() {
-        this.homes = await ApiClient.home.getHome(this.user.id);
-
+        await ApiClient.home.getHome(this.user.id).then((result: IUser2Home[]) => {
+            this.homes = result;
+            this.loaded = !this.loaded;
+        });
+        console.info(this.homes);
         await this.handleInvitation();
 
         for (let invitation of this.invitations) {
@@ -59,7 +63,6 @@ export class HomePageComponent implements OnInit {
         const token = this.StorageService.getLocalStorage(STORAGE_KEY).token;
         jwt.verify(token, 'abcde', async (err, decode) => {
             if (err) {
-                console.log(err);
                 alert('your session has expired. Please log in again.');
                 this.router.navigateByUrl('/login');
             } else {
@@ -83,6 +86,21 @@ export class HomePageComponent implements OnInit {
         await ApiClient.invitation.declineInvitation(invitationId);
     };
     redirectToUserHistory = () => {
-        this.router.navigateByUrl('/history')
-    }
+        this.router.navigateByUrl('/history');
+    };
+
+    onHomeDelete = (home) => {
+        if (confirm('Are you sure you want to delete this home?')) {
+            ApiClient.home
+                .deleteHome(home.HouseId)
+                .then(() => {
+                    alert('Delete succeeded!');
+                })
+                .then(() => {
+                    window.location.reload();
+                });
+        } else {
+            return;
+        }
+    };
 }

@@ -7,6 +7,7 @@ const STORAGE_KEY = 'local_userInfo';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 import { AddRoommateDialogComponent } from '../add-roommate-dialog/add-roommate-dialog.component';
+import { TransferDialogComponent } from '../transfer-dialog/transfer-dialog.component';
 import { RemoveRoommateDialogComponent } from '../remove-roommate-dialog/remove-roommate-dialog.component';
 import { RecurrentBillDialogComponent } from '../recurrent-bill-dialog/recurrent-bill-dialog.component';
 
@@ -41,9 +42,9 @@ export class HomeDetailPageComponent implements OnInit {
         this.convertRoommateString();
         this.billArray = await ApiClient.bill.getBillByHome(this.homeId);
         this.recurrentbillArray = await ApiClient.bill.getRecurrentBill(this.homeId);
+
         if (this.recurrentbillArray.length > 0) {
             this.recurrentbillArray.forEach((element) => {
-                console.info(element);
                 if (this.date.getTime() >= new Date(element.isRecurentdatetime).getTime() && element.ownerId == this.user.id) {
                     let thisDialogRef = this.dialog.open(RecurrentBillDialogComponent, {
                         data: {
@@ -62,9 +63,6 @@ export class HomeDetailPageComponent implements OnInit {
                 }
             });
         }
-
-        console.log(this.recurrentbillArray);
-        console.log(this.billArray);
     }
 
     convertRecurrentBillInterval = (num) => {
@@ -83,6 +81,7 @@ export class HomeDetailPageComponent implements OnInit {
     };
 
     convertRoommateString = () => {
+        console.info(this.home)
         this.roommate_array = this.home.roommates.trim().split('  ');
         this.roommate_string = this.owner + '(Owner) ';
         for (let roommate in this.roommate_array) {
@@ -97,12 +96,17 @@ export class HomeDetailPageComponent implements OnInit {
     };
 
     addRoommate = () => {
-        let thisDialogRef = this.dialog.open(AddRoommateDialogComponent, { data: { houseId: this.home.HouseId }, disableClose: true });
+        let thisDialogRef = this.dialog.open(AddRoommateDialogComponent, {
+            data: { houseId: this.home.HouseId, roommates: this.roommate_array },
+            disableClose: true
+        });
     };
     removeRoommate = () => {
         if (this.isowner) {
+            console.info(this.roommate_array.slice(1))
+
             let thisDialogRef = this.dialog.open(RemoveRoommateDialogComponent, {
-                data: { roommates: this.roommate_array, isOwner: this.isowner, HouseId: this.home.HouseId },
+                data: { roommates: this.roommate_array.slice(1), isOwner: this.isowner, HouseId: this.home.HouseId },
                 disableClose: true
             });
             thisDialogRef.afterClosed().subscribe(async () => {
@@ -120,7 +124,8 @@ export class HomeDetailPageComponent implements OnInit {
         }
     };
     removeMyself = async () => {
-        await ApiClient.home.removeRoommate(this.user.userName, this.home.houseId);
+        await ApiClient.home.removeRoommate(this.user.userName, this.home.HouseId);
+        this.router.navigateByUrl('/home');
     };
 
     redirectToBill = () => {
@@ -134,8 +139,8 @@ export class HomeDetailPageComponent implements OnInit {
         this.router.navigateByUrl(`/billhistory/${billId}`);
     };
     redirectToUserHistory = () => {
-        this.router.navigateByUrl('/history')
-    }
+        this.router.navigateByUrl('/history');
+    };
 
     deleteBill = (billId) => {
         let index;
@@ -159,4 +164,13 @@ export class HomeDetailPageComponent implements OnInit {
     redirectToSummary = () => {
         this.router.navigateByUrl('/homesummary');
     };
+
+    onTransferClick = () => {
+        // this.dialog.open(AddRoommateDialogComponent, { data: { houseId: this.home.HouseId }, disableClose: true });
+        this.dialog.open(TransferDialogComponent, {
+            data: { houseId: this.home.HouseId, roommateArray: this.roommate_array },
+            disableClose: true
+        });
+    };
 }
+

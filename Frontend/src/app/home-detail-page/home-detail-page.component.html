@@ -2,7 +2,7 @@
     <img class="home-detail-page-background" src="../../assets/background.svg" />
     <img class="home-detail-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
     <div class="home-detail-page-user-info">
-        <img class="home-detail-page-user-icon" src="../../assets/user-icon-white.svg" (click)="redirectToUserHistory()"/>
+        <img class="home-detail-page-user-icon" src="../../assets/user-icon-white.svg" (click)="redirectToUserHistory()" />
         <p class="white">Hi {{ user.userName }}</p>
     </div>
     <h1 class="home-detail-page-title white">
@@ -33,7 +33,7 @@
             <div class="home-detail-page-add-delete flex-align-center">
                 <p>{{ roommate_string }}</p>
 
-                <button class="home-detail-page-exit" (click)="(removeMyself)">exit</button>
+                <button class="home-detail-page-exit" (click)="removeMyself()">exit</button>
             </div>
         </ng-template>
 
@@ -76,5 +76,13 @@
                 </div>
             </div>
         </div>
+        <div class="home-detail-page-transfer" *ngIf="isowner; else notOwner">
+            <button (click)="onTransferClick()">Transfer Ownership</button>
+        </div>
+        <ng-template #notOwner>
+            <div class="home-detail-page-transfer">
+                <button (click)="onTransferClick()" style="background-color: #D3D3D3;" disabled>Transfer Ownership</button>
+            </div>
+        </ng-template>
     </div>
 </div>
