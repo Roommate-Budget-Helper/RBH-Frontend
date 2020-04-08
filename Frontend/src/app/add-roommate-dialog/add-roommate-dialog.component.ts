@@ -49,7 +49,15 @@ export class AddRoommateDialogComponent implements OnInit {
             alert('User already exists in this home!');
             return;
         } else {
-            await ApiClient.invitation.createInvitation(username, this.data.houseId);
+            const exist = await ApiClient.invitation.checkInvitation(username, this.data.houseId);
+            if (exist) {
+                alert('User has been invited!');
+                return;
+            } else {
+                await ApiClient.invitation.createInvitation(username, this.data.houseId).then(() => {
+                    alert('Sent invitation successfully!');
+                });
+            }
         }
     };
 

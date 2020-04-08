@@ -63,7 +63,6 @@ export class HomePageComponent implements OnInit {
         const token = this.StorageService.getLocalStorage(STORAGE_KEY).token;
         jwt.verify(token, 'abcde', async (err, decode) => {
             if (err) {
-                console.log(err);
                 alert('your session has expired. Please log in again.');
                 this.router.navigateByUrl('/login');
             } else {
@@ -91,7 +90,6 @@ export class HomePageComponent implements OnInit {
     };
 
     onHomeDelete = (home) => {
-        console.info(home);
         if (confirm('Are you sure you want to delete this home?')) {
             ApiClient.home
                 .deleteHome(home.HouseId)
