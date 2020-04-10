@@ -19,6 +19,7 @@
     },
     "private": true,
     "dependencies": {
+        "express": "^4.17.1",
         "@angular/animations": "^7.2.16",
         "@angular/forms": "^7.2.16",
         "@angular/platform-browser": "^7.2.16",
