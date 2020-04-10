@@ -1,8 +1,6 @@
 import RBH from 'rbh-api-service';
 // @ts-ignore
-//const endpoint = __API_ENDPOINT__;
 
-const client = new RBH();
+const client = new RBH('https://roommate-budget-helper-api.herokuapp.com');
 
-//export const ApiEndpoint = endpoint;
 export default client;
