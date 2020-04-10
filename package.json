@@ -3,12 +3,12 @@
     "version": "0.0.0",
     "scripts": {
         "ng": "ng",
-        "start": "ng serve",
+        "start": "node server.js",
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
-        "postinstall": "ng build --aot -prod",
+        "postinstall": "ng build",
         "style:prettier": "prettier --write \"src/**/*.ts\"",
         "style:lint": "tslint -p tsconfig.json -c tslint.json"
     },
@@ -29,7 +29,7 @@
         "angular-material-source": "github:angular/material",
         "angularfire2": "^5.4.2",
         "core-js": "^2.6.11",
-        "firebase": "^7.14.0",
+        "firebase": "^7.13.2",
         "jsonwebtoken": "^8.5.1",
         "jwa": "^1.4.1",
         "jws": "^3.2.2",
