@@ -1,8 +1,8 @@
 <div class="create-bill-one-container">
     <div class="create-bill-one-container__header flex-align-center">
-        <img class="home-detail-page-back-arrow" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
+        <img class="home-detail-page-back-arrow img-back-arrow-black" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
         <div class="create-bill-one-container__header-user">
-            <img class="home-detail-page-user-icon" src="../../assets/user-icon.svg" (click)="redirectToUserHistory()"/>
+            <img class="home-detail-page-user-icon img-user-icon" src="../../assets/user-icon.svg" (click)="redirectToUserHistory()"/>
             <p>Hello, {{ user.userName }}!</p>
         </div>
     </div>
@@ -49,8 +49,8 @@
                     <option value="Percentage">Percentage</option>
                     <option value="Amount">Amount</option>
                 </select>
-                <img src="../../assets/add-arrow.svg" class="button" (click)="addItems(shareDetail);plan.value = -1;updatePlan()" />
-                <img src="../../assets/minus-arrow.svg" class="button" id="minus" (click)="deleteItems();plan.value = -1;updatePlan()" />
+                <img src="../../assets/add-arrow.svg" class="button img-add-arrow" (click)="addItems(shareDetail);plan.value = -1;updatePlan()" />
+                <img src="../../assets/minus-arrow.svg" class="button img-minus-arrow" id="minus" (click)="deleteItems();plan.value = -1;updatePlan()" />
             </div>
             <p>You are now paying {{ownerpp}}% of this bill, in total ${{owneram}}.</p>
             <div *ngIf="oneTimeBillForm.value.splitMethod=='Percentage'; then pp; else am"></div>
