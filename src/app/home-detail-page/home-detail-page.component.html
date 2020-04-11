@@ -1,8 +1,8 @@
 <div class="home-detail-page-container">
     <img class="home-detail-page-background" src="../../assets/background.svg" />
-    <img class="home-detail-page-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
+    <img class="home-detail-page-arrow img-back-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
     <div class="home-detail-page-user-info">
-        <img class="home-detail-page-user-icon" src="../../assets/user-icon-white.svg" (click)="redirectToUserHistory()" />
+        <img class="home-detail-page-user-icon img-user-icon-white" src="../../assets/user-icon-white.svg" (click)="redirectToUserHistory()" />
         <p class="white">Hi {{ user.userName }}</p>
     </div>
     <h1 class="home-detail-page-title white">
@@ -23,8 +23,8 @@
             <div class="home-detail-page-add-delete flex-align-center">
                 <p>{{ roommate_string }}</p>
                 <div class="home-detail-page__arrows flex-align-center">
-                    <img src="../../assets/add-arrow.svg" class="home-detail-page-add-arrow" (click)="addRoommate()" />
-                    <img src="../../assets/minus-arrow.svg" class="home-detail-page-minus-arrow" (click)="removeRoommate()" />
+                    <img src="../../assets/add-arrow.svg" class="home-detail-page-add-arrow img-add-arrow" (click)="addRoommate()" />
+                    <img src="../../assets/minus-arrow.svg" class="home-detail-page-minus-arrow img-minus-arrow" (click)="removeRoommate()" />
                 </div>
             </div>
         </ng-template>
