@@ -13,9 +13,7 @@
             <div class="home-detail-page-current-roommate">
                 Current Roommates
             </div>
-            <button class="home-detail-page-balance-button">
-                Net Balance
-            </button>
+        
         </div>
 
         <div *ngIf="isowner; then owner; else roommate"></div>
@@ -50,6 +48,7 @@
                         Create New
                     </button>
                 </div>
+                <div *ngIf="!data">Our story begins with a bill...</div>
                 <div *ngFor="let item of billArray; let i = index">
                     <div class="home-detail-page-bill-list-detail flex-align-center">
                         <div>
@@ -58,9 +57,7 @@
                                 <button class="home-detail-page-bill-list-delete" (click)="deleteBill(billArray[i].id)">
                                     Delete
                                 </button>
-                                <button class="home-detail-page-bill-list-edit">
-                                    Edit
-                                </button>
+                              
                             </div>
                             <p>Created By: {{ billArray[i].created_by }} {{ billArray[i].created_at.substr(0, 10) }}</p>
                         </div>
