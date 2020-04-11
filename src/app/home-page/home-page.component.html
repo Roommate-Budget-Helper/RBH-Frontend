@@ -11,7 +11,7 @@
         </div>
 
         <ul *ngFor="let home of homes">
-            <li class="home-page-item flex-align-center">
+            <li class="home-page-item flex-align-center" >
                 <img class="home-page-house-icon" src="../../assets/home-cover.svg" (click)="handleDirectToHome(home)" />
                 <div class="home-page-item__content align-center" (click)="handleDirectToHome(home)">
                     <p>{{ home.full_name }}</p>

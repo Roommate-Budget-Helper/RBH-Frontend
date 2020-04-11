@@ -26,6 +26,7 @@ export class UserHistoryPageComponent implements OnInit {
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     history: IHistoryResponse[];
     loaded = false;
+    data = true
     constructor(private router: Router, private StorageService: StorageServiceService) {
         // console.info('?????');
         // this.dataSource.data = TREE_DATA
@@ -73,8 +74,11 @@ export class UserHistoryPageComponent implements OnInit {
                 ]
             });
         });
-
+        if(summary_data.length==0){
+            this.data = false
+        }
         this.dataSource.data = summary_data;
+        console.info(this.dataSource.data)
     }
 
     hasChild = (_: number, node: ExampleFlatNode) => node.expandable;

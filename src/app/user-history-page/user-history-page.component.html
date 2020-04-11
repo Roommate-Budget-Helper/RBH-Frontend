@@ -16,6 +16,7 @@
         <h3 class="user-history-page-title white">
             Summary of every other user
         </h3>
+        <div *ngIf = "data">Looks like you dont have any bills with others</div>
         <mat-tree class="user-history-page-history-tree" [dataSource]="dataSource" [treeControl]="treeControl">
             <!-- This is the tree node template for leaf nodes -->
             <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
