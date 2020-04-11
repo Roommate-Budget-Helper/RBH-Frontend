@@ -78,9 +78,20 @@ p {
         color: $color--grey--light;
     }
 }
+
 button{
     cursor: pointer;
+    --color: #000000;
+    --hover: #{adjust-hue(#000000, 45deg)}
 }
+
+
+button:hover,
+button:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.1em);
+}
+
 .img-back-arrow{
     cursor: pointer;
 }
