@@ -2,7 +2,11 @@
     <img class="home-detail-page-background" src="../../assets/background.svg" />
     <img class="home-detail-page-arrow img-back-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
     <div class="home-detail-page-user-info">
-        <img class="home-detail-page-user-icon img-user-icon-white" src="../../assets/user-icon-white.svg" (click)="redirectToUserHistory()" />
+        <img
+            class="home-detail-page-user-icon img-user-icon-white"
+            src="../../assets/user-icon-white.svg"
+            (click)="redirectToUserHistory()"
+        />
         <p class="white">Hi {{ user.userName }}</p>
     </div>
     <h1 class="home-detail-page-title white">
@@ -13,7 +17,6 @@
             <div class="home-detail-page-current-roommate">
                 Current Roommates
             </div>
-        
         </div>
 
         <div *ngIf="isowner; then owner; else roommate"></div>
@@ -22,7 +25,11 @@
                 <p>{{ roommate_string }}</p>
                 <div class="home-detail-page__arrows flex-align-center">
                     <img src="../../assets/add-arrow.svg" class="home-detail-page-add-arrow img-add-arrow" (click)="addRoommate()" />
-                    <img src="../../assets/minus-arrow.svg" class="home-detail-page-minus-arrow img-minus-arrow" (click)="removeRoommate()" />
+                    <img
+                        src="../../assets/minus-arrow.svg"
+                        class="home-detail-page-minus-arrow img-minus-arrow"
+                        (click)="removeRoommate()"
+                    />
                 </div>
             </div>
         </ng-template>
@@ -57,7 +64,6 @@
                                 <button class="home-detail-page-bill-list-delete" (click)="deleteBill(billArray[i].id)">
                                     Delete
                                 </button>
-                              
                             </div>
                             <p>Created By: {{ billArray[i].created_by }} {{ billArray[i].created_at.substr(0, 10) }}</p>
                         </div>
@@ -78,7 +84,7 @@
         </div>
         <ng-template #notOwner>
             <div class="home-detail-page-transfer">
-                <button (click)="onTransferClick()" style="background-color: #D3D3D3;" disabled>Transfer Ownership</button>
+                <button (click)="onTransferClick()" style="background-color: #d3d3d3;" disabled>Transfer Ownership</button>
             </div>
         </ng-template>
     </div>
