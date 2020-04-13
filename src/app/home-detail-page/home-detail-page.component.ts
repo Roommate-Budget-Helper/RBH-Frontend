@@ -26,6 +26,7 @@ export class HomeDetailPageComponent implements OnInit {
     billArray: IBill[];
     recurrentbillArray: IBillRecurrent[];
     date = new Date();
+    data = true
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     constructor(
         private router: Router,
@@ -41,6 +42,9 @@ export class HomeDetailPageComponent implements OnInit {
         this.homeId = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY).HouseId;
         this.convertRoommateString();
         this.billArray = await ApiClient.bill.getBillByHome(this.homeId);
+        if(this.billArray.length==0){
+            this.data=false
+        }
         this.recurrentbillArray = await ApiClient.bill.getRecurrentBill(this.homeId);
 
         if (this.recurrentbillArray.length > 0) {

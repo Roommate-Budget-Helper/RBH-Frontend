@@ -1,7 +1,7 @@
 <div class="bill-history-container">
-    <img class="bill-history-arrow" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
+    <img class="bill-history-arrow img-back-arrow-black" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
     <div class="bill-history-user-info">
-        <img class="bill-history-user-icon" src="../../assets/user-icon.svg" />
+        <img class="bill-history-user-icon img-user-icon" src="../../assets/user-icon.svg" />
         <p class="black">Hi {{ user.userName }}</p>
     </div>
     <div class="history-item">
@@ -10,7 +10,7 @@
         </h2>
         <ul *ngFor="let history of histories">
             <li class="home-page-item flex-align-center">
-                <img class="home-page-house-icon" src="../../assets/home-cover.svg" />
+                <img class="home-page-house-icon" src="../../assets/home-cover.svg" style="cursor: pointer;"/>
                 <div class="home-page-item__content align-center">
                     <p>{{ history.billName }}</p>
                     <div class="home-page-item__people flex-align-center grey">

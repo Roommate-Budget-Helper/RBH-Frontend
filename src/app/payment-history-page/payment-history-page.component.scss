@@ -1,6 +1,9 @@
 @import '../../styles.scss';
 .payment-history-container {
+    width: 100%;
+    height: 100%;
     position: relative;
+
     h3,
     h4,
     h6,
@@ -13,9 +16,10 @@
         margin-bottom: 10px;
     }
     .login-page-background {
-        position: absolute;
+        position: fixed;
         top: 0;
         width: 100%;
+        height: 100%;
     }
 
     .payment-history__header {
@@ -37,6 +41,7 @@
         color: white;
     }
     .payment-history__form {
+        margin-bottom: 20px;
         .summary__roommates {
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             border-radius: 10px;

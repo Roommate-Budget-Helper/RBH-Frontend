@@ -3,11 +3,13 @@
 .home-detail-page-container {
     width: 100%;
     height: 100%;
+    position: relative;
 
     .home-detail-page-background {
-        position: absolute;
+        position: fixed;
         top: 0;
         width: 100%;
+        height: 100%;
     }
     .home-detail-page-arrow {
         position: absolute;

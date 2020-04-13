@@ -54,7 +54,6 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { TransferDialogComponent } from './transfer-dialog/transfer-dialog.component';
-import { ProfilePageComponent } from './profile-page/profile-page.component';
 export let routes: Routes = [
     { path: '', component: StartingPageComponent },
     { path: 'login', component: LoginPageComponent },
@@ -130,8 +129,7 @@ export let routes: Routes = [
         RecurrentBillDialogComponent,
         BillHistoryPageComponent,
         UserHistoryPageComponent,
-        TransferDialogComponent,
-        ProfilePageComponent
+        TransferDialogComponent
     ],
     providers: [{ provide: MatDialogRef, useValue: { appearance: 'fill' } }, StorageServiceService, NgxImageCompressService],
     entryComponents: [

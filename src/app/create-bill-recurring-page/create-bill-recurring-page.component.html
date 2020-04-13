@@ -1,8 +1,8 @@
 <div class="create-recurring-container">
   <div class="create-recurring-container__header flex-align-center">
-    <img class="home-detail-page-back-arrow" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
+    <img class="home-detail-page-back-arrow img-back-arrow-black" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
     <div class="create-recurring-container__header-user">
-      <img class="home-detail-page-user-icon" src="../../assets/user-icon.svg" (click)="redirectToUserHistory()"/>
+      <img class="home-detail-page-user-icon img-user-icon" src="../../assets/user-icon.svg" (click)="redirectToUserHistory()"/>
       <p>Hello, Darcy!</p>
     </div>
   </div>
@@ -25,8 +25,8 @@
       </div>
       <div class="create-recurring__splitwith flex-align-center">
         <p>You are now paying {{ownerpp}}% of this bill. Split with others to save your wallet</p>
-        <img src="../../assets/add-arrow.svg" class="button" (click)="addItems()" />
-        <img src="../../assets/minus-arrow.svg" class="button" id="minus" (click)="deleteItems()" />
+        <img src="../../assets/add-arrow.svg" class="button img-add-arrow" (click)="addItems()" />
+        <img src="../../assets/minus-arrow.svg" class="button img-minus-arrow" id="minus" (click)="deleteItems()" />
       </div>
       
       <div class="create-recurring__user flex-align-center" formArrayName="addDynamicElement">
