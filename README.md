@@ -32,9 +32,6 @@ Add f to the describe in one of the .spec.ts file to run that particular test
 * [NPM](https://www.npmjs.com/) - Dependency management
 * [Jasmine](https://jasmine.github.io/) - Functionality testing tool
 
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Versioning
 
