@@ -42,7 +42,15 @@ export class CreateBillRecurringPageComponent implements OnInit {
 
     async ngOnInit() {
         this.deleteRoommate(this.user.userName);
-
+        if(this.roommate_array.length==0){
+            this.recurrentBillForm = this.fb.group({
+                billname: [''],
+                description: [''],
+                startDate: [''],
+                addDynamicElement: [''],
+                recurringMethod: ['']
+            });
+        }
         await this.getPlan()
 
         console.log(this.shareplan_array)
@@ -109,16 +117,20 @@ export class CreateBillRecurringPageComponent implements OnInit {
             default:
                 rec_interval = 30
         }
-        this.addDynamicElement.value.forEach((element) => {
-            console.info('element amount: ' + parseInt(element.amount) * parseInt(result.amount));
-            result_rm.push(element.rm_name);
-            result_am.push(parseInt(element.amount) * parseInt(result.amount));
-            result_pp.push(parseFloat((element.amount).toPrecision(2)));
-        });
+        if(this.addDynamicElement.value){
+            this.addDynamicElement.value.forEach((element) => {
+               
+                result_rm.push(element.rm_name);
+                result_am.push(parseInt(element.amount));
+                result_pp.push(parseFloat((element.amount).toPrecision(2)));
+            });
+        }
+        
         result_rm.push(this.user.userName)
         result_pp.push(this.ownerpp)
         let thisDialogRef = this.dialog.open(SharePlanDialogComponent, { data: { pp: this.ownerpp, recurrent: true , interval: result.recurringMethod, starton: result.startDate}, disableClose: true });
         let date: Date = new Date();
+        console.info(result_rm, result_am, result_pp)
         thisDialogRef.afterClosed().subscribe(async (res) => {
             console.info(result)
             console.info(res)
@@ -154,7 +166,6 @@ export class CreateBillRecurringPageComponent implements OnInit {
     }
 
     addItems = () => {
-        console.info(this.addDynamicElement.controls.length)
         if (this.roommate_array.length == 0 || this.addDynamicElement.controls.length >= this.rm_num) {
             alert(`You only have ${this.rm_num} roommates!`);
         } else {
