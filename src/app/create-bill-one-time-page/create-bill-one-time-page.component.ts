@@ -24,8 +24,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
     current_array = [];
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
-    roommate_array = this.home.roommates.trim().split('  ');
-    editable_array = this.home.roommates.trim().split('  ');
+
     shareplan_array = [];
     shareplanId;
     shareplanName;
@@ -33,7 +32,9 @@ export class CreateBillOneTimePageComponent implements OnInit {
     ref: AngularFireStorageReference;
     task: AngularFireUploadTask;
     downloadURL: Observable<string>;
-    rm_num = this.roommate_array.length - 1;
+    roommate_array;
+    editable_array;
+    rm_num
     constructor(
         private router: Router,
         public fb: FormBuilder,
@@ -44,10 +45,10 @@ export class CreateBillOneTimePageComponent implements OnInit {
         private afStorage: AngularFireStorage
     ) {}
     oneTimeBillForm = this.fb.group({
-        billname: [''],
-        description: [''],
+        billname: ['', Validators.required],
+        description: ['', Validators.required],
         amount: [0],
-        receipt: [null],
+        receipt: [null, Validators.required],
         splitMethod: ['Percentage'],
         addDynamicElement: this.fb.array([])
     });
@@ -55,6 +56,10 @@ export class CreateBillOneTimePageComponent implements OnInit {
     ownerpp: number = 100;
 
     async ngOnInit() {
+        this.roommate_array = this.home.roommates.trim().split('  ');
+        this.editable_array = this.home.roommates.trim().split('  ');
+        this.rm_num = this.roommate_array.length - 1;
+
         this.deleteRoommate(this.user.userName);
 
         await this.getPlan();

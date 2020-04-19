@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import ApiClient from '../api-client';
-import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder} from '@angular/forms';
 import { StorageServiceService } from '../storage-service.service';
 const STORAGE_KEY = 'local_userInfo';
 import { NgxImageCompressService } from 'ngx-image-compress';
@@ -33,6 +33,7 @@ export class BillDetailPageComponent implements OnInit {
     ref: AngularFireStorageReference;
     task: AngularFireUploadTask;
     downloadURL: Observable<string>;
+    billId;
     constructor(
         private route: ActivatedRoute,
         private router: Router,
