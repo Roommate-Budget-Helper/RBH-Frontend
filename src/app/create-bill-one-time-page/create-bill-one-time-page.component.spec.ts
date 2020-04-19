@@ -39,7 +39,7 @@ let sampleStorage = {userInfo: {id: 111111,
     hashedPassword: "hashedPass",
     email: "some@gmail.com"},
     token:"some-token"};
-fdescribe('CreateBillOneTimePageComponent', () => {
+describe('CreateBillOneTimePageComponent', () => {
     let component: CreateBillOneTimePageComponent;
     let fixture: ComponentFixture<CreateBillOneTimePageComponent>;
 
