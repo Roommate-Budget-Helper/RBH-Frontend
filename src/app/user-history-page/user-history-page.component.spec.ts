@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { StorageServiceService } from '../storage-service.service';
 import { MatTreeModule} from '@angular/material/tree';
 import { By } from "@angular/platform-browser";
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 const sampleStorage = {userInfo: {id: 111111,
   full_name: "full_name",
@@ -19,14 +20,14 @@ const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
 let sampleGetHistory = [{userName: 'xixi', balance: 20, billCount: 1, homeCount: 0},
 {userName: 'zhuzhu', balance: 20, billCount: 2, homeCount: 0}];
-fdescribe('UserHistoryPageComponent', () => {
+describe('UserHistoryPageComponent', () => {
   let component: UserHistoryPageComponent;
   let fixture: ComponentFixture<UserHistoryPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ UserHistoryPageComponent ],
-      imports: [CdkTreeModule, MatTreeModule, MatIconModule],
+      imports: [CdkTreeModule, MatTreeModule, MatIconModule, MatProgressSpinnerModule],
       providers:[
         { provide: Router,   useValue: routerSpy },
         StorageServiceService
@@ -65,7 +66,7 @@ fdescribe('UserHistoryPageComponent', () => {
     })
 
     it('should create correct greeting', () => {
-      let greeting = fixture.debugElement.nativeElement.querySelector('p')
+      let greeting = fixture.debugElement.query(By.css('.user-history-page-user-info p')).nativeElement
       expect(greeting).toBeTruthy()
       expect(greeting.textContent).toContain(sampleStorage.userInfo.userName)
     })

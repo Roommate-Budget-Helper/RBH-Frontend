@@ -46,7 +46,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
         billname: ['', Validators.required],
         description: ['', Validators.required],
         amount: [0],
-        receipt: [null],
+        receipt: [null, Validators.required],
         splitMethod: ['Percentage'],
         addDynamicElement: this.fb.array([])
     });

@@ -10,6 +10,7 @@ import { By } from "@angular/platform-browser";
 
 import { BillDetailPageComponent } from './bill-detail-page.component';
 // const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
+// const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
 const FirestoreStub = {
