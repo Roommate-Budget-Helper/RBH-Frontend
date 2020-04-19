@@ -6,7 +6,7 @@
     <mat-label>Enter the amount for this {{data.interval}} on {{data.billName}}!</mat-label>
 
     <input matInput #userToInvite matInput placeholder="Amount" [formControl]="emailFormControl"
-      [errorStateMatcher]="matcher">
+      [errorStateMatcher]="matcher" type="number">
     <mat-icon matSuffix></mat-icon>
     <mat-hint>Please enter amount</mat-hint>
     <mat-error *ngIf="emailFormControl.hasError('required')">

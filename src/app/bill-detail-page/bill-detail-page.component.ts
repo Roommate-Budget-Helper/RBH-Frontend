@@ -1,5 +1,5 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import ApiClient from '../api-client';
 import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
@@ -7,9 +7,8 @@ import { StorageServiceService } from '../storage-service.service';
 const STORAGE_KEY = 'local_userInfo';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material';
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage'
-import { finalize } from 'rxjs/operators'
-
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-bill-detail-page',
@@ -27,9 +26,9 @@ export class BillDetailPageComponent implements OnInit {
     descriFlag = false;
     fileToUpload: File = null;
     fileName: String = null;
-    nameStatus = "Edit";
-    descriStatus = "Edit";
-    amountStatus = "Edit";
+    nameStatus = 'Edit';
+    descriStatus = 'Edit';
+    amountStatus = 'Edit';
     original: IBillHistory;
     ref: AngularFireStorageReference;
     task: AngularFireUploadTask;
@@ -40,20 +39,22 @@ export class BillDetailPageComponent implements OnInit {
         private StorageService: StorageServiceService,
         public fb: FormBuilder,
         private imageCompress: NgxImageCompressService,
-        private afStorage: AngularFireStorage,
-
-    ) { }
+        private afStorage: AngularFireStorage
+    ) {}
 
     async ngOnInit() {
-
         this.billDetail = await ApiClient.bill.getBillById(this.route.snapshot.params['id']);
         this.original = {
-            ownerId: this.billDetail[0].ownerId, homeId: this.billDetail[0].homeId, totalAmount: this.billDetail[0].totalAmount,
-            currentID: this.billDetail[0].billId, billName: this.billDetail[0].billName, descri: this.billDetail[0].descri, created_at: this.billDetail[0].created_at,
+            ownerId: this.billDetail[0].ownerId,
+            homeId: this.billDetail[0].homeId,
+            totalAmount: this.billDetail[0].totalAmount,
+            currentID: this.billDetail[0].billId,
+            billName: this.billDetail[0].billName,
+            descri: this.billDetail[0].descri,
+            created_at: this.billDetail[0].created_at,
             created_by: this.billDetail[0].created_by
-        }
-        console.info(this.original)
-        // console.info(this.billDetail);
+        };
+
         this.findOwner(this.billDetail);
     }
 
@@ -124,7 +125,6 @@ export class BillDetailPageComponent implements OnInit {
         // console.log(this.billDetail);
     };
 
-
     descriptionOnclick = () => {
         // const tempName = this.billDetail[0].descri;
         // if (this.descriFlag === true) {
@@ -145,7 +145,7 @@ export class BillDetailPageComponent implements OnInit {
         // this.descriStatus = "Save";
 
         // }
-    }
+    };
 
     amountOnclick = () => {
         //this.amountFlag = !this.amountFlag;
@@ -168,48 +168,45 @@ export class BillDetailPageComponent implements OnInit {
     };
 
     updateBillDetailOnclick = async () => {
-        let detail = this.billDetail[0]
-        console.info(this.original);
+        let detail = this.billDetail[0];
+
         this.billDetail.forEach((item) => {
             item.totalAmount = this.billDetail[0].totalAmount;
 
             item.descri = this.billDetail[0].descri;
             item.billName = this.billDetail[0].billName;
         });
-        console.info(new Date())
 
         await ApiClient.bill.editBillById(this.billDetail);
-        await ApiClient.bill.createBillHistory(this.original)
+        await ApiClient.bill.createBillHistory(this.original);
         this.handleBack();
-    }
+    };
 
     onFileUpload = (event) => {
         let reader = new FileReader();
         let file = event.target.files[0];
-        let imgResultAfterCompress = file
+        let imgResultAfterCompress = file;
 
         const id = Math.random().toString(36).substring(2);
         this.ref = this.afStorage.ref(id);
-        this.task = this.ref.put(file)
-        this.task.snapshotChanges().pipe(
-            finalize(() => {
-                this.downloadURL = this.ref.getDownloadURL()
-                // console.info("url is:" + this.downloadURL)
-                this.downloadURL.subscribe(url => {
-                    // console.info(url)
-                    ApiClient.bill.uploadProofById(
-                        {
+        this.task = this.ref.put(file);
+        this.task
+            .snapshotChanges()
+            .pipe(
+                finalize(() => {
+                    this.downloadURL = this.ref.getDownloadURL();
+
+                    this.downloadURL.subscribe((url) => {
+                        ApiClient.bill.uploadProofById({
                             numId: this.user.id,
                             billId: this.route.snapshot.params['id'],
                             baseString: url
-                        }
-                    );
-                });
-            })).subscribe();
+                        });
+                    });
+                })
+            )
+            .subscribe();
 
-
-
-        console.info("done")
         // if (event.target.files && event.target.files[0]) {
         //     reader.readAsDataURL(imgResultAfterCompress);
 
@@ -240,12 +237,11 @@ export class BillDetailPageComponent implements OnInit {
     onFileView = (basedString) => {
         var image = new Image();
         image.style.width = '200px';
-        // console.info(basedString.proof)
-        image.src = basedString.proof
+
+        image.src = basedString.proof;
         if (document.getElementById(basedString.index).childNodes.length === 0) {
             document.getElementById(basedString.index).append(image);
             // document.getElementById(basedString.index).innerHTML += "<br><input type='checkbox'>  Approve  </input> <input type='checkbox'>  Decline  </input>"
-            console.info(document.getElementById(basedString.index).innerHTML)
         }
 
         if (this.show) {
@@ -257,8 +253,3 @@ export class BillDetailPageComponent implements OnInit {
         }
     };
 }
-
-
-
-
-

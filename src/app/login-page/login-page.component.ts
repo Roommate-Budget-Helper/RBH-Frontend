@@ -30,7 +30,6 @@ export class LoginPageComponent implements OnInit {
             const result = await ApiClient.auth.login(this.options.username, sha256(this.options.password));
             _.isEmpty(result.userInfo) ? alert('wrong credential combination') : this.router.navigateByUrl('/home');
             this.StorageService.storeOnLocalStorage(result);
-            console.info(result);
         }
     };
 

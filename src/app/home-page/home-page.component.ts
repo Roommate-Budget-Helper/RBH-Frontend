@@ -33,7 +33,7 @@ export class HomePageComponent implements OnInit {
             this.homes = result;
             this.loaded = !this.loaded;
         });
-        console.info(this.homes);
+
         await this.handleInvitation();
 
         for (let invitation of this.invitations) {

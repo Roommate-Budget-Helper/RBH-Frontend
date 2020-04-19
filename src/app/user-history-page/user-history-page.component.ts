@@ -26,7 +26,7 @@ export class UserHistoryPageComponent implements OnInit {
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     history: IHistoryResponse[];
     loaded = false;
-    data = true
+    data = true;
     constructor(private router: Router, private StorageService: StorageServiceService) {
         // console.info('?????');
         // this.dataSource.data = TREE_DATA
@@ -57,7 +57,7 @@ export class UserHistoryPageComponent implements OnInit {
             this.history = result;
             this.loaded = !this.loaded;
         });
-        console.info(history);
+
         let summary_data: FoodNode[] = [];
         this.history.forEach((element) => {
             let balanceWord = '';
@@ -74,11 +74,10 @@ export class UserHistoryPageComponent implements OnInit {
                 ]
             });
         });
-        if(summary_data.length==0){
-            this.data = false
+        if (summary_data.length == 0) {
+            this.data = false;
         }
         this.dataSource.data = summary_data;
-        console.info(this.dataSource.data)
     }
 
     hasChild = (_: number, node: ExampleFlatNode) => node.expandable;

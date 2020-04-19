@@ -8,6 +8,7 @@
         <h2>
             Previous Versions of this Bill
         </h2>
+        <p *ngIf="!yes">This bill has not been modified by anyone yet...</p>
         <ul *ngFor="let history of histories">
             <li class="home-page-item flex-align-center">
                 <img class="home-page-house-icon" src="../../assets/home-cover.svg" style="cursor: pointer;"/>
