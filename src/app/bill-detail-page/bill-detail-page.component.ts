@@ -37,7 +37,7 @@ export class BillDetailPageComponent implements OnInit {
         private router: Router,
         private StorageService: StorageServiceService,
         public fb: FormBuilder,
-        private afStorage: AngularFireStorage,
+        private afStorage: AngularFireStorage){}
 
     async ngOnInit() {
         this.billId = this.route.snapshot.params['id']
