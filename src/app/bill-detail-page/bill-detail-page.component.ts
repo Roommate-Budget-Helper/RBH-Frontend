@@ -1,12 +1,10 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Observable } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router';
 import ApiClient from '../api-client';
-import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder} from '@angular/forms';
 import { StorageServiceService } from '../storage-service.service';
 const STORAGE_KEY = 'local_userInfo';
-import { NgxImageCompressService } from 'ngx-image-compress';
-import { MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage'
 import { finalize } from 'rxjs/operators'
 
@@ -34,19 +32,19 @@ export class BillDetailPageComponent implements OnInit {
     ref: AngularFireStorageReference;
     task: AngularFireUploadTask;
     downloadURL: Observable<string>;
+    billId;
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private StorageService: StorageServiceService,
         public fb: FormBuilder,
-        private imageCompress: NgxImageCompressService,
         private afStorage: AngularFireStorage,
 
     ) { }
 
     async ngOnInit() {
-
-        this.billDetail = await ApiClient.bill.getBillById(this.route.snapshot.params['id']);
+        this.billId = this.route.snapshot.params['id']
+        this.billDetail = await ApiClient.bill.getBillById(this.billId);
         this.original = {
             ownerId: this.billDetail[0].ownerId, homeId: this.billDetail[0].homeId, totalAmount: this.billDetail[0].totalAmount,
             currentID: this.billDetail[0].billId, billName: this.billDetail[0].billName, descri: this.billDetail[0].descri, created_at: this.billDetail[0].created_at,
