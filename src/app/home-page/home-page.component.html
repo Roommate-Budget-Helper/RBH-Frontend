@@ -7,11 +7,11 @@
     <ng-template #elseBlock>
         <div class="home-page-user-info">
             <img class="home-page-user-icon img-user-icon" src="../../assets/user-icon.svg" (click)="redirectToUserHistory()" />
-            <p>Hi {{ username }}</p>
+            <p>Hi, {{ username }}!</p>
         </div>
 
         <ul *ngFor="let home of homes">
-            <li class="home-page-item flex-align-center" >
+            <li class="home-page-item flex-align-center">
                 <img class="home-page-house-icon" src="../../assets/home-cover.svg" (click)="handleDirectToHome(home)" />
                 <div class="home-page-item__content align-center" (click)="handleDirectToHome(home)">
                     <p>{{ home.full_name }}</p>

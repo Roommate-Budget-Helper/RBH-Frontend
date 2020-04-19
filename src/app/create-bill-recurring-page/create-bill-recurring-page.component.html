@@ -1,57 +1,72 @@
 <div class="create-recurring-container">
-  <div class="create-recurring-container__header flex-align-center">
-    <img class="home-detail-page-back-arrow img-back-arrow-black" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
-    <div class="create-recurring-container__header-user">
-      <img class="home-detail-page-user-icon img-user-icon" src="../../assets/user-icon.svg" (click)="redirectToUserHistory()"/>
-      <p>Hello, {{user.userName}}!</p>
-    </div>
-  </div>
-  <div class="create-recurring__form">
-    <form [formGroup]="recurrentBillForm">
-      <h3>Recurring Bill</h3>
-      <div class="create-recurring__billName">
-        <p>Bill Name</p>
-        <input type="text" formControlName="billname" />
-      </div>
-      <div class="create-recurring__description">
-        <p>Description</p>
-        <input type="text" formControlName="description" />
-      </div>
-      <div class="create-recurring__date">
-        <p>Start Date</p>
-        <div class="amount-input flex-align-center">
-          <input type="datetime-local" name="bdaytime" formControlName="startDate" />
+    <img class="create-recurring-background" src="../../assets/background.svg" />
+    <div class="create-recurring-container__header flex-align-center">
+        <img class="home-detail-page-back-arrow img-back-arrow-black" src="../../assets/back-arrow.svg" (click)="handleBack()" />
+        <div class="create-recurring-container__header-user">
+            <img
+                class="home-detail-page-user-icon img-user-icon"
+                src="../../assets/user-icon-white.svg"
+                (click)="redirectToUserHistory()"
+            />
+            <p class="white">Hello, {{ user.userName }}!</p>
         </div>
-      </div>
-      <div class="create-recurring__splitwith flex-align-center">
-        <p>You are now paying {{ownerpp}}% of this bill. Split with others to save your wallet</p>
-        <img src="../../assets/add-arrow.svg" class="button img-add-arrow" (click)="addItems()" />
-        <img src="../../assets/minus-arrow.svg" class="button img-minus-arrow" id="minus" (click)="deleteItems()" />
-      </div>
-      
-      <div class="create-recurring__user flex-align-center" formArrayName="addDynamicElement">
-        <ul class="create-recurring__subjectList">
-          <li *ngFor="let item of addDynamicElement.controls; let i = index"
-            class="create-recurring__list_elements flex-align-center" [formGroupName]="i"
-            (change)="changeName(i, $event)">
-            <select formControlName="rm_name">
-              <option>{{item.get('rm_name').value.length!=0 ? item.get('rm_name').value : 'Choose'}}</option>
-              <option *ngFor="let rm of roommate_array">{{ rm }}</option>
-            </select>
-            <input type="number" class="form-control" formControlName="amount" placeholder="Amount Shared" />
-            <span matSuffix>%</span>
-          </li>
-        </ul>
-      </div>
-      <div class="create-recurring__method flex-align-center">
-        <p>Recurring</p>
-        <select name="recurring" id="recurring" formControlName="recurringMethod">
-          <option value="method1">Select A Recurring Method</option>
-          <option *ngFor="let rm of rec_method">{{ rm }}</option>
-        </select>
-      </div>
+    </div>
+    <div class="create-recurring__form">
+        <form [formGroup]="recurrentBillForm">
+            <h3>Recurring Bill</h3>
+            <div class="create-recurring__billName">
+                <p>Bill Name</p>
+                <input type="text" formControlName="billname" />
+            </div>
+            <div class="create-recurring__description">
+                <p>Description</p>
+                <input type="text" formControlName="description" />
+            </div>
+            <div class="create-recurring__date">
+                <p>Start Date</p>
+                <div class="amount-input flex-align-center">
+                    <input type="datetime-local" name="bdaytime" formControlName="startDate" />
+                </div>
+            </div>
+            <div class="create-recurring__splitwith flex-align-center">
+                <div>
+                    <p>You are now paying {{ ownerpp }}% of this bill.</p>
+                    <p>
+                        Split with others to save your wallet!
+                    </p>
+                </div>
+                <div class="create-recurring__splitwith__buttons flex-align-center">
+                    <img src="../../assets/add-arrow.svg" class="button img-add-arrow" (click)="addItems()" />
+                    <img src="../../assets/minus-arrow.svg" class="button img-minus-arrow" id="minus" (click)="deleteItems()" />
+                </div>
+            </div>
 
-      <button class="createbutton" (click) = "onSubmit()">Create</button>
-    </form>
-  </div>
+            <div class="create-recurring__user flex-align-center" formArrayName="addDynamicElement">
+                <ul class="create-recurring__subjectList">
+                    <li
+                        *ngFor="let item of addDynamicElement.controls; let i = index"
+                        class="create-recurring__list_elements flex-align-center"
+                        [formGroupName]="i"
+                        (change)="changeName(i, $event)"
+                    >
+                        <select formControlName="rm_name">
+                            <option>{{ item.get('rm_name').value.length != 0 ? item.get('rm_name').value : 'Choose' }}</option>
+                            <option *ngFor="let rm of roommate_array">{{ rm }}</option>
+                        </select>
+                        <input type="number" class="form-control" formControlName="amount" placeholder="Amount Shared" />
+                        <span matSuffix>%</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="create-recurring__method flex-align-center">
+                <p>Recurring</p>
+                <select name="recurring" id="recurring" formControlName="recurringMethod">
+                    <option value="method1">Select A Recurring Method</option>
+                    <option *ngFor="let rm of rec_method">{{ rm }}</option>
+                </select>
+            </div>
+
+            <button class="createbutton" (click)="onSubmit()">Create</button>
+        </form>
+    </div>
 </div>

@@ -1,16 +1,33 @@
 @import '../../styles.scss';
 .create-recurring-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    .create-recurring-background {
+        position: fixed;
+
+        width: 100%;
+        height: 100%;
+    }
     .create-recurring-container__header {
+        position: absolute;
         padding: 20px;
+        width: 100%;
         .create-recurring-container__header-user {
             text-align: right;
             margin-left: auto;
-            margin-right: 2%;
+            margin-right: 0;
         }
     }
     .create-recurring__form {
+        position: absolute;
+        background-color: $color--white;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        margin: 20px;
+        margin-top: 120px;
+        margin-bottom: 50px;
+        width: 85%;
+        left: 50%;
+        transform: translateX(-50%);
         padding: 20px;
         border-radius: 10px;
         .create-recurring__billName {
@@ -59,7 +76,7 @@
         }
         .create-recurring__splitwith {
             margin-bottom: 10px;
-            width:80%;
+
             p {
                 margin-right: 10px;
             }
@@ -72,8 +89,11 @@
                 border-radius: 4px;
                 margin-right: 10px;
             }
-            img {
+            .create-recurring__splitwith__buttons {
                 margin-left: auto;
+                img {
+                    margin-left: 10px;
+                }
             }
         }
 
@@ -95,11 +115,14 @@
                 border: 1px solid $color--grey--border;
                 box-shadow: none;
                 border-radius: 4px;
-                margin-right: 10px;
             }
             .create-recurring__subjectList {
                 width: 100%;
-
+                padding: 0px;
+                list-style-type: none;
+                span {
+                    margin-left: 5px;
+                }
                 .create-recurring__list_elements {
                     margin-bottom: 7px;
                 }

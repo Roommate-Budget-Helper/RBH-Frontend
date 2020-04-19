@@ -1,9 +1,14 @@
 <div class="create-bill-one-container">
+    <img class="create-bill-one-background" src="../../assets/background.svg" />
     <div class="create-bill-one-container__header flex-align-center">
-        <img class="home-detail-page-back-arrow img-back-arrow-black" src="../../assets/back-arrow-black.svg" (click)="handleBack()" />
+        <img class="home-detail-page-back-arrow img-back-arrow-black" src="../../assets/back-arrow.svg" (click)="handleBack()" />
         <div class="create-bill-one-container__header-user">
-            <img class="home-detail-page-user-icon img-user-icon" src="../../assets/user-icon.svg" (click)="redirectToUserHistory()"/>
-            <p>Hello, {{ user.userName }}!</p>
+            <img
+                class="home-detail-page-user-icon img-user-icon"
+                src="../../assets/user-icon-white.svg"
+                (click)="redirectToUserHistory()"
+            />
+            <p class="white">Hello, {{ user.userName }}!</p>
         </div>
     </div>
     <div class="create-bill-one__form">
@@ -30,9 +35,9 @@
                         (change)="uploadFile($event)"
                     />
                     <label for="imageUpload" [ngClass]="['custom-label', 'upload-image']">{{ labelMsg }}</label>
-                    <select #plan (change)="updateList($event)" *ngIf="shareplan_array.length>0">
+                    <select #plan (change)="updateList($event)" *ngIf="shareplan_array.length > 0">
                         <option value="-1">Choose a share plan...</option>
-                        <option *ngFor="let plan of shareplan_array; let i = index" [value] ="i">{{ plan.full_name }}</option>
+                        <option *ngFor="let plan of shareplan_array; let i = index" [value]="i">{{ plan.full_name }}</option>
                     </select>
                     <!-- <label class="image-upload-container btn btn-bwm">
                         <input #imageInput
@@ -45,15 +50,29 @@
             </div>
             <div class="create-bill-one__splitwith flex-align-center">
                 <p>Split with</p>
-                <select name="shareplan" id="shareplan" formControlName="splitMethod" (change)="updateOwner(); plan.value = -1;updatePlan()">
+                <select
+                    name="shareplan"
+                    id="shareplan"
+                    formControlName="splitMethod"
+                    (change)="updateOwner(); plan.value = -1; updatePlan()"
+                >
                     <option value="Percentage">Percentage</option>
                     <option value="Amount">Amount</option>
                 </select>
-                <img src="../../assets/add-arrow.svg" class="button img-add-arrow" (click)="addItems(shareDetail);plan.value = -1;updatePlan()" />
-                <img src="../../assets/minus-arrow.svg" class="button img-minus-arrow" id="minus" (click)="deleteItems();plan.value = -1;updatePlan()" />
+                <img
+                    src="../../assets/add-arrow.svg"
+                    class="button img-add-arrow"
+                    (click)="addItems(shareDetail); plan.value = -1; updatePlan()"
+                />
+                <img
+                    src="../../assets/minus-arrow.svg"
+                    class="button img-minus-arrow"
+                    id="minus"
+                    (click)="deleteItems(); plan.value = -1; updatePlan()"
+                />
             </div>
-            <p>You are now paying {{ownerpp}}% of this bill, in total ${{owneram}}.</p>
-            <div *ngIf="oneTimeBillForm.value.splitMethod=='Percentage'; then pp; else am"></div>
+            <p>You are now paying {{ ownerpp }}% of this bill, in total ${{ owneram }}.</p>
+            <div *ngIf="oneTimeBillForm.value.splitMethod == 'Percentage'; then pp; else am"></div>
             <ng-template class="home-detail-page-nameAndButtons flex-align-center" #pp>
                 <div class="create-bill-one__user flex-align-center" formArrayName="addDynamicElement">
                     <!-- <select name="user1" id="user1">
@@ -65,11 +84,11 @@
                             *ngFor="let item of addDynamicElement.controls; let i = index"
                             class="create-bill-one__list_elements flex-align-center"
                             [formGroupName]="i"
-                            (change)="changeName(i, $event);plan.value = -1;updatePlan()"
+                            (change)="changeName(i, $event); plan.value = -1; updatePlan()"
                         >
-                            <select  formControlName="rm_name">
-                                <option>{{item.get('rm_name').value.length!=0 ? item.get('rm_name').value : 'Choose'}}</option>
-                                <option *ngFor="let rm of roommate_array" >{{ rm }}</option>
+                            <select formControlName="rm_name">
+                                <option>{{ item.get('rm_name').value.length != 0 ? item.get('rm_name').value : 'Choose' }}</option>
+                                <option *ngFor="let rm of roommate_array">{{ rm }}</option>
                             </select>
                             <input type="number" class="form-control" formControlName="amount" placeholder="Amount Shared" />
                             <span matSuffix>%</span>
@@ -88,10 +107,10 @@
                             *ngFor="let item of addDynamicElement.controls; let i = index"
                             class="create-bill-one__list_elements flex-align-center"
                             [formGroupName]="i"
-                            (change)="changeName(i, $event);plan.value = -1;updatePlan()"
+                            (change)="changeName(i, $event); plan.value = -1; updatePlan()"
                         >
-                            <select  formControlName="rm_name">
-                                <option>{{item.get('rm_name').value.length!=0 ? item.get('rm_name').value : 'Choose'}}</option>
+                            <select formControlName="rm_name">
+                                <option>{{ item.get('rm_name').value.length != 0 ? item.get('rm_name').value : 'Choose' }}</option>
                                 <option *ngFor="let rm of roommate_array">{{ rm }}</option>
                             </select>
                             <input type="number" class="form-control" formControlName="amount" placeholder="Amount Shared" />
