@@ -41,7 +41,6 @@ export class AddRoommateDialogComponent implements OnInit {
             // map((value) => (typeof value === 'string' ? value : value.name))
             map((name) => (name ? this._filter(name) : this.options.slice()))
         );
-        // console.info(this.data.roommates);
     }
 
     invite = async (username) => {

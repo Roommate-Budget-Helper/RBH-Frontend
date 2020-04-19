@@ -26,7 +26,7 @@ export class HomeDetailPageComponent implements OnInit {
     billArray: IBill[];
     recurrentbillArray: IBillRecurrent[];
     date = new Date();
-    data = true
+    data = true;
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     constructor(
         private router: Router,
@@ -42,8 +42,8 @@ export class HomeDetailPageComponent implements OnInit {
         this.homeId = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY).HouseId;
         this.convertRoommateString();
         this.billArray = await ApiClient.bill.getBillByHome(this.homeId);
-        if(this.billArray.length==0){
-            this.data=false
+        if (this.billArray.length == 0) {
+            this.data = false;
         }
         this.recurrentbillArray = await ApiClient.bill.getRecurrentBill(this.homeId);
 
@@ -85,7 +85,6 @@ export class HomeDetailPageComponent implements OnInit {
     };
 
     convertRoommateString = () => {
-        console.info(this.home)
         this.roommate_array = this.home.roommates.trim().split('  ');
         this.roommate_string = this.owner + '(Owner) ';
         for (let roommate in this.roommate_array) {
@@ -107,8 +106,6 @@ export class HomeDetailPageComponent implements OnInit {
     };
     removeRoommate = () => {
         if (this.isowner) {
-            console.info(this.roommate_array.slice(1))
-
             let thisDialogRef = this.dialog.open(RemoveRoommateDialogComponent, {
                 data: { roommates: this.roommate_array.slice(1), isOwner: this.isowner, HouseId: this.home.HouseId },
                 disableClose: true
@@ -177,4 +174,3 @@ export class HomeDetailPageComponent implements OnInit {
         });
     };
 }
-

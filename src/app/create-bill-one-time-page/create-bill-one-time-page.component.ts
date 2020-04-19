@@ -10,7 +10,6 @@ import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask 
 import { finalize } from 'rxjs/operators'
 import { Observable } from 'rxjs'
 
-
 const HOME_STORAGE_KEY = 'local_homeId';
 const STORAGE_KEY = 'local_userInfo';
 
@@ -62,7 +61,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
         this.deleteRoommate(this.user.userName);
 
         await this.getPlan();
-        console.info(this.shareplan_array);
+
         if (this.shareplan_array.length > 0) {
             this.shareplan_array.forEach((element) => {
                 this.shareplanName_array.push(element.full_name);
@@ -81,8 +80,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
         let result = this.oneTimeBillForm.value;
         this.owneram = result.amount;
         this.ownerpp = 100;
-        console.info(this.shareplanName);
-        // this.shareplanName = '';
+
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
                 this.owneram -= element.amount;
@@ -119,18 +117,17 @@ export class CreateBillOneTimePageComponent implements OnInit {
         }
     }
     fileUpload = async (billId, file) => {
-        console.info(file)
         const id = Math.random().toString(36).substring(2);
         this.ref = this.afStorage.ref(id);
-        this.task = this.ref.put(file)
-        this.task.snapshotChanges().pipe(
-            finalize(() => {
-                this.downloadURL = this.ref.getDownloadURL()
-                // console.info("url is:" + this.downloadURL)
-                this.downloadURL.subscribe(url => {
-                    // console.info(url)
-                    ApiClient.bill.uploadProofById(
-                        {
+        this.task = this.ref.put(file);
+        this.task
+            .snapshotChanges()
+            .pipe(
+                finalize(() => {
+                    this.downloadURL = this.ref.getDownloadURL();
+
+                    this.downloadURL.subscribe((url) => {
+                        ApiClient.bill.uploadProofById({
                             numId: this.user.id,
                             billId: billId,
                             baseString: url
@@ -155,8 +152,8 @@ export class CreateBillOneTimePageComponent implements OnInit {
         //         });
     };
     redirectToUserHistory = () => {
-        this.router.navigateByUrl('/history')
-    }
+        this.router.navigateByUrl('/history');
+    };
 
     onSubmit() {
         let result_am = [];
@@ -169,8 +166,6 @@ export class CreateBillOneTimePageComponent implements OnInit {
 
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
-                console.info('element amount: ' + element.amount);
-                // console.info("hhhhhhhhhhh",element.rm_name.rm_name );
                 result_rm.push(element.rm_name);
                 result_am.push(element.amount);
                 total_am += element.amount;
@@ -178,7 +173,6 @@ export class CreateBillOneTimePageComponent implements OnInit {
             });
         } else {
             this.addDynamicElement.value.forEach((element) => {
-                console.info('element amount: ' + parseInt(element.amount) * parseInt(result.amount));
                 result_rm.push(element.rm_name);
                 result_am.push(parseInt(element.amount) * parseInt(result.amount) / 100);
                 total_am += (parseInt(element.amount) * parseInt(result.amount)) / 100;
@@ -285,12 +279,11 @@ export class CreateBillOneTimePageComponent implements OnInit {
     }
 
     addItems = (value) => {
-        console.info(value);
         if (this.roommate_array.length == 0 || this.addDynamicElement.controls.length >= this.rm_num) {
             alert(`You only have ${this.rm_num} roommates!`);
         } else {
             this.addDynamicElement.push(value);
-            console.info(value.value.rm_name)
+
             if (value.value.rm_name.length > 0) {
                 this.current_array.push(value.rm_name);
             }
@@ -338,7 +331,6 @@ export class CreateBillOneTimePageComponent implements OnInit {
                 }
             }
             this.updateOwner();
-            console.info(this.ownerpp)
         }
     };
 
@@ -350,7 +342,6 @@ export class CreateBillOneTimePageComponent implements OnInit {
             this.updateOwner();
             return;
         }
-        console.info(this.current_array);
 
         if (this.current_array[i] == '') {
             this.deleteRoommate(evalue);
