@@ -15,7 +15,7 @@ describe('AddRoommateDialogComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AddRoommateDialogComponent ],
-      imports: [MatDialogModule,MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatIconModule, BrowserAnimationsModule],
+      imports: [MatDialogModule,MatFormFieldModule, MatInputModule, FormsModule, ReactiveFormsModule, MatIconModule, BrowserAnimationsModule, MatAutocompleteModule ],
       providers:[{provide : MAT_DIALOG_DATA, useValue : {houseId: 1}}]
     })
     .compileComponents();

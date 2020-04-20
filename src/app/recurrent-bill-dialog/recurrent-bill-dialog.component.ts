@@ -2,9 +2,9 @@ import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material';
 import { ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage'
-import { finalize } from 'rxjs/operators'
-import { Observable } from 'rxjs'
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
+import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { ErrorStateMatcher } from '@angular/material/core';
 import ApiClient from '../api-client';
@@ -26,7 +26,6 @@ export class RecurrentBillDialogComponent implements OnInit {
     downloadURL: Observable<string>;
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private imageCompress: NgxImageCompressService,
         private afStorage: AngularFireStorage
     ) {}
     emailFormControl = new FormControl('', [Validators.required]);
@@ -35,19 +34,11 @@ export class RecurrentBillDialogComponent implements OnInit {
     date = new Date();
     file;
 
-  ref: AngularFireStorageReference;
-  task: AngularFireUploadTask;
-  downloadURL: Observable<string>;
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private afStorage: AngularFireStorage,
-  ) { }
-  emailFormControl = new FormControl('', [
-    Validators.required
-  ]);
-  matcher = new MyErrorStateMatcher();
-  ngOnInit() {
-  }
-  date = new Date()
-  file;
+    publish = async (result) => {
+        let amount = [];
+        this.data.element.ratio.forEach((ratio) => {
+            amount.push((ratio * result) / 100);
+        });
 
         var billRes = {} as IBillCreateResponse;
 

@@ -31,7 +31,7 @@ const FirestoreStub = {
     }),
   }),
 }
-fdescribe('RecurrentBillDialogComponent', () => {
+describe('RecurrentBillDialogComponent', () => {
   let component: RecurrentBillDialogComponent;
   let fixture: ComponentFixture<RecurrentBillDialogComponent>;
 

@@ -65,6 +65,7 @@ const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
     component = fixture.componentInstance;
     component.user = sampleStorage.userInfo;
     component.username = component.user.userName;
+    component.invitations = sampleInvitation
     component.loaded = true
     // component.invitations = sampleInvitation
     storage = fixture.debugElement.injector.get(StorageServiceService);
@@ -77,10 +78,6 @@ const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
       console.info("dialog is "+ component.dialog.open)
         expect(component).toBeTruthy();
     });
-    describe('Basic Tests', () => {
-        it('should create', () => {
-            expect(component).toBeTruthy();
-        });
 
     it('should show correct user info', () => {
       const greeting = fixture.debugElement.query(By.css('.home-page-user-info')).nativeElement;
@@ -116,8 +113,8 @@ const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
     //   // expect(1).toBeTruthy()
     // });
 
-            expect(component.invitations).toBe(sampleInvitation);
-        });
+        //     expect(component.invitations).toBe(sampleInvitation);
+        // });
 
         //to be continued;
         //   it("should store token to local storage if result is not empty", ()=>{
