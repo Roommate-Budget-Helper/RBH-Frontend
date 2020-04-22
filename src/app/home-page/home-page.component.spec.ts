@@ -41,7 +41,6 @@ const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 fdescribe('HomePageComponent', () => {
   let component: HomePageComponent;
   let fixture: ComponentFixture<HomePageComponent>;
-  let storage;
   let fixture1: ComponentFixture<HomePageComponent>;
   // let fixture2: ComponentFixture<HomePageComponent>;
 

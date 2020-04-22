@@ -46,8 +46,9 @@ export class CreateBillOneTimePageComponent implements OnInit {
         billname: ['', Validators.required],
         description: ['', Validators.required],
         amount: [0],
-        receipt: [null, Validators.required],
+        receipt: [null],
         splitMethod: ['Percentage'],
+        sp:[-1],
         addDynamicElement: this.fb.array([])
     });
     owneram = 0;
@@ -83,17 +84,32 @@ export class CreateBillOneTimePageComponent implements OnInit {
 
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
-                this.owneram -= element.amount;
+
+                this.owneram -= parseFloat(element.amount.toPrecision(4));
+                this.owneram = parseFloat(this.owneram.toPrecision(4));
+console.info(this.owneram.toPrecision(4))
                 this.ownerpp -= (element.amount / result.amount) * 100;
                 this.ownerpp = parseFloat(this.ownerpp.toPrecision(4));
             });
         } else {
             this.addDynamicElement.value.forEach((element) => {
-                this.ownerpp -= parseFloat(element.amount.toPrecision(2));
-                this.owneram -= (element.amount / 100) * result.amount;
+                this.ownerpp -= parseFloat(element.amount.toPrecision(4));
+                this.ownerpp = parseFloat(this.ownerpp.toPrecision(4));
+                console.info((element.amount / 100) * result.amount)
+                this.owneram -= parseFloat(((element.amount / 100) * result.amount).toPrecision(4));
+                this.owneram = parseFloat(this.owneram.toPrecision(4));
+
             });
         }
     };
+
+    resetPlanName = () => {
+        // console.info(this.oneTimeBillForm.value.sp)
+        if(this.oneTimeBillForm.value.sp!=-1){
+            this.oneTimeBillForm.patchValue({sp:-1})
+            this.shareplanName = ''
+        }
+    }
 
     get shareDetail(): FormGroup {
         return this.fb.group({
@@ -163,21 +179,33 @@ export class CreateBillOneTimePageComponent implements OnInit {
         let owner_amount, owner_pp;
         let total_am = 0,
             total_pp = 0;
-
+        let ret = false
+        this.updateOwner()
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
+                if(element.amount>result.amount){
+                    alert("can not have a split amount greater than total.")
+                    ret = true
+                }
                 result_rm.push(element.rm_name);
                 result_am.push(element.amount);
                 total_am += element.amount;
-                result_pp.push(parseFloat(((parseFloat(element.amount) / parseFloat(result.amount)) * 100).toPrecision(4)));
+                result_pp.push(parseFloat(((parseFloat(element.amount) / parseFloat(result.amount)) * 100).toPrecision(6)));
             });
         } else {
             this.addDynamicElement.value.forEach((element) => {
+                if(element.amount>100){
+                    alert("can not have a split amount greater than total.")
+                    ret = true
+                }
                 result_rm.push(element.rm_name);
                 result_am.push(parseInt(element.amount) * parseInt(result.amount) / 100);
                 total_am += (parseInt(element.amount) * parseInt(result.amount)) / 100;
                 result_pp.push(parseFloat(element.amount.toPrecision(4)));
             });
+        }
+        if(ret){
+            return
         }
         result_rm.push(this.user.userName);
         result_am.push(this.owneram);

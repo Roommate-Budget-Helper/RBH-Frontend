@@ -90,10 +90,18 @@ export class CreateBillRecurringPageComponent implements OnInit {
         }
     }
 
+    print(event){
+        console.info(event)
+    }
     onSubmit() {
         let result_am = [];
         let result_pp = [];
         let result = this.recurrentBillForm.value;
+        console.info(result)
+        if(result.recurringMethod==''||result.recurringMethod == 'method1'){
+            alert("please select a recurring method!")
+            return;
+        }
         let result_rm = [];
 
         let rec_interval;
@@ -113,16 +121,26 @@ export class CreateBillRecurringPageComponent implements OnInit {
             default:
                 rec_interval = 30;
         }
+        let ret = false;
         if (this.addDynamicElement.value) {
             this.addDynamicElement.value.forEach((element) => {
+                if(element.rm_name==''){
+                    alert('please select roommates')
+                    ret=true
+                    return;
+                }
                 result_rm.push(element.rm_name);
                 result_am.push(parseInt(element.amount));
                 result_pp.push(parseFloat(element.amount.toPrecision(2)));
             });
         }
+        if(ret){
+            return;
+        }
 
         result_rm.push(this.user.userName);
         result_pp.push(this.ownerpp);
+        console.info(result)
         let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {
             data: { pp: this.ownerpp, recurrent: true, interval: result.recurringMethod, starton: result.startDate },
             disableClose: true
@@ -146,7 +164,7 @@ export class CreateBillRecurringPageComponent implements OnInit {
                     billName: result.billname,
                     descri: result.description,
                     isRecurrent: 1,
-                    isRecurrentDateTime: date,
+                    isRecurrentDateTime: result.startDate,
                     recurrentIntervl: rec_interval,
                     created_at: date,
                     created_by: this.user.userName
