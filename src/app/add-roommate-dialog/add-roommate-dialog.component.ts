@@ -22,7 +22,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     styleUrls: ['./add-roommate-dialog.component.scss']
 })
 export class AddRoommateDialogComponent implements OnInit {
-    myControl = new FormControl();
     constructor(@Inject(MAT_DIALOG_DATA) public data: any) {}
     emailFormControl = new FormControl('', [Validators.required]);
     matcher = new MyErrorStateMatcher();
@@ -36,7 +35,7 @@ export class AddRoommateDialogComponent implements OnInit {
             this.options = result;
         });
 
-        this.filteredOptions = this.myControl.valueChanges.pipe(
+        this.filteredOptions = this.emailFormControl.valueChanges.pipe(
             startWith(''),
             // map((value) => (typeof value === 'string' ? value : value.name))
             map((name) => (name ? this._filter(name) : this.options.slice()))

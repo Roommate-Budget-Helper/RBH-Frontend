@@ -18,13 +18,13 @@ export class PaymentHistoryPageComponent implements OnInit {
     roommate_string = '';
     id;
     user;
-    roommates;
     temp;
+    roommates = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY).roommates;
+
     constructor(private router: Router, private StorageService: StorageServiceService) {}
     async ngOnInit() {
         this.user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
         this.home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
-        this.roommates = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY).roommates;
         this.roommate_string = this.roommates.replace(this.home.admin_name, '');
         this.id = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY).id;
 

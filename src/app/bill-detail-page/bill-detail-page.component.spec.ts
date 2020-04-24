@@ -10,6 +10,8 @@ import { By } from "@angular/platform-browser";
 
 import { BillDetailPageComponent } from './bill-detail-page.component';
 // const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
+// const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
+const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
 const FirestoreStub = {
     collection: (name: string) => ({
@@ -61,9 +63,21 @@ describe('BillDetailPageComponent', () => {
             console.info(component.user)
             expect(greeting.textContent).toContain(component.user.userName);
           });
-
-
+          it('should create back button', () => {
+            let backButton = fixture.debugElement.queryAll(By.css('.bill-detail-page-arrow'));
+            expect(backButton).toBeTruthy();
+          })
         
-
+          it('should create user Icon', () => {
+            let userIcon = fixture.debugElement.queryAll(By.css('.bill-detail-page-user-icon'));
+            expect(userIcon).toBeTruthy();
+          })
+          it('should be able to go back', () => {
+            component.handleBack()
+            fixture.whenStable().then(() => {
+              const navArgs = routerSpy.calls.mostRecent().args[0];
+              expect(navArgs).toBe('/homedetail')
+            })
+          })
     })
 });

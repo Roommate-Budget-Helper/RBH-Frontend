@@ -1,9 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialog, MatDialogRef} from '@angular/material';
+import { MatDialog, MatDialogRef, MatInputModule,MatDialogModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CreateBillOneTimePageComponent } from './create-bill-one-time-page.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule ,FormBuilder } from '@angular/forms';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage'
 import { Router } from '@angular/router';
 import { StorageServiceService } from '../storage-service.service';
@@ -45,7 +46,7 @@ describe('CreateBillOneTimePageComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [RouterTestingModule, FormsModule, ReactiveFormsModule],
+            imports: [RouterTestingModule, FormsModule, ReactiveFormsModule,MatInputModule,MatDialogModule,BrowserAnimationsModule],
             declarations: [CreateBillOneTimePageComponent],
             providers: [ StorageServiceService, { provide: MatDialog,   useValue: MdDialogMock},
                 { provide: MatDialogRef,   useValue: {}},
@@ -62,13 +63,50 @@ describe('CreateBillOneTimePageComponent', () => {
         component.home = sampleGetHome[0]
         fixture.detectChanges();
     });
+    describe('basic test', ()=>{
+        it('should create', () => {
+            expect(component).toBeTruthy();
+        });
+        it('should show correct user info', () => {
+            const greeting = fixture.debugElement.query(By.css('.create-bill-one-container__header-user p')).nativeElement;
+            console.info(component.user)
+            expect(greeting.textContent).toContain(component.user.userName);
+          });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
-    });
-    it('should show correct user info', () => {
-        const greeting = fixture.debugElement.query(By.css('.create-bill-one-container__header-user p')).nativeElement;
-        console.info(component.user)
-        expect(greeting.textContent).toContain(component.user.userName);
-      });
+          it('should create back button', () => {
+            let backButton = fixture.debugElement.queryAll(By.css('.home-detail-page-back-arrow'));
+            expect(backButton).toBeTruthy();
+          })
+      
+          it('should create user Icon', () => {
+            let userIcon = fixture.debugElement.queryAll(By.css('.home-detail-page-user-icon'));
+            expect(userIcon).toBeTruthy();
+          })
+      
+          it('should create correct header', () => {
+            let header = fixture.debugElement.nativeElement.querySelector('h3');
+            expect(header).toBeTruthy();
+              expect(header.textContent).toContain("One Time Bill");
+          })
+    })
+    // describe('form validation test',()=>{
+    //     beforeEach(async(() => {
+    //         // component.oneTimeBillForm.setValue({billname: 'test bill', description:'test description', amount: 0, receipt: '', splitMethod:'Percentage', addDynamicElement:''});
+    //         // expect(component.oneTimeBillForm.invalid).toBeTruthy();
+    //       }));
+    //       it('should not show mat-error when first load', () => {
+    //         let compiled = fixture.debugElement.nativeElement;
+    //         expect(compiled.querySelector('mat-error')).toBeFalsy();
+    //       });
+    //       it('should be invalid when empty billname', () => {
+    //         component.oneTimeBillForm.controls['billname'].patchValue("");
+    //         expect(component.oneTimeBillForm.invalid).toBeTruthy();
+    //       });
+    //       it('should be invalid when empty description', () => {
+    //         component.oneTimeBillForm.controls['description'].patchValue("");
+    //         expect(component.oneTimeBillForm.invalid).toBeTruthy();
+    //       });
+    // })
+
+    
 });

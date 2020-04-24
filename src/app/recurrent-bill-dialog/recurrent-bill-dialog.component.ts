@@ -2,7 +2,6 @@ import { Component, ElementRef, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogConfig } from '@angular/material';
 import { ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { NgxImageCompressService } from 'ngx-image-compress';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
 import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -27,7 +26,6 @@ export class RecurrentBillDialogComponent implements OnInit {
     downloadURL: Observable<string>;
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
-        private imageCompress: NgxImageCompressService,
         private afStorage: AngularFireStorage
     ) {}
     emailFormControl = new FormControl('', [Validators.required]);
