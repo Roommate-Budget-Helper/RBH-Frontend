@@ -20,7 +20,7 @@ const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 
 let sampleGetHistory = [{userName: 'xixi', balance: 20, billCount: 1, homeCount: 0},
 {userName: 'zhuzhu', balance: 20, billCount: 2, homeCount: 0}];
-fdescribe('UserHistoryPageComponent', () => {
+describe('UserHistoryPageComponent', () => {
   let component: UserHistoryPageComponent;
   let fixture: ComponentFixture<UserHistoryPageComponent>;
 
