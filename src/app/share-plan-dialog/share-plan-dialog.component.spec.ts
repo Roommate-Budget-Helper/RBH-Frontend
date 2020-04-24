@@ -4,8 +4,8 @@ import { SharePlanDialogComponent } from './share-plan-dialog.component';
 import { MAT_DIALOG_DATA,MatDialogModule,MatFormFieldModule, MatInputModule, MatIconModule } from '@angular/material';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-const fakedata = {sp_array: ["sp1", "sp2", "sp3"]};
-fdescribe('SharePlanDialogComponent', () => {
+const fakedata = {recurrent: true};
+describe('SharePlanDialogComponent', () => {
   let component: SharePlanDialogComponent;
   let fixture: ComponentFixture<SharePlanDialogComponent>;
   let compiled;
@@ -23,6 +23,7 @@ fdescribe('SharePlanDialogComponent', () => {
     beforeEach(async(() => {
       fixture = TestBed.createComponent(SharePlanDialogComponent);
       component = fixture.componentInstance;
+      component.data.recurrent = false
       fixture.detectChanges();
     }));
 
@@ -40,14 +41,14 @@ fdescribe('SharePlanDialogComponent', () => {
 
   it('should have correct label(dialog title)', () => {
       compiled = fixture.debugElement.nativeElement;
-      expect(compiled.querySelector('mat-dialog-title').textContent).toContain('Hold on');
+      expect(compiled.querySelector('h2').textContent).toContain('Hold on');
   });
 
-  it('should have correct hint', () => {
-      compiled = fixture.debugElement.nativeElement;
-      expect(compiled.querySelector('mat-hint').textContent).toContain('enter');
-      expect(compiled.querySelector('mat-hint').textContent).toContain('username');
-  });
+  // it('should have correct hint', () => {
+  //     compiled = fixture.debugElement.nativeElement;
+  //     expect(compiled.querySelector('mat-hint').textContent).toContain('enter');
+  //     expect(compiled.querySelector('mat-hint').textContent).toContain('username');
+  // });
 
   it('should be invalid when first load', () => {
       expect(component.emailFormControl.invalid).toBeTruthy;
