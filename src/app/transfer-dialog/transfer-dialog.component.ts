@@ -20,14 +20,13 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     styleUrls: ['./transfer-dialog.component.scss']
 })
 export class TransferDialogComponent implements OnInit {
-    myControl = new FormControl();
     constructor(@Inject(MAT_DIALOG_DATA) public data: any, private router: Router) {}
     emailFormControl = new FormControl('', [Validators.required]);
     matcher = new MyErrorStateMatcher();
     options: string[] = this.data.roommateArray;
     filteredOptions: Observable<string[]>;
     ngOnInit() {
-        this.filteredOptions = this.myControl.valueChanges.pipe(
+        this.filteredOptions = this.emailFormControl.valueChanges.pipe(
             startWith(''),
             // map((value) => (typeof value === 'string' ? value : value.name))
             map((name) => (name ? this._filter(name) : this.options.slice()))

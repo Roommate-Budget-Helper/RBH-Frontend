@@ -24,11 +24,11 @@ export class HomePageComponent implements OnInit {
     homes;
     invitations;
     roommates;
-    user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
-
-    username = this.user.userName;
+    user= this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
+    username 
 
     async ngOnInit() {
+        this.username= this.user.userName;
         await ApiClient.home.getHome(this.user.id).then((result: IUser2Home[]) => {
             this.homes = result;
             this.loaded = !this.loaded;

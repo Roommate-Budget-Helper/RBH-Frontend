@@ -6,10 +6,9 @@ import ApiClient from '../api-client';
 import { element } from 'protractor';
 import { SharePlanDialogComponent } from '../share-plan-dialog/share-plan-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { NgxImageCompressService } from 'ngx-image-compress';
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
-import { finalize } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage'
+import { finalize } from 'rxjs/operators'
+import { Observable } from 'rxjs'
 
 const HOME_STORAGE_KEY = 'local_homeId';
 const STORAGE_KEY = 'local_userInfo';
@@ -24,8 +23,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
     current_array = [];
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
-    roommate_array = this.home.roommates.trim().split('  ');
-    editable_array = this.home.roommates.trim().split('  ');
+
     shareplan_array = [];
     shareplanId;
     shareplanName;
@@ -33,28 +31,34 @@ export class CreateBillOneTimePageComponent implements OnInit {
     ref: AngularFireStorageReference;
     task: AngularFireUploadTask;
     downloadURL: Observable<string>;
-    rm_num = this.roommate_array.length - 1;
+    roommate_array;
+    editable_array;
+    rm_num
     constructor(
         private router: Router,
         public fb: FormBuilder,
         private StorageService: StorageServiceService,
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<any>,
-        private imageCompress: NgxImageCompressService,
-        private afStorage: AngularFireStorage
-    ) {}
+        private afStorage: AngularFireStorage,
+    ) { }
     oneTimeBillForm = this.fb.group({
-        billname: [''],
-        description: [''],
+        billname: ['', Validators.required],
+        description: ['', Validators.required],
         amount: [0],
         receipt: [null],
         splitMethod: ['Percentage'],
+        sp:[-1],
         addDynamicElement: this.fb.array([])
     });
     owneram = 0;
     ownerpp: number = 100;
 
     async ngOnInit() {
+        this.roommate_array = this.home.roommates.trim().split('  ');
+        this.editable_array = this.home.roommates.trim().split('  ');
+        this.rm_num = this.roommate_array.length - 1;
+
         this.deleteRoommate(this.user.userName);
 
         await this.getPlan();
@@ -80,17 +84,32 @@ export class CreateBillOneTimePageComponent implements OnInit {
 
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
-                this.owneram -= element.amount;
+
+                this.owneram -= parseFloat(element.amount.toPrecision(4));
+                this.owneram = parseFloat(this.owneram.toPrecision(4));
+console.info(this.owneram.toPrecision(4))
                 this.ownerpp -= (element.amount / result.amount) * 100;
                 this.ownerpp = parseFloat(this.ownerpp.toPrecision(4));
             });
         } else {
             this.addDynamicElement.value.forEach((element) => {
-                this.ownerpp -= parseFloat(element.amount.toPrecision(2));
-                this.owneram -= (element.amount / 100) * result.amount;
+                this.ownerpp -= parseFloat(element.amount.toPrecision(4));
+                this.ownerpp = parseFloat(this.ownerpp.toPrecision(4));
+                console.info((element.amount / 100) * result.amount)
+                this.owneram -= parseFloat(((element.amount / 100) * result.amount).toPrecision(4));
+                this.owneram = parseFloat(this.owneram.toPrecision(4));
+
             });
         }
     };
+
+    resetPlanName = () => {
+        // console.info(this.oneTimeBillForm.value.sp)
+        if(this.oneTimeBillForm.value.sp!=-1){
+            this.oneTimeBillForm.patchValue({sp:-1})
+            this.shareplanName = ''
+        }
+    }
 
     get shareDetail(): FormGroup {
         return this.fb.group({
@@ -128,11 +147,10 @@ export class CreateBillOneTimePageComponent implements OnInit {
                             numId: this.user.id,
                             billId: billId,
                             baseString: url
-                        });
-                    });
-                })
-            )
-            .subscribe();
+                        }
+                    );
+                });
+            })).subscribe();
         this.router.navigateByUrl('/homedetail');
         //     let afterCompress = file;
         //    this.imageCompress.compressFile(file, 1, 10, 10).then((result) => {
@@ -146,7 +164,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
         //             baseString: afterCompress.toString().split(',')[1]
         //         })
         //         .then(() => {
-        //
+        //            
         //         });
     };
     redirectToUserHistory = () => {
@@ -161,32 +179,45 @@ export class CreateBillOneTimePageComponent implements OnInit {
         let owner_amount, owner_pp;
         let total_am = 0,
             total_pp = 0;
-
+        let ret = false
+        this.updateOwner()
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
+                if(element.amount>result.amount){
+                    alert("can not have a split amount greater than total.")
+                    ret = true
+                }
                 result_rm.push(element.rm_name);
                 result_am.push(element.amount);
                 total_am += element.amount;
-                result_pp.push(parseFloat(((parseFloat(element.amount) / parseFloat(result.amount)) * 100).toPrecision(4)));
+                result_pp.push(parseFloat(((parseFloat(element.amount) / parseFloat(result.amount)) * 100).toPrecision(6)));
             });
         } else {
             this.addDynamicElement.value.forEach((element) => {
+                if(element.amount>100){
+                    alert("can not have a split amount greater than total.")
+                    ret = true
+                }
                 result_rm.push(element.rm_name);
-                result_am.push((parseInt(element.amount) * parseInt(result.amount)) / 100);
+                result_am.push(parseInt(element.amount) * parseInt(result.amount) / 100);
                 total_am += (parseInt(element.amount) * parseInt(result.amount)) / 100;
                 result_pp.push(parseFloat(element.amount.toPrecision(4)));
             });
         }
+        if(ret){
+            return
+        }
         result_rm.push(this.user.userName);
         result_am.push(this.owneram);
         result_pp.push(this.ownerpp);
-
+        // console.info(result)
+        console.info(this.shareplanName);
         if (result.receipt == null) {
-            alert('please upload a image for this bill');
-            return;
+            alert("please upload a image for this bill")
+            return
         } else if (result.billname == null) {
-            alert('please give this bill a name');
-            return;
+            alert("please give this bill a name")
+            return
         }
         let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {
             data: {
@@ -349,6 +380,7 @@ export class CreateBillOneTimePageComponent implements OnInit {
                 this.roommate_array.push(this.current_array[i]);
             }
             this.current_array[i] = evalue;
+
         }
 
         // if(this.oneTimeBillForm.value.splitMethod=="Percentage"){

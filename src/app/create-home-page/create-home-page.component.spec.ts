@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import {MatDialogRef} from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { StorageServiceService } from '../storage-service.service';
+import { By } from "@angular/platform-browser";
 
 import {
   MatButtonModule,
@@ -27,7 +28,7 @@ import {
   MatDialogModule
   // MatDialogRef
 } from '@angular/material';
-
+const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
 describe('CreateHomePageComponent', () => {
   let component: CreateHomePageComponent;
   let fixture: ComponentFixture<CreateHomePageComponent>;
@@ -68,4 +69,22 @@ describe('CreateHomePageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  
+  it('should create back button', () => {
+    let backButton = fixture.debugElement.queryAll(By.css('.create-home-page-arrow'));
+    expect(backButton).toBeTruthy();
+  })
+
+  it('should create correct header', () => {
+    let header = fixture.debugElement.nativeElement.querySelector('h1');
+    expect(header).toBeTruthy();
+      expect(header.textContent).toContain("Create Home");
+  })
+  it('should be able to go back', () => {
+    component.handleBack()
+    fixture.whenStable().then(() => {
+      const navArgs = routerSpy.calls.mostRecent().args[0];
+      expect(navArgs).toBe('/home')
+    })
+  })
 });
