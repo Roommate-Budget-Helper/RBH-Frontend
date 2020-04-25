@@ -16,7 +16,6 @@ export class StorageServiceService {
         // push new task to array
         // insert updated array to local storage
         this.storage.set(STORAGE_KEY, userInfo);
-        console.log(this.storage.get(STORAGE_KEY) || 'LocaL storage is empty');
     };
 
     getLocalStorage = (key: String) => {

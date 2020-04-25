@@ -18,7 +18,7 @@ import { RecurrentBillDialogComponent } from '../recurrent-bill-dialog/recurrent
 })
 export class HomeDetailPageComponent implements OnInit {
     homeId;
-    home= this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
+    home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
     roommate_array;
     roommate_string = '';
     owner;
@@ -48,7 +48,6 @@ export class HomeDetailPageComponent implements OnInit {
 
         if (this.recurrentbillArray.length > 0) {
             this.recurrentbillArray.forEach((element) => {
-                console.info(element)
                 if (this.date.getTime() >= new Date(element.isRecurentdatetime).getTime() && element.ownerId == this.user.id) {
                     let thisDialogRef = this.dialog.open(RecurrentBillDialogComponent, {
                         data: {

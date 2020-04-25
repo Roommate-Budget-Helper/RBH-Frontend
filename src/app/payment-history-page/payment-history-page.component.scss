@@ -23,15 +23,13 @@
     }
 
     .payment-history__header {
+        width: 100%;
         color: white;
-        left: 20px;
-        top: 20px;
-        right: 20px;
+        padding: 20px;
         position: absolute;
         .payment-history__header-user {
             text-align: right;
             margin-left: auto;
-            margin-right: 2%;
         }
     }
     h2 {

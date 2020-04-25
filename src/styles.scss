@@ -36,9 +36,11 @@ span {
 
 html,
 body {
-    margin: 0;
-    width: 100%;
+    margin: 0px;
+    padding: 0px;
     height: 100%;
+    width: 100%;
+    overflow-x: hidden;
     font-family: 'Arial';
 }
 
@@ -79,34 +81,33 @@ p {
     }
 }
 
-button{
+button {
     cursor: pointer;
     --color: #000000;
-    --hover: #{adjust-hue(#000000, 45deg)}
+    --hover: #{adjust-hue(#000000, 45deg)};
 }
-
 
 button:hover,
 button:focus {
-  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
-  transform: translateY(-0.1em);
+    box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+    transform: translateY(-0.1em);
 }
 
-.img-back-arrow{
+.img-back-arrow {
     cursor: pointer;
 }
-.img-back-arrow-black{
+.img-back-arrow-black {
     cursor: pointer;
 }
-.img-user-icon{
+.img-user-icon {
     cursor: pointer;
 }
-.img-user-icon-white{
+.img-user-icon-white {
     cursor: pointer;
 }
-.img-add-arrow{
+.img-add-arrow {
     cursor: pointer;
 }
-.img-minus-arrow{
+.img-minus-arrow {
     cursor: pointer;
 }

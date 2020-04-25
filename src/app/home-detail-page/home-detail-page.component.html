@@ -1,13 +1,15 @@
 <div class="home-detail-page-container">
     <img class="home-detail-page-background" src="../../assets/background.svg" />
-    <img class="home-detail-page-arrow img-back-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
-    <div class="home-detail-page-user-info">
-        <img
-            class="home-detail-page-user-icon img-user-icon-white"
-            src="../../assets/user-icon-white.svg"
-            (click)="redirectToUserHistory()"
-        />
-        <p class="white">Hi {{ user.userName }}</p>
+    <div class="home-detail-page-header flex-align-center">
+        <img class="home-detail-page-arrow img-back-arrow" src="../../assets/back-arrow.svg" (click)="handleBack()" />
+        <div class="home-detail-page-user-info">
+            <img
+                class="home-detail-page-user-icon img-user-icon-white"
+                src="../../assets/user-icon-white.svg"
+                (click)="redirectToUserHistory()"
+            />
+            <p class="white">Hi, {{ user.userName }}!</p>
+        </div>
     </div>
     <h1 class="home-detail-page-title white">
         {{ home.full_name }}

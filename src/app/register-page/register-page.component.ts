@@ -34,7 +34,7 @@ export class RegisterPageComponent {
     checkPasswords(group: FormGroup) {
         let pass: string = group.get('password').value;
         let confirmPass = group.get('repassword').value;
-        // console.info(pass == confirmPass, pass, confirmPass, confirmPass!=null)
+
         if (pass == confirmPass) {
             return null;
         } else {

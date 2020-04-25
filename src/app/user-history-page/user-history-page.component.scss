@@ -3,7 +3,7 @@
 .user-history-page-container {
     width: 100%;
     height: 100%;
-    // position: relative;
+    position: relative;
     .user-history-page-loading {
         .mat-spinner {
             position: fixed;
@@ -27,19 +27,15 @@
         width: 100%;
         height: 100%;
     }
+    .user-history-page-header {
+        width: 100%;
+        padding: 20px;
 
-    .user-history-page-arrow {
-        position: absolute;
-        left: 20px;
-        top: 20px;
-    }
-
-    .user-history-page-user-info {
-        text-align: right;
-        padding: 0px 0px 0px 0px;
-        position: absolute;
-        right: 5%;
-        top: 20px;
+        .user-history-page-user-info {
+            margin-left: auto;
+            margin-right: 0px;
+            text-align: right;
+        }
     }
 
     .user-history-page-title {
@@ -59,12 +55,9 @@
         border-radius: 4px;
         z-index: 100;
         color: black;
-        margin-top: 150px;
+        margin-top: 50px;
         margin-left: 20px;
         margin-right: 20px;
-        // .mat-tree-node {
-        //     padding-left: 0px;
-        // }
     }
     .user-history-page-history-logout {
         text-align: center;
