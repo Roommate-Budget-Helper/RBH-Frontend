@@ -309,6 +309,7 @@ console.info(this.owneram.toPrecision(4))
     addItems = (value) => {
         if (this.roommate_array.length == 0 || this.addDynamicElement.controls.length >= this.rm_num) {
             alert(`You only have ${this.rm_num} roommates!`);
+            this.resetPlanName()
         } else {
             this.addDynamicElement.push(value);
 
@@ -316,11 +317,13 @@ console.info(this.owneram.toPrecision(4))
                 this.current_array.push(value.rm_name);
             }
         }
+        
     };
 
     deleteItems = () => {
         this.addDynamicElement.removeAt(this.addDynamicElement.length - 1);
         this.roommate_array.push(this.current_array.pop());
+        this.resetPlanName()
     };
 
     updateList = (e) => {

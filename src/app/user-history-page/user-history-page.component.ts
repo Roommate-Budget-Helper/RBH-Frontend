@@ -57,7 +57,7 @@ export class UserHistoryPageComponent implements OnInit {
             this.history = result;
             this.loaded = !this.loaded;
         });
-
+        console.info(this.history)
         let summary_data: FoodNode[] = [];
         this.history.forEach((element) => {
             let balanceWord = '';

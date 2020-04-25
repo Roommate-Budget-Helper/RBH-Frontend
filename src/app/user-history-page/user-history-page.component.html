@@ -35,8 +35,8 @@
             </mat-tree-node>
         </mat-tree>
         <div class = "user-history-page-sentence white" *ngIf = "!data">Looks like you don't have any bills with others</div>
-        <div class="user-history-page-history-logout" (click)="handleLogout()">
-            <button>
+        <div class="user-history-page-history-logout" >
+            <button (click)="handleLogout()">
                 Log Out
             </button>
         </div>
