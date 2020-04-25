@@ -28,5 +28,13 @@ jobs:
 
     # Runs a set of commands using the runners shell
     - name: Run a multi-line script
-      run: |
-          ng test
+    - uses: actions/checkout@v1
+    - name: Install Node
+      uses: actions/setup-node@v1
+         with:
+            node-version: 12.8
+    - name: npm dependencies
+       run: npm install     
+    - name: Build
+       run: npm run build -- --prod
+       run: ng test
