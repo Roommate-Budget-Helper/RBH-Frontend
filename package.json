@@ -9,6 +9,7 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
+        "preinstall": "npx npm-force-resolutions",
         "postinstall": "node patch.js",
         "style:prettier": "prettier --write \"src/**/*.ts\"",
         "style:lint": "tslint -p tsconfig.json -c tslint.json"
