@@ -1,12 +1,12 @@
-import { Component, OnInit} from '@angular/core';
-import { Observable } from 'rxjs'
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
 import ApiClient from '../api-client';
-import { FormBuilder} from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { StorageServiceService } from '../storage-service.service';
 const STORAGE_KEY = 'local_userInfo';
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage'
-import { finalize } from 'rxjs/operators'
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
+import { finalize } from 'rxjs/operators';
 
 @Component({
     selector: 'app-bill-detail-page',
@@ -37,10 +37,11 @@ export class BillDetailPageComponent implements OnInit {
         private router: Router,
         private StorageService: StorageServiceService,
         public fb: FormBuilder,
-        private afStorage: AngularFireStorage){}
+        private afStorage: AngularFireStorage
+    ) {}
 
     async ngOnInit() {
-        this.billId = this.route.snapshot.params['id']
+        this.billId = this.route.snapshot.params['id'];
         this.billDetail = await ApiClient.bill.getBillById(this.billId);
         this.original = {
             ownerId: this.billDetail[0].ownerId,
@@ -55,10 +56,6 @@ export class BillDetailPageComponent implements OnInit {
 
         this.findOwner(this.billDetail);
     }
-
-    // ngOnChanges = (changes) => {
-    //     console.log(changes['file'].currentValue);
-    // };
 
     handleBack = () => {
         this.router.navigateByUrl('/homedetail');
@@ -117,32 +114,10 @@ export class BillDetailPageComponent implements OnInit {
     nameOnclick = () => {
         const tempName = this.billDetail[0].billName;
         this.nameFlag = !this.nameFlag;
-        // this.billDetail.forEach((item) => {
-        //     item.billName = tempName;
-        // });
-        // console.log(this.billDetail);
     };
 
     descriptionOnclick = () => {
-        // const tempName = this.billDetail[0].descri;
-        // if (this.descriFlag === true) {
-        //     this.billDetail.forEach((item) => {
-        //         item.descri = tempName;
-        //     });
-        //     console.log(this.billDetail);
-        //     // ApiClient.bill.editBillById(this.billDetail).then(() => {
-        //     //     this.descriFlag = !this.descriFlag;
-        //     // });
-        //     // this.descriStatus = "Edit";
-        // } else {
         this.descriFlag = !this.descriFlag;
-        // this.billDetail.forEach((item) => {
-        //     item.descri = tempName;
-        // });
-        // console.log(this.billDetail);
-        // this.descriStatus = "Save";
-
-        // }
     };
 
     amountOnclick = () => {
@@ -204,32 +179,6 @@ export class BillDetailPageComponent implements OnInit {
                 })
             )
             .subscribe();
-
-        // if (event.target.files && event.target.files[0]) {
-        //     reader.readAsDataURL(imgResultAfterCompress);
-
-        //     console.info(reader.result.toString())
-        //     reader.onload = () => {
-        //         console.info(reader.result.toString())
-        //         this.imageCompress.compressFile(reader.result.toString(), 1, 20, 20).then(
-        //             result => {
-        //                 console.info(result);
-        //                 imgResultAfterCompress = result;
-        //                 console.warn('Size in bytes is now:', this.imageCompress.byteCount(result));
-        //                 ApiClient.bill
-        //                     .uploadProofById({
-        //                         numId: this.user.id,
-        //                         billId: this.route.snapshot.params['id'],
-        //                         baseString: imgResultAfterCompress.toString().split(',')[1]
-        //                     })
-        //                     .then(() => {
-        //                         alert('Successfully uploaded!');
-        //                     });
-        //             }
-        //         );
-
-        //     };
-        // }
     };
 
     onFileView = (basedString) => {

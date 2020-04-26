@@ -19,8 +19,8 @@ export class CreateBillRecurringPageComponent implements OnInit {
     current_array = [''];
     user = this.StorageService.getLocalStorage(STORAGE_KEY).userInfo;
     home = this.StorageService.getHomeLocalStorage(HOME_STORAGE_KEY);
-    roommate_array ;
-    rec_method = ["Week", "Month", "3 Month", "6 Month"]
+    roommate_array;
+    rec_method = ['Week', 'Month', '3 Month', '6 Month'];
     shareplan_array;
     rm_num;
     constructor(
@@ -40,8 +40,8 @@ export class CreateBillRecurringPageComponent implements OnInit {
     ownerpp = 100;
 
     async ngOnInit() {
-        this.roommate_array = this.home.roommates.trim().split('  ')
-        this.rm_num = this.roommate_array.length - 1
+        this.roommate_array = this.home.roommates.trim().split('  ');
+        this.rm_num = this.roommate_array.length - 1;
         this.deleteRoommate(this.user.userName);
         if (this.roommate_array.length == 0) {
             this.recurrentBillForm = this.fb.group({
@@ -53,8 +53,6 @@ export class CreateBillRecurringPageComponent implements OnInit {
             });
         }
         await this.getPlan();
-
-        console.log(this.shareplan_array);
     }
 
     updateOwner = () => {
@@ -84,22 +82,20 @@ export class CreateBillRecurringPageComponent implements OnInit {
 
     deleteRoommate(msg: string) {
         const index: number = this.roommate_array.indexOf(msg);
-        console.log(index);
+
         if (index !== -1) {
             this.roommate_array.splice(index, 1);
         }
     }
 
-    print(event){
-        console.info(event)
-    }
+    print(event) {}
     onSubmit() {
         let result_am = [];
         let result_pp = [];
         let result = this.recurrentBillForm.value;
-        console.info(result)
-        if(result.recurringMethod==''||result.recurringMethod == 'method1'){
-            alert("please select a recurring method!")
+
+        if (result.recurringMethod == '' || result.recurringMethod == 'method1') {
+            alert('please select a recurring method!');
             return;
         }
         let result_rm = [];
@@ -124,9 +120,9 @@ export class CreateBillRecurringPageComponent implements OnInit {
         let ret = false;
         if (this.addDynamicElement.value) {
             this.addDynamicElement.value.forEach((element) => {
-                if(element.rm_name==''){
-                    alert('please select roommates')
-                    ret=true
+                if (element.rm_name == '') {
+                    alert('please select roommates');
+                    ret = true;
                     return;
                 }
                 result_rm.push(element.rm_name);
@@ -134,13 +130,13 @@ export class CreateBillRecurringPageComponent implements OnInit {
                 result_pp.push(parseFloat(element.amount.toPrecision(2)));
             });
         }
-        if(ret){
+        if (ret) {
             return;
         }
 
         result_rm.push(this.user.userName);
         result_pp.push(this.ownerpp);
-        console.info(result)
+
         let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {
             data: { pp: this.ownerpp, recurrent: true, interval: result.recurringMethod, starton: result.startDate },
             disableClose: true
@@ -195,7 +191,7 @@ export class CreateBillRecurringPageComponent implements OnInit {
     changeName(i, e) {
         let total = this.recurrentBillForm.value.amount;
         let evalue = e.target.value;
-        console.log(this.roommate_array.indexOf(evalue));
+
         if (this.roommate_array.indexOf(evalue) < 0) {
             this.updateOwner();
             return;
@@ -209,6 +205,5 @@ export class CreateBillRecurringPageComponent implements OnInit {
             this.roommate_array.push(this.current_array[i]);
             this.current_array[i] = evalue;
         }
-        console.log(this.current_array, this.roommate_array);
     }
 }

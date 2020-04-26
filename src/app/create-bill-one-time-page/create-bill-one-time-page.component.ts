@@ -6,9 +6,9 @@ import ApiClient from '../api-client';
 import { element } from 'protractor';
 import { SharePlanDialogComponent } from '../share-plan-dialog/share-plan-dialog.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage'
-import { finalize } from 'rxjs/operators'
-import { Observable } from 'rxjs'
+import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from 'angularfire2/storage';
+import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 const HOME_STORAGE_KEY = 'local_homeId';
 const STORAGE_KEY = 'local_userInfo';
@@ -33,22 +33,22 @@ export class CreateBillOneTimePageComponent implements OnInit {
     downloadURL: Observable<string>;
     roommate_array;
     editable_array;
-    rm_num
+    rm_num;
     constructor(
         private router: Router,
         public fb: FormBuilder,
         private StorageService: StorageServiceService,
         public dialog: MatDialog,
         public dialogRef: MatDialogRef<any>,
-        private afStorage: AngularFireStorage,
-    ) { }
+        private afStorage: AngularFireStorage
+    ) {}
     oneTimeBillForm = this.fb.group({
         billname: ['', Validators.required],
         description: ['', Validators.required],
         amount: [0],
         receipt: [null],
         splitMethod: ['Percentage'],
-        sp:[-1],
+        sp: [-1],
         addDynamicElement: this.fb.array([])
     });
     owneram = 0;
@@ -84,10 +84,9 @@ export class CreateBillOneTimePageComponent implements OnInit {
 
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
-
                 this.owneram -= parseFloat(element.amount.toPrecision(4));
                 this.owneram = parseFloat(this.owneram.toPrecision(4));
-console.info(this.owneram.toPrecision(4))
+
                 this.ownerpp -= (element.amount / result.amount) * 100;
                 this.ownerpp = parseFloat(this.ownerpp.toPrecision(4));
             });
@@ -95,21 +94,19 @@ console.info(this.owneram.toPrecision(4))
             this.addDynamicElement.value.forEach((element) => {
                 this.ownerpp -= parseFloat(element.amount.toPrecision(4));
                 this.ownerpp = parseFloat(this.ownerpp.toPrecision(4));
-                console.info((element.amount / 100) * result.amount)
+
                 this.owneram -= parseFloat(((element.amount / 100) * result.amount).toPrecision(4));
                 this.owneram = parseFloat(this.owneram.toPrecision(4));
-
             });
         }
     };
 
     resetPlanName = () => {
-        // console.info(this.oneTimeBillForm.value.sp)
-        if(this.oneTimeBillForm.value.sp!=-1){
-            this.oneTimeBillForm.patchValue({sp:-1})
-            this.shareplanName = ''
+        if (this.oneTimeBillForm.value.sp != -1) {
+            this.oneTimeBillForm.patchValue({ sp: -1 });
+            this.shareplanName = '';
         }
-    }
+    };
 
     get shareDetail(): FormGroup {
         return this.fb.group({
@@ -127,7 +124,7 @@ console.info(this.owneram.toPrecision(4))
 
     deleteRoommate(msg: string) {
         const index: number = this.roommate_array.indexOf(msg);
-        console.log(index);
+
         if (index !== -1) {
             this.roommate_array.splice(index, 1);
         }
@@ -147,25 +144,12 @@ console.info(this.owneram.toPrecision(4))
                             numId: this.user.id,
                             billId: billId,
                             baseString: url
-                        }
-                    );
-                });
-            })).subscribe();
+                        });
+                    });
+                })
+            )
+            .subscribe();
         this.router.navigateByUrl('/homedetail');
-        //     let afterCompress = file;
-        //    this.imageCompress.compressFile(file, 1, 10, 10).then((result) => {
-        //         afterCompress = result;
-        //     });
-        //     console.info(billId, afterCompress);
-        //     await ApiClient.bill
-        //         .uploadProofById({
-        //             numId: this.user.id,
-        //             billId: billId,
-        //             baseString: afterCompress.toString().split(',')[1]
-        //         })
-        //         .then(() => {
-        //            
-        //         });
     };
     redirectToUserHistory = () => {
         this.router.navigateByUrl('/history');
@@ -179,13 +163,13 @@ console.info(this.owneram.toPrecision(4))
         let owner_amount, owner_pp;
         let total_am = 0,
             total_pp = 0;
-        let ret = false
-        this.updateOwner()
+        let ret = false;
+        this.updateOwner();
         if (result.splitMethod == 'Amount') {
             this.addDynamicElement.value.forEach((element) => {
-                if(element.amount>result.amount){
-                    alert("can not have a split amount greater than total.")
-                    ret = true
+                if (element.amount > result.amount) {
+                    alert('can not have a split amount greater than total.');
+                    ret = true;
                 }
                 result_rm.push(element.rm_name);
                 result_am.push(element.amount);
@@ -194,30 +178,29 @@ console.info(this.owneram.toPrecision(4))
             });
         } else {
             this.addDynamicElement.value.forEach((element) => {
-                if(element.amount>100){
-                    alert("can not have a split amount greater than total.")
-                    ret = true
+                if (element.amount > 100) {
+                    alert('can not have a split amount greater than total.');
+                    ret = true;
                 }
                 result_rm.push(element.rm_name);
-                result_am.push(parseInt(element.amount) * parseInt(result.amount) / 100);
+                result_am.push((parseInt(element.amount) * parseInt(result.amount)) / 100);
                 total_am += (parseInt(element.amount) * parseInt(result.amount)) / 100;
                 result_pp.push(parseFloat(element.amount.toPrecision(4)));
             });
         }
-        if(ret){
-            return
+        if (ret) {
+            return;
         }
         result_rm.push(this.user.userName);
         result_am.push(this.owneram);
         result_pp.push(this.ownerpp);
-        // console.info(result)
-        console.info(this.shareplanName);
+
         if (result.receipt == null) {
-            alert("please upload a image for this bill")
-            return
+            alert('please upload a image for this bill');
+            return;
         } else if (result.billname == null) {
-            alert("please give this bill a name")
-            return
+            alert('please give this bill a name');
+            return;
         }
         let thisDialogRef = this.dialog.open(SharePlanDialogComponent, {
             data: {
@@ -309,6 +292,7 @@ console.info(this.owneram.toPrecision(4))
     addItems = (value) => {
         if (this.roommate_array.length == 0 || this.addDynamicElement.controls.length >= this.rm_num) {
             alert(`You only have ${this.rm_num} roommates!`);
+            this.resetPlanName();
         } else {
             this.addDynamicElement.push(value);
 
@@ -321,6 +305,7 @@ console.info(this.owneram.toPrecision(4))
     deleteItems = () => {
         this.addDynamicElement.removeAt(this.addDynamicElement.length - 1);
         this.roommate_array.push(this.current_array.pop());
+        this.resetPlanName();
     };
 
     updateList = (e) => {
@@ -380,21 +365,6 @@ console.info(this.owneram.toPrecision(4))
                 this.roommate_array.push(this.current_array[i]);
             }
             this.current_array[i] = evalue;
-
         }
-
-        // if(this.oneTimeBillForm.value.splitMethod=="Percentage"){
-        //       this.result_pp.push(moneyValue)
-        //       this.result_am.push(moneyValue*total)
-        //       this.owneram-=(moneyValue*total)
-        //       this.ownerpp-=moneyValue
-        // }else{
-        //     this.result_pp.push(moneyValue/total*100)
-        //     this.result_am.push(moneyValue)
-        //     this.owneram-=moneyValue
-        //     this.ownerpp-=(moneyValue/total*100)
-        // }
-        // console.info("After current array is: "+this.current_array)
-        // console.info("After roommate array is: "+this.roommate_array)
     }
 }

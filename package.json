@@ -9,6 +9,7 @@
         "test": "ng test",
         "lint": "ng lint",
         "e2e": "ng e2e",
+        "preinstall": "npx npm-force-resolutions",
         "postinstall": "node patch.js",
         "style:prettier": "prettier --write \"src/**/*.ts\"",
         "style:lint": "tslint -p tsconfig.json -c tslint.json"
@@ -72,5 +73,8 @@
         "ts-node": "~7.0.0",
         "tslint": "~5.11.0",
         "typescript": "~3.2.2"
-    }
+    },
+    "resolutions": {
+        "hoek": "4.2.1"
+      }
 }

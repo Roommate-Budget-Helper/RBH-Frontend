@@ -27,10 +27,7 @@ export class UserHistoryPageComponent implements OnInit {
     history: IHistoryResponse[];
     loaded = false;
     data = true;
-    constructor(private router: Router, private StorageService: StorageServiceService) {
-        // console.info('?????');
-        // this.dataSource.data = TREE_DATA
-    }
+    constructor(private router: Router, private StorageService: StorageServiceService) {}
     private _transformer = (node: FoodNode, level: number) => {
         return {
             expandable: !!node.children && node.children.length > 0,
@@ -82,9 +79,9 @@ export class UserHistoryPageComponent implements OnInit {
 
     hasChild = (_: number, node: ExampleFlatNode) => node.expandable;
 
-  handleBack = () => {
-    this.router.navigateByUrl('/home')
-  }
+    handleBack = () => {
+        this.router.navigateByUrl('/home');
+    };
 
     handleLogout = () => {
         localStorage.clear();
