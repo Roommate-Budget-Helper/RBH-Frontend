@@ -38,11 +38,12 @@ export class BillDetailPageComponent implements OnInit {
         private StorageService: StorageServiceService,
         public fb: FormBuilder,
         private afStorage: AngularFireStorage
-    ) {}
+    ) { }
 
     async ngOnInit() {
         this.billId = this.route.snapshot.params['id'];
         this.billDetail = await ApiClient.bill.getBillById(this.billId);
+        console.info(this.billDetail)
         this.original = {
             ownerId: this.billDetail[0].ownerId,
             homeId: this.billDetail[0].homeId,
@@ -92,17 +93,26 @@ export class BillDetailPageComponent implements OnInit {
     };
 
     getButtonText = (index: number): string => {
+        console.info(this.ownerName, this.billDetail[index])
         if (this.user.userName === this.ownerName) {
             //if is owner
             if (this.billDetail[index].ownerId === this.billDetail[index].userId) {
                 return 'Upload Recipt';
             } else {
-                return 'View Receipt';
+                if (this.billDetail[index].proof == null) {
+                    return 'No Receipt uploaded'
+                } else {
+                    return 'View Receipt'
+                };
             }
         } else {
             //if is not owner
             if (this.billDetail[index].ownerId === this.billDetail[index].userId) {
-                return 'Check Recipt';
+                if (this.billDetail[index].proof != null) {
+                    return 'Check Recipt';
+                }else{
+                    return 'No Proof Uploaded'
+                }
             } else if (this.user.id === this.billDetail[index].userId) {
                 return 'Upload My Proof';
             } else {
